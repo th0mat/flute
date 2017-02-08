@@ -113,7 +113,8 @@ setInterval(()=>{
 
 //// load sysConfig and userConfig
 try {
-    global.sharedObj.sysConfig = JSON.parse(fs.readFileSync(`${__dirname}/app/config/sysConfig.json`, 'utf8'));
+    logger.warn("*** __dirname:", __dirname)
+    global.sharedObj.sysConfig = JSON.parse(fs.readFileSync(`${__dirname}/config/sysConfig.json`, 'utf8'));
 } catch (e) {
     logger.error("*** error loading config.sys ", e);
     dialog.showErrorBox("MagicFlute", "Reading of system config failed. Try to reinstall MagicFlute " +
@@ -175,7 +176,7 @@ app.on('ready', async() => {
 
 
 
-    mainWindow.loadURL(`file://${__dirname}/app/app.html`);
+    mainWindow.loadURL(`file://${__dirname}/app.html`);
 
     mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.show();

@@ -1,0 +1,23 @@
+{
+  "version": "0.1.0",
+  "logSys": "pap_log",
+  "liveSys": "pap_live",
+  "flengine": "https://magicflute-155501.appspot.com",
+  "defaultUserConfig": {
+    "retentionDays": "4",
+    "onQuitStay": true,
+    "autoOnPapageno": true,
+    "autoOnSysNotifications": true,
+    "autoOnEmailNotifications": false,
+    "notificationEmailAddress": "",
+    "windowGoneTarget": 600,
+    "windowGoneSysup": 300,
+    "mfuidRegistered": null,
+    "incognito": {
+      "macHex": "666",
+      "dname": "Incognito",
+      "avatar": "img/Incognito.jpg"
+    },
+    "windowParams": {}
+  }
+}
