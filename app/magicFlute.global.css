@@ -1,0 +1,306 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    background: azure;
+}
+
+#flRoot {
+    height: 100%;
+}
+
+/*for the react root component in the div below flRoot*/
+#flRoot > div {
+    height: 100%;
+}
+
+.flContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-width: 700px;
+    min-width: 250px;
+    background: white;
+}
+
+.flHeader {
+    display: flex;
+    justify-content: center;
+    height: 30px;
+    padding-top: 0px;
+    order: 1;
+    background-color: lightgrey;
+    color: white;
+}
+
+.flContentFrame {
+    padding: 0px 0px 0px 10px;
+    flex: 1;
+    order: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.flContentFrozenTop {
+    height: auto;
+    padding-right: 10px;
+}
+
+.flContentFrozenTop, h1, h2, h3, h4 {
+    color: #182026;
+}
+
+.flContentFrozenTop, h3, h4, p {
+    margin-top: 7px;
+    padding-bottom: 5px;
+}
+
+.flContent {
+    overflow: auto;
+    padding-right: 10px;
+    flex: 1;
+    background-color: white;
+}
+
+.flFooter {
+    display: flex;
+    justify-content: center;
+
+    height: 20px;
+    order: 3;
+    background-color: darkgrey;
+    color: white;
+}
+
+
+/* begin of monitor classes ********************************************************/
+
+.flTargets {
+    padding-left: 0px;
+    /*background: whitesmoke;*/
+    margin: 0px;
+    padding-right: 10px;
+}
+
+.flTarget {
+    margin-top: 5px;
+    display: flex;
+    border-bottom: 1px solid darkgrey;
+    width: 100%;
+
+}
+
+.flTargetImg {
+    height: 60px;
+    width: auto;
+}
+
+.flTargetImg img {
+    height: 50px;
+    width: 50px;
+}
+
+.flTargetStack {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-left: 7px;
+}
+
+.flTargetName {
+    flex: 1;
+}
+
+.flTargetTraffic {
+    flex: 1;
+    display: flex;
+}
+
+.flTargetLastSeen {
+    flex: 1;
+}
+
+.flTargetSec {
+    width: 10%;
+    border-radius: 7px;
+    border: 1px solid silver;
+    /*background: yellow;*/
+    height: 15px;
+    margin-right: 3px;
+}
+.flLegend {
+
+    padding: 0px 10px 0px 0px;
+    color:  grey;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.flLegendColor {
+    float: left;
+    margin: 7px 1px 0px 1px;
+    padding: 0px;
+    width: 12px;
+    height: 8px;
+    border-radius: 5px;
+}
+
+
+/* end of monitor classes ***************************************************/
+
+
+/* begin of history classes ***************************************************/
+
+.flHour {
+    background: whitesmoke;
+    display: flex;
+}
+
+.flTimeL {
+    width: 60px;
+    height: 15px;
+    /*margin-right: 5px;*/
+    font-size: 8pt;
+    background: whitesmoke;
+    color: darkblue;
+    font-family: monospace;
+}
+
+
+.flTimeR {
+    width: 30px;
+    height: 15px;
+    font-size: 8pt;
+    background: whitesmoke;
+    color: midnightblue;
+    margin-right: 10px;
+    font-family: monospace;
+}
+
+.fl4Q {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+}
+
+.flQuarter {
+    width: 35%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    margin-top: 0px;
+}
+
+.flMin {
+    width: 30%;
+    border-radius: 5px;
+    border: 1px solid silver;
+    height: 10px;
+}
+
+.flLegendHistory {
+
+    padding: 0px 27px 5px 0px;
+    color:  grey;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.flHistoryPix {
+    float: left;
+    height: 90px;
+    width: 90px;
+    margin: 10px 10px 0px 0px;
+}
+
+.flHistoryPix:hover {
+    box-shadow: 2px 2px 5px midnightblue;
+}
+
+/* end of history classes ***************************************************/
+
+
+/* begin of profile classes ***************************************************/
+
+#flProfileInfo {
+    color: dimgrey;
+    padding: 5px 10px 10px 15px;
+    background: white;
+    margin-bottom: 10px;
+}
+
+#flProfileInfo p {
+    margin: 0px 0px 7px 0px;
+}
+
+#flProfileInfo h3, h4 {
+    margin: 0px;
+}
+
+.flProfilePix {
+    float: left;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-color: white;
+    height: 100px;
+    width: 100px;
+    border-width: 0px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    cursor: zoom-out;
+}
+
+.flProfilePix:hover{
+    box-shadow: 2px 2px 5px midnightblue;
+}
+
+
+.flProfilesPix {
+    height: 35px;
+    width: 35px;
+}
+
+
+/* end of profile classes ***************************************************/
+
+
+
+
+/*.scanControls {*/
+    /*margin: 70px 10px 10px 10px;*/
+
+/*}*/
+
+.flHoverBg {
+}
+
+.flHoverBg:hover {
+    background: #F0FEF1;
+    cursor: zoom-in;
+}
+
+
+.flBankPix {
+    height: 50px;
+    width: 50px;
+    float: left;
+    margin: 5px;
+}
+
+.flBankPix:hover {
+    box-shadow: 2px 2px 5px midnightblue;
+    cursor: copy;
+}
+
+.flSortArrow {
+    cursor: pointer;
+}
+
+.flAboutLink {
+    color: #5C7080;
+}
+
+.flAboutLink:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}

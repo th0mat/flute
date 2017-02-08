@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Hello Electron React!</title>
-    <script>
-      (function() {
-        if (!process.env.HOT) {
-          const link = document.createElement('link');
-          link.rel = 'stylesheet';
-          link.href = './dist/style.css';
-          // HACK: Writing the script path should be done with webpack
-          document.getElementsByTagName('head')[0].appendChild(link);
-        }
-      }());
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script>
-      {
-        const script = document.createElement('script');
-        const port = process.env.PORT || 3000;
-        script.src = (process.env.HOT)
-          ? 'http://localhost:' + port + '/dist/bundle.js'
-          : './dist/bundle.js';
-        // HACK: Writing the script path should be done with webpack
-        document.body.appendChild(script);
-      }
-    </script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <title>MagicFlute</title>
+  <link rel="stylesheet" href="blueprintjs/core/dist/blueprint.css"/>
+  <!--<link rel="stylesheet" href="photon/css/photon.min.css"/>-->
+  <!--<script src="photon/template-app/js/menu.js" charset="utf-8"></script>-->
+  <style>
+
+  </style>
+  <script>
+    if (!process.env.HOT) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = '../dist/style.css';
+      document.write(link.outerHTML);
+    }
+  </script>
+</head>
+<body>
+
+  <div id="flRoot"></div>
+
+
+<script>
+  {
+    const script = document.createElement('script');
+    const port = process.env.PORT || 3000;
+    script.src = (process.env.HOT) ? `http://localhost:${port}/dist/bundle.js` : '../dist/bundle.js';
+    document.write(script.outerHTML);
+  }
+</script>
+</body>
 </html>
