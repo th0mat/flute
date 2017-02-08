@@ -7,13 +7,15 @@ import HistoryCfHour from "./historyCfHour";
 
 const logger = remote.getGlobal('sharedObj').logger;
 
-@connect((store) => {
+const props = (store) => {
     return {
         tsec: store.appState.targets,
         userDir: store.appState.userDir
     };
-})
-export default class hours extends React.Component {
+};
+
+
+class hours extends React.Component {
 
     constructor(props) {
         super(props);
@@ -135,4 +137,4 @@ ON sysup.ts5=traffic.ts5;`,
 
 };
 
-
+export default connect(props)(hours);

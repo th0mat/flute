@@ -25,15 +25,17 @@ function addPeriod(targets, justIn) {
     return targets;
 }
 
-@connect((store) => {
+const props = (store) => {
     return {
         targets: store.appState.targets,
         userDir: store.appState.userDir,
         appDir: store.appState.appDir,
         liveSys: store.appState.userConfig.liveSys
     };
-})
-export default class MonitorConnect extends React.Component {
+};
+
+
+class MonitorConnect extends React.Component {
 
     constructor(props) {
         super(props);
@@ -152,3 +154,5 @@ export default class MonitorConnect extends React.Component {
         )
     }
 }
+
+export default connect(props)(MonitorConnect);

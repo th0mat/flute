@@ -7,15 +7,17 @@ import {updateActivityLog, sortAscending} from '../utils/updateActivityLog';
 import {moveTo} from '../utils/nav';
 
 
-@connect((store)=> {
+const props = (store)=> {
     return {
         activityLog: store.appState.activityLog,
         targets: store.appState.targets,
         userDir: store.appState.userDir
 
     }
-})
-export default class LogsCf extends Component {
+};
+
+
+class LogsCf extends Component {
 
     constructor(props) {
         super(props);
@@ -155,3 +157,6 @@ export default class LogsCf extends Component {
         );
     }
 }
+
+
+export default connect(props)(LogsCf);

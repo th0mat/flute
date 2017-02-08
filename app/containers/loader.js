@@ -20,7 +20,6 @@ export default class LoaderPage extends React.Component {
         setTimeout(() => {
             browserHistory.push('/dashboard')
         }, 3000);
-        console.log("*** sharedObj: ", remote.getGlobal('sharedObj'))
     }
 
     render() {

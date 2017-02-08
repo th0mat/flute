@@ -13,15 +13,17 @@ import {remote} from 'electron';
 const logger = remote.getGlobal('sharedObj').logger;
 
 
-@connect((store) => {
+const props = (store) => {
     return {
         userDir: store.appState.userDir,
         targets: store.appState.targets,
         oui: store.appState.oui,
         imageBank: store.appState.imageBank,
     };
-})
-export default class ProfileCf extends React.Component {
+};
+
+
+class ProfileCf extends React.Component {
     constructor(props) {
         super(props);
         if (this.props.targets.indexOf(this.props.targets.find(x => x.macHex === this.props.mac)) === -1) {
@@ -296,3 +298,6 @@ const menu = MenuFactory({
         }),
     ]
 });
+
+
+export default connect(props)(ProfileCf);

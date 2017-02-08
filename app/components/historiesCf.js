@@ -12,15 +12,16 @@ import {remote} from 'electron';
 const logger = remote.getGlobal('sharedObj').logger;
 
 
-@connect((store)=> {
+const props = (store)=> {
     return {
         userDir: store.appState.userDir,
         targets: store.appState.targets,
         oui: store.appState.oui,
         rangeTraffic: store.appState.rangeTraffic
     }
-})
-export default class HistoriesCf extends Component {
+}
+
+class HistoriesCf extends Component {
 
     constructor(props) {
         super(props);
@@ -250,3 +251,4 @@ export default class HistoriesCf extends Component {
 }
 
 
+export default connect(props)(HistoriesCf);

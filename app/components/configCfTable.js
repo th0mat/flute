@@ -12,7 +12,7 @@ import validateEmail from '../utils/validateEmail';
 
 const logger = remote.getGlobal('sharedObj').logger;
 
-@connect((store) => {
+const props = (store) => {
     return {
         userDir: store.appState.userDir,
         userConfig: store.appState.userConfig,
@@ -20,8 +20,10 @@ const logger = remote.getGlobal('sharedObj').logger;
         retentionDays: store.appState.userConfig.retentionDays
 
     };
-})
-export default class ConfigCfTable extends React.Component {
+};
+
+
+class ConfigCfTable extends React.Component {
 
     constructor(props) {
         super(props);
@@ -187,3 +189,6 @@ export default class ConfigCfTable extends React.Component {
     }
 
 };
+
+
+export default connect(props)(ConfigCfTable);

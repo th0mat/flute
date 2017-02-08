@@ -7,14 +7,15 @@ import Header from '../components/header';
 
 
 // props to be passed in: 'destination' and 'loadTime' in millisecs
-@connect((store) => {
+const props = (store) => {
     return {
-        //userDir: store.appState.userDir,
         appDir: store.appState.appDir,
         userConfig: store.appState.userConfig
     };
-})
-export default class BouncerPage extends React.Component {
+}
+
+
+class BouncerPage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -46,4 +47,4 @@ export default class BouncerPage extends React.Component {
 };
 
 
-
+export default connect(props)(BouncerPage);

@@ -6,14 +6,15 @@ import AddMac from './addMac';
 import * as actions from '../actions/appState';
 
 
-@connect((store) => {
+const props = (store) => {
     return {
         targets: store.appState.targets,
         appDir: store.appState.appDir,
         userDir: store.appState.userDir
     };
-})
-export default class ProfileSelect extends React.Component {
+};
+
+class ProfileSelect extends React.Component {
 
     constructor(props) {
         super(props);
@@ -130,3 +131,4 @@ export default class ProfileSelect extends React.Component {
 };
 
 
+export default connect(props)(ProfileSelect);

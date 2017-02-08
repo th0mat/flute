@@ -14,7 +14,7 @@ const logger = remote.getGlobal('sharedObj').logger;
 
 
 
-const mapStateToProps = (store) => {
+const props = (store) => {
     return {
         logSysUp: store.appState.logSysUp,
         appDir: store.appState.appDir,
@@ -33,9 +33,6 @@ class DashboardCf extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log("*** appDir from dashboard const: ", this.props.appDir);
-        console.log("*** userDir from dashboard const: ", this.props.userDir);
-        console.log("*** retDays from dashboard const: ", this.props.retentionDays);
         this.toggleEmailNotifier = this.toggleEmailNotifier.bind(this);
         this.toggleSysNotifier = this.toggleSysNotifier.bind(this);
         this.temporaryOff = this.temporaryOff.bind(this);
@@ -337,5 +334,5 @@ class DashboardCf extends React.Component {
     }
 };
 
-export default connect(mapStateToProps)(DashboardCf);
+export default connect(props)(DashboardCf);
 

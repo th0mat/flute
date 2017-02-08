@@ -5,15 +5,16 @@ import {moveTo, backOne} from '../utils/nav';
 
 import HistoryCfLegend from './historyCfLegend';
 
-@connect((store) => {
+const props = (store) => {
     return {
         targets: store.appState.targets,
         oui: store.appState.oui,
         userConfig: store.appState.userConfig,
         userDir: store.appState.userDir
     };
-})
-export default class HistoryCfHeader extends React.Component {
+}
+
+class HistoryCfHeader extends React.Component {
 
     componentDidMount() {
     }
@@ -60,3 +61,4 @@ export default class HistoryCfHeader extends React.Component {
 
 };
 
+export default connect(props)(HistoryCfHeader);

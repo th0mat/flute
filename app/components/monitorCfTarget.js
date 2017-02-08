@@ -5,12 +5,14 @@ import moment from 'moment';
 import {moveTo} from '../utils/nav';
 import MonitorCfTargetTraffic from './monitorCfTargetTraffic';
 
-@connect((store) => {
+const props = (store) => {
     return {
         userDir: store.appState.userDir,
     }
-})
-export default class MonitorCfTarget extends React.Component {
+};
+
+
+class MonitorCfTarget extends React.Component {
 
     componentDidMount() {
     }
@@ -51,3 +53,4 @@ export default class MonitorCfTarget extends React.Component {
     }
 }
 
+export default connect(props)(MonitorCfTarget);

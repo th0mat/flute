@@ -10,7 +10,7 @@ import {remote} from 'electron';
 
 const logger = remote.getGlobal('sharedObj').logger;
 
-@connect((store)=> {
+const props = (store)=> {
     return {
         targets: store.appState.targets,
         oui: store.appState.oui,
@@ -18,8 +18,9 @@ const logger = remote.getGlobal('sharedObj').logger;
         liveSys: store.appState.userConfig.liveSys,
         userDir: store.appState.userDir
     }
-})
-export default class ScanCf extends Component {
+}
+
+class ScanCf extends Component {
 
     constructor(props) {
         super(props);
@@ -179,3 +180,5 @@ export default class ScanCf extends Component {
         );
     }
 }
+
+export default connect(props)(ScanCf);

@@ -10,13 +10,15 @@ import { ContextMenu, MenuFactory, MenuItemFactory } from "@blueprintjs/core";
 
 
 
-@connect((store) => {
+const props = (store) => {
     return {
         userConfig: store.appState.defaultConfig,
         logSysUp: store.appState.logSysUp
     };
-})
-export default class TestCf extends React.Component {
+};
+
+
+class TestCf extends React.Component {
 
     constructor(props) {
         super(props);
@@ -71,3 +73,4 @@ export default class TestCf extends React.Component {
 };
 
 
+export default connect(props)(TestCf);

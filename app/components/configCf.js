@@ -6,10 +6,7 @@ import {browserHistory} from 'react-router';
 import ConfigCfTable from './configCfTable';
 
 
-@connect((store) => {
-    return {
-    };
-})
+
 export default class ConfigCf extends React.Component {
 
     constructor(props) {
