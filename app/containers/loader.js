@@ -7,16 +7,11 @@ import Footer from '../components/footer';
 import Header from '../components/header';
 
 
-@connect((store) => {
-    return {
-        // userDir: store.appState.userDir,
-        // appDir: store.appState.appDir,
-    };
-})
+
 export default class LoaderPage extends React.Component {
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         setTimeout(() => {
             browserHistory.push('/dashboard')
         }, 3000);

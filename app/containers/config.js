@@ -5,9 +5,7 @@ import Header from '../components/header';
 
 import ConfigCf from '../components/configCf';
 
-@connect((store) => {
-    return {};
-})
+
 export default class ConfigPage extends React.Component {
 
 

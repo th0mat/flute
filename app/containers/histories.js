@@ -6,14 +6,8 @@ import Header from '../components/header';
 import HistoriesCf from '../components/historiesCf';
 
 
-@connect((store) => {
-    return {};
-})
-export default class HistoriesPage extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
+export default class HistoriesPage extends React.Component {
 
 
     componentWillMount() {

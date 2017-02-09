@@ -1,0 +1,123 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+#
+# #################################################################################
+#
+# installMagicFlute - does what the name says
+#
+# - chmod and chown for papageno/pap_* to enable wifi monitor mode
+# - overwrites pap_* in papageno folder if it already exists, else creates folder
+# - adds img files to existing img dir if it already exists, else creates folder
+# - leaves existing sqlite db untouched (new db created by app if missing)
+# - leaves existing targets.json untouched (default created by app if missing)
+# - leaves existing userConfig.json untouched (default created by app if missing)
+#
+# th.natter@gmail.com
+#
+# #################################################################################
+
+
+
+# http://osxdaily.com/2016/09/27/allow-apps-from-anywhere-macos-gatekeeper/
+
+
+import os
+import subprocess
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+sudo_warning = """
+
+During the installation you might be asked for
+the ADMIN PASSWORD. Unfortunately this is
+required by some operating systems to enable
+wifi monitoring. The good news is, that this is
+ONLY REQUIRED ONCE, and only during the
+installation process.
+
+"""
+
+unsigned_warning = """
+
+The installation is completed and MagicFlute
+should now be available in the Applications
+folder.
+
+Because MagicFlute is not distributed through the
+Mac App Store MacOS will initially block it.
+
+Click the “Open Anyway” button on the Security pane
+of System Preferences. This button is available
+for about an hour after you try to open the app.
+To open this pane, choose
+
+Apple menu > System Preferences,
+
+then click Security & Privacy.
+
+This is only required the first time you open
+MagicFlute.
+
+"""
+
+
+
+
+def copyFiles():
+    print('\n*** installMagicFlute started...\n')
+    print(sudo_warning)
+
+
+    # create dirs if they do not already exist
+
+    subprocess.call(["mkdir", os.path.expanduser("~/Library/MagicFlute")])
+    subprocess.call(["mkdir", os.path.expanduser("~/Library/MagicFlute/img")])
+    subprocess.call(["mkdir", os.path.expanduser("~/Library/MagicFlute/papageno")])
+
+
+    # delete existing papageno executables in Library/MagicFlute/papageno dir
+
+    subprocess.call(["rm", "-f", os.path.expanduser("~/Library/MagicFlute/papageno/pap_live")])
+    subprocess.call(["rm", "-f", os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")])
+
+
+    # copy papageno executables to Library/MagicFlute/papageno dir
+
+    subprocess.call(["cp", dir_path + "/.pap_live",
+                     os.path.expanduser("~/Library/MagicFlute/papageno/pap_live")])
+    subprocess.call(["cp", dir_path + "/.pap_log",
+                     os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")])
+
+
+    # change setuid for papageno executables
+
+    subprocess.call(["sudo", "chmod", "+s", os.path.expanduser("~/Library/MagicFlute/papageno/pap_live")])
+    subprocess.call(["sudo", "chmod", "+s", os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")])
+
+
+    # change ownership to root
+
+    subprocess.call(["sudo", "chown", "root", os.path.expanduser("~/Library/MagicFlute/papageno/pap_live")])
+    subprocess.call(["sudo", "chown", "root", os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")])
+
+
+    # copy all img files to Library/MagicFlute/img dir
+
+    subprocess.call(["cp", "-R", dir_path + "/.img/", os.path.expanduser("~/Library/MagicFlute/img")])
+
+
+    # copy MagicFlute app to app directory
+
+    subprocess.call(["cp", "-R", dir_path + "/.MagicFlute.app", "/Applications/MagicFlute.app"])
+
+
+    print(unsigned_warning)
+
+
+
+
+def main():
+    copyFiles()
+
+
+if __name__ == "__main__":
+    main()

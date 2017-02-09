@@ -8,9 +8,6 @@ import Header from '../components/header';
 import ScanCf from '../components/scanCf';
 
 
-@connect((store) => {
-    return {};
-})
 export default class ScanPage extends React.Component {
 
 

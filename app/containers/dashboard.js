@@ -6,9 +6,7 @@ import Header from '../components/header';
 
 import DashboardCf from '../components/dashboardCf';
 
-@connect((store) => {
-    return {};
-})
+
 export default class DashboardPage extends React.Component {
 
     componentWillMount() {

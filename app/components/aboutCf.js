@@ -2,16 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {shell} from 'electron';
 
-@connect((store) => {
+const props = (store) => {
     return {
         appDir: store.appState.appDir
     };
-})
-export default class TestCf extends React.Component {
+};
 
-    constructor(props) {
-        super(props);
-    }
+
+class AboutCf extends React.Component {
 
 
     render() {
@@ -126,3 +124,4 @@ export default class TestCf extends React.Component {
 };
 
 
+export default connect(props)(AboutCf)

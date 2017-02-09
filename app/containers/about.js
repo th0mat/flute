@@ -5,9 +5,7 @@ import Header from '../components/header';
 
 import AboutCf from '../components/aboutCf';
 
-@connect((store) => {
-    return {};
-})
+
 export default class AboutPage extends React.Component {
 
 

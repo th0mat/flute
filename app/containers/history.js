@@ -7,9 +7,7 @@ import Header from '../components/header';
 import HistoryCf from '../components/historyCf';
 
 
-@connect((store) => {
-    return {};
-})
+
 export default class History extends React.Component {
 
 

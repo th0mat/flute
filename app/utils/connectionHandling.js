@@ -25,7 +25,7 @@ export function updateInternetStatus() {
                 logger.warn("*** no internet connection");
                 new Notification(`Internet connection lost`, {
                     body: `no connection available from ${moment().format("HH:mm")}`,
-                    icon: appDir + '/app/assets/img/Wifi.jpg'
+                    icon: appDir + '/assets/img/Wifi.jpg'
                 });
             }
         }
@@ -35,7 +35,7 @@ export function updateInternetStatus() {
                 if (oldStatus !== null) { // no notification at startup
                     new Notification(`Internet connection back`, {
                         body: `connection back at ${moment().format("HH:mm")}`,
-                        icon: appDir + '/app/assets/img/Wifi.jpg'
+                        icon: appDir + '/assets/img/Wifi.jpg'
                     });
                     sendPendingMail();
                     if (store.getState().appState.mozartMsg == null) fetchMozartMsg();

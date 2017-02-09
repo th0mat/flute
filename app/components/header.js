@@ -20,15 +20,8 @@ export function moveTo(route, mac = null) {
 
 
 
-@connect((store) => {
-    return {
-    };
-})
-export default class Header extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
+export default class Header extends React.Component {
 
 
     selected(id) {

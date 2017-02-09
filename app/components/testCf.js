@@ -20,8 +20,8 @@ const props = (store) => {
 
 class TestCf extends React.Component {
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {isContextMenuOpen: false}
     }
 

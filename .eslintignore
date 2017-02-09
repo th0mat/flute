@@ -1,1 +1,8 @@
 flow-typed/**/*.js
+release/*
+resources/*
+reference/*
+cmake-build-debug/*
+app/node_modules/*
+app/blueprintjs/*
+

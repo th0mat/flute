@@ -7,9 +7,7 @@ import Header from '../components/header';
 import LogsCf from '../components/logsCf';
 
 
-@connect((store) => {
-    return {};
-})
+
 export default class LogsPage extends React.Component {
 
 

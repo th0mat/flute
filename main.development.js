@@ -3,7 +3,6 @@ import child_process from 'child_process';
 import winston from 'winston';
 import fs from 'fs';
 import moment from 'moment';
-//import {mfuidFileHandler} from './app/utils/mfuidFileHandler';
 
 
 //// build global object
@@ -113,11 +112,13 @@ setInterval(()=>{
 
 //// load sysConfig and userConfig
 try {
-    logger.warn("*** __dirname:", __dirname)
-    global.sharedObj.sysConfig = JSON.parse(fs.readFileSync(`${__dirname}/config/sysConfig.json`, 'utf8'));
+    logger.warn("*** __dirname:", __dirname);
+    console.log("*** __dirname:", __dirname);
+    global.sharedObj.sysConfig = JSON.parse(fs.readFileSync(`${__dirname}/app/config/sysConfig.json`, 'utf8'));
 } catch (e) {
     logger.error("*** error loading config.sys ", e);
-    dialog.showErrorBox("MagicFlute", "Reading of system config failed. Try to reinstall MagicFlute " +
+    //todo: rm below path
+    dialog.showErrorBox("MagicFlute", `Reading of system config ${__dirname + '/app/config/sysConfig.json'} failed. Try to reinstall MagicFlute ` +
         "with installMagicFlute.");
     app.quit();
 }
@@ -176,7 +177,8 @@ app.on('ready', async() => {
 
 
 
-    mainWindow.loadURL(`file://${__dirname}/app.html`);
+    logger.info("*** loadURL: " + `file://${__dirname}/app/app.html`);
+    mainWindow.loadURL(`file://${__dirname}/app/app.html`);
 
     mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.show();

@@ -4,9 +4,7 @@ import {connect} from 'react-redux';
 import HistoryCfHeader from "./historyCfHeader";
 import HistoryCfHours from "./historyCfHours";
 
-@connect((store) => {
-    return {};
-})
+
 export default class HistoryCf extends React.Component {
 
 
