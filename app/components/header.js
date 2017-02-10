@@ -18,8 +18,6 @@ export function moveTo(route, mac = null) {
 }
 
 
-console.log("*** position: ", Position)
-
 
 const menu = [
     ['dashboard', 'pt-icon-dashboard', 'dashboard'],
@@ -49,7 +47,7 @@ export default class Header extends React.Component {
 
                 {menu.map(x=>{
                     return (
-                        <Tooltip position={Position.BOTTOM}
+                        <Tooltip key={x[0]} position={Position.BOTTOM}
                                  hoverOpenDelay={1000}
                                  content={x[0]}><a className={`pt-button pt-minimal ${x[1]}`}
                                  onClick={this.selected.bind(this, x[2])}  role="button"></a>

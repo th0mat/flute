@@ -6,8 +6,9 @@ import moment from 'moment';
 import validateEmail from '../utils/validateEmail';
 import formatNumber from '../utils/formatNumber';
 import * as logSys from '../utils/logSysOnOff'
+import tooltipButton from '../utils/tooltipButton';
+import {Switch, Button, Position, Tooltip } from "@blueprintjs/core";
 
-import {Switch, Button}  from '@blueprintjs/core';
 import {remote, shell} from 'electron';
 
 const logger = remote.getGlobal('sharedObj').logger;
@@ -194,7 +195,10 @@ class DashboardCf extends React.Component {
         if (this.props.logSysUp) {
             return (
                 <span>system is up &nbsp;| &nbsp;disable for 60 sec&nbsp;&nbsp;
-                <small><a className="pt-button pt-icon-automatic-updates" onClick={this.temporaryOff}></a></small>
+                <Tooltip position={Position.BOTTOM}
+                         hoverOpenDelay={1000}
+                         content="disable logging system for 60 seconds, then turn it on automatically again">
+                    <a className="pt-button pt-icon-automatic-updates" onClick={this.temporaryOff}></a></Tooltip>
                 </span>);
         } else {
             if (this.state.countDown == 0)
@@ -284,12 +288,9 @@ class DashboardCf extends React.Component {
                     </div>
                     <br/><br/>
 
-                    <h4>Data base &nbsp;
-                        <a className="pt-button pt-icon-refresh"
-                           onClick={browserHistory.push.bind(null, '/bouncer/dashboard/1000')}>
-                        </a>
-                    </h4>
-                    <br/>
+                    <h4 style={{display: "inline"}}>Data base &nbsp;</h4>
+                        {tooltipButton("refresh status", "pt-icon-refresh", '/bouncer/dashboard/1000')}
+                    <br/><br/>
                     <div>
                         <table className="pt-table pt-striped" style={{margin: 'auto'}}>
                             <tbody>

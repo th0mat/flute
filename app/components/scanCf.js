@@ -5,6 +5,7 @@ import titleCase from '../utils/titleCaseOui';
 import saveAsCsv from '../utils/saveAsCsv';
 import {moveTo} from '../utils/nav';
 import moment from 'moment';
+import tooltipButton from '../utils/tooltipButton';
 
 import {remote} from 'electron';
 
@@ -137,14 +138,13 @@ class ScanCf extends Component {
                     <span>Number of devices detected: {this.state.hogs.size}</span>
                     <br/><br/>
                     &nbsp;&nbsp;
-                    <button className="pt-button pt-icon-play" onClick={this.startScan}></button>
+                    {tooltipButton("start scan", "pt-icon-play", this.startScan)}
                     &nbsp;&nbsp;
-                    <button className="pt-button pt-icon-pause" onClick={this.pauseScan}></button>
+                    {tooltipButton("pause scan", "pt-icon-pause", this.pauseScan)}
                     &nbsp;&nbsp;
-                    <button className="pt-button pt-icon-eject" onClick={this.resetScan}></button>
+                    {tooltipButton("reset scan", "pt-icon-eject", this.resetScan)}
                     &nbsp;&nbsp;
-                    <a className="pt-button pt-icon-download" role="pt-button" onClick={this.saveAs}>
-                        </a>
+                    {tooltipButton("export scan result", "pt-icon-download", this.saveAs)}
                 </div>
                 <div className="flContent">
                     {this.state.hogs.size == 0 ? <br/> : ""}

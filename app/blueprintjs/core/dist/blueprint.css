@@ -4193,10 +4193,12 @@ body.pt-overlay-open {
   .pt-transition-container.pt-popover-leave .pt-popover-content {
     pointer-events: none; }
 
+
+  /*manually changed vertical align from top to middle*/
 .pt-popover-target {
   display: inline-block;
   position: relative;
-  vertical-align: top; }
+  vertical-align: middle; }
   .pt-popover-target > .pt-popover-target {
     display: inline-block; }
   .pt-popover-target .pt-transition-container {
