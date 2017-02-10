@@ -14,7 +14,7 @@ process.getUserName = function () {
 }
 
 global.sharedObj = {
-    appDir: __dirname,
+    appDir: __dirname + '/app/',
     userDir: '/Users/' + process.getUserName() + '/Library/MagicFlute/',  // MacOS: account name and
                                                                           // the name of the home folder must match
     userConfig: null,
@@ -112,8 +112,6 @@ setInterval(()=>{
 
 //// load sysConfig and userConfig
 try {
-    logger.warn("*** __dirname:", __dirname);
-    console.log("*** __dirname:", __dirname);
     global.sharedObj.sysConfig = JSON.parse(fs.readFileSync(`${__dirname}/app/config/sysConfig.json`, 'utf8'));
 } catch (e) {
     logger.error("*** error loading config.sys ", e);

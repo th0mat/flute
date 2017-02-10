@@ -245,8 +245,8 @@ class DashboardCf extends React.Component {
                     <img src={this.props.appDir + '/assets/img/noteBirds.png'} style={{width: '80px',
                     height: '80px', marginTop: '20px', marginBottom: '20px'
                     }}/>
-                    <h3>Dashboard</h3>
-                    <br/><br/>
+                    {/*<h3>Dashboard</h3>*/}
+                    <br/>
                 </div>
 
                 <div className="flContent">

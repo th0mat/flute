@@ -4,7 +4,6 @@
 
 /** Build file to package the app for release */
 
-console.log("*** made it to here");
 //require('babel-polyfill');
 const os = require('os');
 const webpack = require('webpack');

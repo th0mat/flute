@@ -114,8 +114,7 @@ fetchMozartMsg();
 win.on("move", _.debounce(storeWindowSize, 2000));
 win.on("resize", _.debounce(storeWindowSize, 2000));
 
-logger.warn(`*** app.html path: ${remote.getGlobal("sharedObj").appDir + "/app/app.html"}`);
-const htmlPath = remote.getGlobal('sharedObj').appDir + '/app/app.html';
+const htmlPath = remote.getGlobal('sharedObj').appDir + 'app.html';
 
 const Layout = React.createClass({
     render() {

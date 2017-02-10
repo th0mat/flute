@@ -5119,9 +5119,12 @@ table.pt-table {
   .pt-tether-element-attached-bottom.pt-tether-element-attached-right > .pt-tooltip {
     -webkit-transform-origin: bottom right;
             transform-origin: bottom right; }
+
+  /*manually changed*/
   .pt-tooltip .pt-popover-content {
-    background: #394b59;
-    color: #f5f8fa; }
+    background: lightgray;
+    color: #5c7080; }
+
   .pt-tooltip .pt-popover-arrow::before {
     box-shadow: 1px 1px 6px rgba(16, 22, 26, 0.2); }
   .pt-tooltip .pt-popover-arrow-border {
@@ -5153,8 +5156,10 @@ table.pt-table {
     transition-duration: 200ms;
     transition-timing-function: cubic-bezier(0.4, 1, 0.75, 0.9);
     transition-delay: 0; }
+
+  /*manually changed*/
   .pt-tooltip .pt-popover-content {
-    padding: 10px 12px; }
+    padding: 5px 5px; }
   .pt-tooltip.pt-dark,
   .pt-dark .pt-tooltip {
     box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.2), 0 2px 4px rgba(16, 22, 26, 0.4), 0 8px 24px rgba(16, 22, 26, 0.4); }

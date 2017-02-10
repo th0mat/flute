@@ -56,7 +56,7 @@ class AboutCf extends React.Component {
                     It is explained in the videos linked to above.</p>
 
                     <h4>Black dot in the wifi symbol</h4>
-                    <p><img src={this.props.appDir + '/app/assets/img/monitorMode.png'} alt=""/> The
+                    <p><img src={this.props.appDir + 'assets/img/monitorMode.png'} alt=""/> The
                     black dot in the wifi symbol on your title bar indicates that the wifi adapter
                     in your computer is in monitor mode. You can turn monitor mode off on the MagicFlute
                     dashboard by turning off the logging system. Reversely, when you don't see that black dot,
