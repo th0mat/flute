@@ -5,6 +5,7 @@ import moment from 'moment';
 import titleCase from '../utils/titleCaseOui';
 import saveAsCsv from '../utils/saveAsCsv';
 import {moveTo} from '../utils/nav';
+import tooltipButton from '../utils/tooltipButton';
 
 import {remote} from 'electron';
 
@@ -182,11 +183,11 @@ class HistoriesCf extends Component {
                             <td><input name="toDt" value={this.state.range.toDt} type="text"
                                        onChange={this.handleRangeChange.bind(this)}/></td>
                             <td>
-                                <button className="pt-button pt-icon-play" onClick={this.getResults}></button>
+                                {tooltipButton("look up all macs in range", "pt-icon-play", this.getResults)}
                                 &nbsp;&nbsp;
-                                <button className="pt-button pt-icon-eject" onClick={this.clearResults}></button>
+                                {tooltipButton("clear results", "pt-icon-eject", this.clearResults)}
                                 &nbsp;&nbsp;
-                                <a className="pt-button pt-icon-download" role="button" onClick={this.saveAs}/>
+                                {tooltipButton("export data", "pt-icon-download", this.saveAs)}
                             </td>
                             <td>
                             </td>

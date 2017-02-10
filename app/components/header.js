@@ -28,7 +28,7 @@ const menu = [
     ['tests', 'pt-icon-cloud', 'test'],
     ['help & about', 'pt-icon-help', 'about'],
     ['profiles', 'pt-icon-mugshot', 'profiles'],
-    ['settings', 'pt-icon-settings', 'settings'],
+    ['settings', 'pt-icon-settings', 'config'],
 ]
 
 

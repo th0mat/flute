@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import titleCase from '../utils/titleCaseOui';
 import {moveTo, backOne} from '../utils/nav';
+import tooltipButton from '../utils/tooltipButton';
 
 import HistoryCfLegend from './historyCfLegend';
 
@@ -31,7 +32,7 @@ class HistoryCfHeader extends React.Component {
 
     render() {
         const found = this.target();
-        const sub = (this.props.mac === '1000000000000')
+        const sub = (this.props.mac === '000000000000')
             ? 'System uptime data'
             : 'Mac address: ' + this.props.mac;
         return (
@@ -39,10 +40,9 @@ class HistoryCfHeader extends React.Component {
                 <img onClick={backOne} src={this.props.userDir + found.avatar}
                      className='flProfilePix'/>
                 <div id="flProfileInfo">
-                    <h3>{found.dname}&nbsp;&nbsp;
-                            <span><button className="pt-button pt-icon-cog" onClick={this.goProfileHandler.bind(this, "profile", this.props.mac)}
-                                  ></button></span>
-                    </h3>
+                    <h3 style={{display: "inline", bottom: '20px'}}>{found.dname}&nbsp;&nbsp;</h3>
+                    {tooltipButton("profile settings", "pt-icon-cog", this.goProfileHandler.bind(this, "profile", this.props.mac))}
+                    <br/><br/>
                     <p>{sub}</p>
                     <p>
                         <small>{titleCase(this.props.oui[this.props.mac.substr(0, 6)])}</small>

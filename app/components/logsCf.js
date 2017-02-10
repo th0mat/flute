@@ -5,6 +5,7 @@ import moment from 'moment';
 import saveAsCsv from '../utils/saveAsCsv';
 import {updateActivityLog, sortAscending} from '../utils/updateActivityLog';
 import {moveTo} from '../utils/nav';
+import tooltipButton from '../utils/tooltipButton';
 
 
 const props = (store)=> {
@@ -93,11 +94,11 @@ class LogsCf extends Component {
                 <div className="flContentFrozenTop">
                     <h3>Activities Log</h3>
 
-                    <a className="pt-button pt-icon-download" onClick={this.saveAs}></a>
+                    {tooltipButton("reload", "pt-icon-refresh", this.updateLog)}
                     &nbsp;&nbsp;
+                    {tooltipButton("export data", "pt-icon-download", this.saveAs)}
 
 
-                    <a className="pt-button pt-icon-refresh" onClick={this.updateLog}></a>
                     &nbsp;&nbsp;
 
 
