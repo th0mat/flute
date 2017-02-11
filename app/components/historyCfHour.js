@@ -16,7 +16,7 @@ export default React.createClass({
         const traffic = this.props.traffic;
         const sysup = this.props.sysup;
         const colors = traffic.map((x, i) => {
-            if (x === -0.01) return 'skyBlue'; // not yet
+            if (x === -0.01) return 'azure'; // not yet
             if (x === 0 && sysup[i] === 0) return '#fcd276'; // system was down
             if (x === 0 || x === null) return '#F8F8F8';
             if (x <= 1000) return palette[1];

@@ -262,7 +262,9 @@ class DashboardCf extends React.Component {
                     <Switch style={{display: 'inline'}} checked={this.props.logSysUp} label=""
                             onChange={this.handleLogSysSwitch}/>
                     <span>{sysStatusMsg}</span>
-                    <br/><br/>
+                    <p onClick={()=>{browserHistory.push("/history/000000000000")}}
+                    className="flDashboardLink">system uptime history</p>
+                    <br/>
 
 
                     <h4>Notification switches</h4>
@@ -288,7 +290,7 @@ class DashboardCf extends React.Component {
                     </div>
                     <br/><br/>
 
-                    <h4 style={{display: "inline"}}>Data base &nbsp;</h4>
+                    <h4 style={{display: "inline"}}>Data base status &nbsp;</h4>
                         {tooltipButton("refresh status", "pt-icon-refresh", '/bouncer/dashboard/1000')}
                     <br/><br/>
                     <div>

@@ -305,3 +305,12 @@ html, body {
     text-decoration: underline;
 }
 
+.flDashboardLink {
+}
+
+.flDashboardLink:hover {
+    color: #5C7080;
+    cursor: pointer;
+    text-decoration: underline;
+}
+

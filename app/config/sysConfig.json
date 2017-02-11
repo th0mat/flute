@@ -13,6 +13,11 @@
     "windowGoneTarget": 600,
     "windowGoneSysup": 300,
     "mfuidRegistered": null,
+    "sysUp": {
+      "macHex": "000000000000",
+      "dname": "MagicFlute",
+      "avatar": "img/MagicFlute.jpg"
+    },
     "incognito": {
       "macHex": "666",
       "dname": "Incognito",
