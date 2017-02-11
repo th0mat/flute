@@ -94,7 +94,8 @@ export function loadImgBank() {
                 logger.error('*** loading img bank failed: ' + err);
                 return;
             }
-            dispatch({type: 'IMG_BANK_LOADED', payload: result});
+            let cleaned = result.filter(x=>{return !x.startsWith(".");}); // excl .DS_store, etc.
+            dispatch({type: 'IMG_BANK_LOADED', payload: cleaned});
 
         });
     }

@@ -17,7 +17,6 @@ set(SOURCE_FILES
         app/store/configureStore.development.js
         app/store/configureStore.js
         app/store/configureStore.production.js
-        app/app.global.css
         app/app.html
         app/app.icns
         app/index.js

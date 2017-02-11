@@ -1,8 +1,9 @@
 html, body {
     height: 100%;
     margin: 0;
-    background: azure;
+    /*background: azure;*/
 }
+
 
 #flRoot {
     height: 100%;

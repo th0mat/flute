@@ -255,6 +255,7 @@ class ProfileCf extends React.Component {
                 <div className="flContent">
                     {this.props.imageBank
                         .filter(x => x != 'Incognito.jpg')
+                        .filter(x => x != 'MagicFlute.jpg')
                         .map(x => {
                             return (
                                 <img src={this.props.userDir + "img/" + x} key={x} className="flBankPix" name={x}

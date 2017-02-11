@@ -1,10 +1,12 @@
-make some pics in img folder un-deletable
+add pics
 review component minWidth settings
-
-
+package build: app name, version, etc.
 
 =======
 DONE
+add birds as bg img for the side
+see if addMac.js is still needed
+make some pics in img folder un-deletable
 tooltip location or multiline option
 sys uptime history link on dashboard
 add SYSUP profile for "000000000000"
