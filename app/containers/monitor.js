@@ -16,7 +16,7 @@ export default class MonitorPage extends React.Component {
 
     render() {
         return (
-            <div className="flContainer">
+            <div className="flContainer" style={{minWidth: "250px"}}>
 
                 <Header/>
                 <MonitorCf/>

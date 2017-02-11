@@ -16,7 +16,7 @@ export default class HistoriesPage extends React.Component {
 
     render() {
         return (
-            <div className="flContainer">
+            <div className="flContainer" style={{minWidth: "470px"}}>
 
                 <Header/>
                 <HistoriesCf/>

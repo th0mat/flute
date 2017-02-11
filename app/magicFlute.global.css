@@ -18,8 +18,8 @@ html, body {
     display: flex;
     flex-direction: column;
     height: 100%;
-    max-width: 700px;
-    min-width: 250px;
+    max-width: 630px;
+    min-width: 400px;
     background: white;
 }
 
