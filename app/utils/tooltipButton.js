@@ -15,7 +15,8 @@ export default function tooltipButton(tip, icon, destination) {
     }
 
     return (
-        <Tooltip position={Position.BOTTOM}
+        <Tooltip position={Position.SMART}
+                 useSmartPositioning={true}
                  hoverOpenDelay={1000}
                  content={tip}><a className={`pt-button ${icon}`}
                                   onClick={clickCommand}  role="button"></a>

@@ -197,7 +197,8 @@ class DashboardCf extends React.Component {
                 <span>system is up &nbsp;| &nbsp;disable for 60 sec&nbsp;&nbsp;
                 <Tooltip position={Position.BOTTOM}
                          hoverOpenDelay={1000}
-                         content="disable logging system for 60 seconds, then turn it on automatically again">
+                         content={<div className="flToolTip"><p>disable logging system for 60 seconds,
+                         then turn it on again automatically</p></div>}>
                     <a className="pt-button pt-icon-automatic-updates" onClick={this.temporaryOff}></a></Tooltip>
                 </span>);
         } else {

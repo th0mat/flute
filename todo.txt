@@ -1,11 +1,11 @@
 make some pics in img folder un-deletable
-tooltip location or multiline option
 review component minWidth settings
 
 
 
 =======
 DONE
+tooltip location or multiline option
 sys uptime history link on dashboard
 add SYSUP profile for "000000000000"
 copy birds.png into imgdefault folder

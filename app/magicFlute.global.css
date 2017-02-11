@@ -314,3 +314,6 @@ html, body {
     text-decoration: underline;
 }
 
+.flToolTip {
+    width: 200px;
+}
