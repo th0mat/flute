@@ -222,20 +222,6 @@ html, body {
 
 /* begin of profile classes ***************************************************/
 
-#flProfileInfo {
-    color: dimgrey;
-    padding: 5px 10px 10px 15px;
-    background: white;
-    margin-bottom: 10px;
-}
-
-#flProfileInfo p {
-    margin: 0px 0px 7px 0px;
-}
-
-#flProfileInfo h3, h4 {
-    margin: 0px;
-}
 
 .flProfilePix {
     float: left;
@@ -266,12 +252,6 @@ html, body {
 
 
 
-
-/*.scanControls {*/
-    /*margin: 70px 10px 10px 10px;*/
-
-/*}*/
-
 .flHoverBg {
 }
 
@@ -282,8 +262,8 @@ html, body {
 
 
 .flBankPix {
-    height: 50px;
-    width: 50px;
+    height: 30px;
+    width: 30px;
     float: left;
     margin: 5px;
 }
@@ -317,4 +297,13 @@ html, body {
 
 .flToolTip {
     width: 200px;
+}
+
+.flBold {
+    font-weight: bold;
+}
+
+.flTablePix {
+    height: 30px;
+    width: 30px;
 }

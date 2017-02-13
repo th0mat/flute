@@ -9,6 +9,8 @@ import * as actions from '../actions/appState';
 import {moveTo, backOne} from '../utils/nav';
 import titleCase from '../utils/titleCaseOui';
 import {remote} from 'electron';
+import tooltipButton from '../utils/tooltipButton';
+
 
 const logger = remote.getGlobal('sharedObj').logger;
 
@@ -59,7 +61,6 @@ class ProfileCf extends React.Component {
     }
 
 
-
     cancelChanges() {
         backOne();
     }
@@ -69,7 +70,8 @@ class ProfileCf extends React.Component {
         let target;
         try {
             target = JSON.parse(JSON.stringify(this.state.target));
-        } catch (e) { logger.error("*** parsing error at swapImg/profileCf: ", e)
+        } catch (e) {
+            logger.error("*** parsing error at swapImg/profileCf: ", e)
         }
         target.avatar = 'img/' + e.target.name;
         this.setState({target: target});
@@ -89,7 +91,8 @@ class ProfileCf extends React.Component {
             let targets;
             try {
                 targets = JSON.parse(JSON.stringify(this.props.targets));
-            } catch (e) { logger.error("*** parse error at removeTarget/profileCf: ", e)
+            } catch (e) {
+                logger.error("*** parse error at removeTarget/profileCf: ", e)
             }
             targets.splice(this.state.targetIndex, 1);
             this.props.dispatch(actions.postTargetChanges(targets))
@@ -128,7 +131,8 @@ class ProfileCf extends React.Component {
         let updated;
         try {
             updated = JSON.parse(JSON.stringify(this.props.targets));
-        } catch (e) { logger.error("*** parse error at saveChanges/profileCf: ", e)
+        } catch (e) {
+            logger.error("*** parse error at saveChanges/profileCf: ", e)
         }
         updated[this.state.targetIndex] = this.state.target;
         // upload image and post target changes
@@ -193,55 +197,80 @@ class ProfileCf extends React.Component {
                 <div className="flContentFrozenTop">
                     <img onClick={this.cancelChanges} src={this.props.userDir + this.state.target.avatar}
                          className="flProfilePix"/>
-                    <div id="flProfileInfo">
-                        <h3 style={{marginTop: '0px'}}><input name="dname" value={this.state.target.dname} type="text"
-                                                              onChange={this.handleChange}/></h3>
-                        <input name="macHex" value={this.state.target.macHex} type="text"
+                    <div>
+                        <input className="pt-text-muted" style={{fontSize: 'x-large', fontWeight: 'bold',
+                        display: 'block', width: "200px"}}
+                               name="dname" value={this.state.target.dname} type="text"
                                onChange={this.handleChange}/>
+                        <br/>
+                        <input name="macHex" value={this.state.target.macHex} type="text"
+                               onChange={this.handleChange}/><br/>
                         <p>
                             <small>{titleCase(this.props.oui[this.state.target.macHex.substr(0, 6)])}</small>
                         </p>
 
-                        <div>
-                            <label>
-                                <input type="checkbox" value="onMonitor" onChange={this.handleCheckboxes}
-                                       checked={this.state.target.onMonitor}/>&nbsp;&nbsp;monitor&nbsp;&nbsp;&nbsp;
-                            </label>
+
+                        <div style={{marginTop: "20px", clear: "left"}}>
+                            <table>
+                                <tbody>
 
 
-                            <label>
-                                <input type="checkbox" value="onLogs" onChange={this.handleCheckboxes}
-                                       checked={this.state.target.onLogs}/>
-                                &nbsp;&nbsp;logs&nbsp;&nbsp;&nbsp;
-                            </label>
+                                <tr>
+                                    <td style={{verticalAlign: "top"}}>
+                                        <input type="checkbox" value="onMonitor" onChange={this.handleCheckboxes}
+                                               checked={this.state.target.onMonitor}/>
+                                    </td>
+                                    <td><span className="flBold">monitor:</span> profile appears on monitor view</td>
+                                </tr>
+
+                                <tr>
+                                    <td style={{verticalAlign: "top"}}>
+                                        <input type="checkbox" value="onLogs" onChange={this.handleCheckboxes}
+                                               checked={this.state.target.onLogs}/>
+                                    </td>
+                                    <td><span className="flBold">logs:</span> profile is included in activity logs</td>
+                                </tr>
+
+                                <tr>
+                                    <td style={{verticalAlign: "top"}}>
+                                        <input type="checkbox" value="notifyBack" onChange={this.handleCheckboxes}
+                                               checked={this.state.target.notifyBack}/>
+                                    </td>
+                                    <td><span className="flBold">notify back:</span> a notification is triggered when this profile appears
+                                    again after an absence
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style={{verticalAlign: "top"}}>
+                                        <input type="checkbox" value="notifyGone" onChange={this.handleCheckboxes}
+                                               checked={this.state.target.notifyGone}/>
+                                    </td>
+                                    <td><span className="flBold">notify gone:</span> a notification is triggered if no traffic has been
+                                    observed for this profile for a set period
+                                    </td>
+                                </tr>
 
 
-                            <label>
-                                <input type="checkbox" value="notifyBack" onChange={this.handleCheckboxes}
-                                       checked={this.state.target.notifyBack}/>
-                                &nbsp;&nbsp;notify back&nbsp;&nbsp;&nbsp;
-                            </label>
-
-
-                            <label>
-                                <input type="checkbox" value="notifyGone" onChange={this.handleCheckboxes}
-                                       checked={this.state.target.notifyGone}/>&nbsp;&nbsp;notify gone
-                            </label>
-
+                                </tbody>
+                            </table>
                         </div>
-
-
                     </div>
-                    <div>
-                        <button onClick={this.goHistoryHandler.bind(this, "history", this.props.mac)}
-                                className="pt-button">history
-                        </button>
+
+
+                    <div style={{marginTop: "20px"}}>
+
+                        {tooltipButton("history", "pt-icon-history", "/history/" + this.props.mac)}
+
                         <span>&nbsp;&nbsp;</span>
-                        <button className="pt-button" onClick={this.cancelChanges}>cancel</button>
+                        {tooltipButton("undo changes", "pt-icon-undo", this.cancelChanges)}
+
                         <span>&nbsp;&nbsp;</span>
-                        <button className="pt-button" onClick={this.removeTarget.bind(this)}>remove</button>
+                        {tooltipButton("remove profile", "pt-icon-trash", this.removeTarget.bind(this))}
+
                         <span>&nbsp;&nbsp;</span>
-                        <button className="pt-button" onClick={this.saveChanges}>save&nbsp;</button>
+                        {tooltipButton("save changes", "pt-icon-floppy-disk", this.saveChanges)}
+
                     </div>
                     <br/>
                     <h4>Upload new picture or select below</h4>
@@ -284,7 +313,8 @@ class ProfileCf extends React.Component {
         )
     }
 
-};
+}
+;
 
 const menu = MenuFactory({
     children: [

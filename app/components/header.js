@@ -25,7 +25,7 @@ const menu = [
     ['scan', 'pt-icon-search-around', 'scan'],
     ['history', 'pt-icon-history', 'history'],
     ['activity logs', 'pt-icon-sort', 'logs'],
-    ['tests', 'pt-icon-cloud', 'test'],
+    // ['tests', 'pt-icon-cloud', 'test'],
     ['help & about', 'pt-icon-help', 'about'],
     ['profiles', 'pt-icon-mugshot', 'profiles'],
     ['settings', 'pt-icon-settings', 'config'],

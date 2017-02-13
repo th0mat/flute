@@ -7,10 +7,13 @@ const userDir = remote.getGlobal('sharedObj').userDir;
 
 logger.info("*** userDir: ", userDir);
 
+let startTs;
+
 // updates activityLog in redux but also returns a promise
 // to be used for email updates
 export function updateActivityLog() {
-    //let startTs = new Date();
+
+    startTs = new Date();
     const activityLog = {lastLog: 0, activities: []};
     store.dispatch({"type": "ACTIVITY_LOG_LOADED", payload: activityLog});
     const lastTs = activityLog.lastLog;
@@ -21,6 +24,7 @@ export function updateActivityLog() {
             alert("updateActivityLog: " + err.stack);
         }
     });
+
     return fetchTrafficFromDb(db, lastTs)
         .then((traffic) => {
             buildTrafficLogEntries(traffic, activityLog);
@@ -30,7 +34,7 @@ export function updateActivityLog() {
             buildSysupLogEntries(sysups, activityLog);
             store.dispatch({"type": "ACTIVITY_LOG_LOADED", payload: JSON.parse(JSON.stringify(activityLog))});
             db.close();
-            //logger.error("*** logging time: ", new Date() - startTs);
+            logger.info("*** activityLog update time:", new Date() - startTs, "ms");
             return Promise.resolve(activityLog);
         })
         .catch((err) => {
@@ -71,9 +75,11 @@ function fetchSysupFromDb(db, lastTs) {
 
 
 function buildTrafficLogEntries(allTraffic, activityLog) {
+
     const window = store.getState().appState.userConfig.windowGoneTarget;
     const activities = activityLog.activities;
-    const targets = store.getState().appState.targets;
+    let targets = store.getState().appState.targets;
+    // targets.push(store.getState().appState.userConfig.sysUp);
     const tmacs = targets
         .filter((x) => {
             return x.onLogs
@@ -84,6 +90,7 @@ function buildTrafficLogEntries(allTraffic, activityLog) {
         return this.indexOf(x.mac) >= 0
     }, tmacs);
     // create entries by mac
+
     for (let t of targets) {
         ttraffic
             .filter((x) => {
@@ -92,21 +99,27 @@ function buildTrafficLogEntries(allTraffic, activityLog) {
             .forEach((x, i, arr) => {
                 if (i === 0) {  // first traffic entry for incremental log build
                     if (activityLog.lastLog != 0 && x.ts - activityLog.lastLog >= window) {
-                        activities.push({ts: activityLog.lastLog, mac: t.macHex, dname: t.dname, prez: 0});
-                        activities.push({ts: x.ts, mac: t.macHex, dname: t.dname, prez: 1});
+                        activities.push({
+                            ts: activityLog.lastLog,
+                            mac: t.macHex,
+                            avatar: t.avatar,
+                            dname: t.dname,
+                            prez: 0
+                        });
+                        activities.push({ts: x.ts, mac: t.macHex, avatar: t.avatar, dname: t.dname, prez: 1});
                     } else {  // first traffic entry in initial log build
                         if (activityLog.lastLog == 0) {
-                            activities.push({ts: x.ts, mac: t.macHex, dname: t.dname, prez: 1});
+                            activities.push({ts: x.ts, mac: t.macHex, avatar: t.avatar, dname: t.dname, prez: 1});
                         }
                     }
                 }
                 if (i !== 0 && x.ts - arr[i - 1].ts >= window) { // all but the first traffic entry
-                    activities.push({ts: arr[i - 1].ts, mac: t.macHex, dname: t.dname, prez: 0});
-                    activities.push({ts: x.ts, mac: t.macHex, dname: t.dname, prez: 1});
+                    activities.push({ts: arr[i - 1].ts, mac: t.macHex, avatar: t.avatar, dname: t.dname, prez: 0});
+                    activities.push({ts: x.ts, mac: t.macHex, avatar: t.avatar, dname: t.dname, prez: 1});
                 }
                 if (i === arr.length - 1) {  // only the last traffic entry
                     if (moment().unix() - x.ts >= window) {
-                        activities.push({ts: arr[i].ts, mac: t.macHex, dname: t.dname, prez: 0});
+                        activities.push({ts: arr[i].ts, mac: t.macHex, avatar: t.avatar, dname: t.dname, prez: 0});
                     }
                 }
             })
@@ -117,30 +130,48 @@ function buildTrafficLogEntries(allTraffic, activityLog) {
 function buildSysupLogEntries(sysups, activityLog) {
     const window = store.getState().appState.userConfig.windowGoneSysup;
     const activities = activityLog.activities;
+    const sysUp = store.getState().appState.userConfig.sysUp;
     sysups
         .forEach((x, i, arr) => {
             if (i === 0) {  // first sysup entry for incremental log build
                 if (activityLog.lastLog != 0 && x.ts - activityLog.lastLog >= window) {
                     activities.push({ts: activityLog.lastLog - 1, mac: "", dname: "[SYS DOWN]", prez: 0});
-                    activities.push({ts: x.ts, mac: "000000000000", dname: "[SYS UP]", prez: 1});
+                    activities.push({ts: x.ts, mac: sysUp.macHex, avatar: sysUp.avatar, dname: "[SYS UP]", prez: 1});
                 } else {  // first sysup entry in initial log build
                     if (activityLog.lastLog == 0) {
-                        activities.push({ts: x.ts, mac: "000000000000", dname: "[SYS UP]", prez: 1});
+                        activities.push({
+                            ts: x.ts,
+                            mac: sysUp.macHex,
+                            avatar: sysUp.avatar,
+                            dname: "[SYS UP]",
+                            prez: 1
+                        });
                     }
                 }
             }
             if (i !== 0 && x.ts - arr[i - 1].ts >= window) {  // all but the first sysup entry
-                activities.push({ts: arr[i - 1].ts, mac: "000000000000", dname: "[SYS DOWN]", prez: 0});
-                activities.push({ts: x.ts, mac: "000000000000", dname: "[SYS UP]", prez: 1});
+                activities.push({
+                    ts: arr[i - 1].ts,
+                    mac: sysUp.macHex,
+                    avatar: sysUp.avatar,
+                    dname: "[SYS DOWN]",
+                    prez: 0
+                });
+                activities.push({ts: x.ts, mac: sysUp.macHex, avatar: sysUp.avatar, dname: "[SYS UP]", prez: 1});
             }
             if (i === arr.length - 1) {  // only the last sysup entry
                 if (moment().unix() - x.ts >= window) {
-                    activities.push({ts: arr[i].ts, mac: "000000000000", dname: "[SYS DOWN]", prez: 0});
+                    activities.push({
+                        ts: arr[i].ts,
+                        mac: sysUp.macHex,
+                        avatar: sysUp.avatar,
+                        dname: "[SYS DOWN]",
+                        prez: 0
+                    });
                 }
             }
         })
 }
-
 
 
 export function sortAscending(x, y) {

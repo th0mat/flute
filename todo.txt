@@ -1,9 +1,17 @@
-add pics
-review component minWidth settings
 package build: app name, version, etc.
+tooltip location bottom-right
+fix double-scroll bar
+incognito -> unknown
+notify email outage yes/no
+reverse order switch for logs
 
 =======
 DONE
+activity logs: add pics
+activity logs: add weekday
+activity logs: change 0000 -> +++ / ---
+image bank smaller pix
+review component minWidth settings
 add birds as bg img for the side
 see if addMac.js is still needed
 make some pics in img folder un-deletable

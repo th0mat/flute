@@ -8,12 +8,10 @@ import {moveTo} from '../utils/nav';
 import tooltipButton from '../utils/tooltipButton';
 
 
-const props = (store)=> {
+const props = (store) => {
     return {
         activityLog: store.appState.activityLog,
-        targets: store.appState.targets,
-        userDir: store.appState.userDir
-
+        userDir: store.appState.userDir,
     }
 };
 
@@ -32,30 +30,14 @@ class LogsCf extends Component {
     }
 
 
-    componentWillMount() {
-    }
-
-
-    componentDidMount() {
-    }
-
-
-    componentWillUnmount() {
-    };
-
-
-    updateDimensions() {
-    }
-
-
     saveAs() {
         // filter as per display filter
         const includeSys = this.state.includeSys ? 'imposssible' : "SYS";
         const entries = this.logs
-            .filter((x)=> {
+            .filter((x) => {
                 return (x.dname.indexOf(includeSys) === -1)
             })
-            .filter((x)=> {
+            .filter((x) => {
                 return (x.dname.includes(this.state.displayFilter) || x.dname.includes("SYS"))
             });
         // build content string
@@ -96,11 +78,9 @@ class LogsCf extends Component {
 
                     {tooltipButton("reload", "pt-icon-refresh", this.updateLog)}
                     &nbsp;&nbsp;
+
                     {tooltipButton("export data", "pt-icon-download", this.saveAs)}
-
-
                     &nbsp;&nbsp;
-
 
                     <span>Filter: </span>&nbsp;&nbsp;
 
@@ -110,7 +90,7 @@ class LogsCf extends Component {
 
 
                     <label><input type="checkbox" onChange={this.handleIncludeSys}
-                                                                    checked={this.state.includeSys}/>
+                                  checked={this.state.includeSys}/>
                         &nbsp;&nbsp;incl sys msg
                     </label>
                     <br/><br/>
@@ -121,6 +101,7 @@ class LogsCf extends Component {
                     <table className="pt-table pt-striped">
                         <thead>
                         <tr>
+                            <th>Img</th>
                             <th>Day</th>
                             <th>Name</th>
                             <th>Mac</th>
@@ -130,19 +111,24 @@ class LogsCf extends Component {
                         </thead>
                         <tbody>
                         {this.logs
-                            .filter((x)=> {
+                            .filter((x) => {
                                 return x.dname.indexOf(includeSys) === -1
                             })
-                            .filter((x)=> {
+                            .filter((x) => {
                                 return (x.dname.includes(this.state.displayFilter) || x.dname.includes("SYS"))
                             })
-                            .map(x=> {
+                            .map(x => {
                                 return (
                                     <tr onClick={moveTo.bind(this, 'history', x.mac)} key={x.ts + x.mac + x.prez}
-                                    className="flHoverBg">
-                                        <td>{moment.unix(x.ts).format('MMM D')}</td>
+                                        className="flHoverBg">
+                                        <td><img className="flTablePix" src={this.props.userDir + x.avatar} alt=""/></td>
+                                        <td>{moment.unix(x.ts).format('ddd, MMM D')}</td>
                                         <td>{x.dname}</td>
-                                        <td  style={{fontFamily: "monospace"}}>{x.mac}</td>
+                                        <td style={{fontFamily: "monospace"}}>{
+                                            x.mac !== '000000000000'
+                                                ? x.mac
+                                                : x.prez ? '+'.repeat(12) : '-'.repeat(12)}
+                                        </td>
                                         <td>{x.prez ? moment.unix(x.ts).format('HH:mm') : ""}</td>
                                         <td>{x.prez ? " " : moment.unix(x.ts).format('HH:mm')}</td>
                                     </tr>
