@@ -1,10 +1,14 @@
-profile top margin
+fix clear DB
+rm MagicFlute.app before copy?
 private beta sign-up
 
 
 
 =======
 DONE
+packetmozart youTube account
+download pics
+profile top margin
 package build: app name, version, etc.
 fix double-scroll bar
 tooltip location bottom-right

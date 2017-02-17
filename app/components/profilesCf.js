@@ -50,7 +50,7 @@ class ProfileSelect extends React.Component {
                onClick={()=>shell.openExternal("https://packetmozart.com/how-to-videos/")}>
                 how-to videos</p>
             <br/><br/>
-            <img src={this.props.appDir + '/app/assets/img/noteBirds.png'}
+            <img src={this.props.appDir + '/assets/img/noteBirds.png'}
                  style={{height: '50px', width: '50px', margin: 'auto', display: 'block'}} alt=""/>
         </div>
     }

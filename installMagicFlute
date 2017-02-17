@@ -88,16 +88,16 @@ def copyFiles():
                      os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")])
 
 
-    # change setuid for papageno executables
-
-    subprocess.call(["sudo", "chmod", "+s", os.path.expanduser("~/Library/MagicFlute/papageno/pap_live")])
-    subprocess.call(["sudo", "chmod", "+s", os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")])
-
-
     # change ownership to root
 
     subprocess.call(["sudo", "chown", "root", os.path.expanduser("~/Library/MagicFlute/papageno/pap_live")])
     subprocess.call(["sudo", "chown", "root", os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")])
+
+
+    # change setuid for papageno executables
+
+    subprocess.call(["sudo", "chmod", "+s", os.path.expanduser("~/Library/MagicFlute/papageno/pap_live")])
+    subprocess.call(["sudo", "chmod", "+s", os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")])
 
 
     # copy all img files to Library/MagicFlute/img dir

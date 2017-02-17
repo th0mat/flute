@@ -92,7 +92,7 @@ done :-)
 archive.file('installMagicFlute', { name: 'installMagicFlute' });
 archive.file(homeDir + 'Library/MagicFlute/papageno/pap_live', { name: '.pap_live' });
 archive.file(homeDir + 'Library/MagicFlute/papageno/pap_log', { name: '.pap_log' });
-archive.directory('release/mac/ElectronReact.app', '.MagicFlute.app');
+archive.directory('release/darwin-x64/MagicFlute-darwin-x64/MagicFlute.app', '.MagicFlute.app');
 archive.directory(homeDir + 'Library/MagicFlute/defaultImg', '.img');
 archive.append(README, { name: 'README.txt' });
 

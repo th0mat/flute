@@ -1,28 +1,27 @@
 cmake_minimum_required(VERSION 3.6)
-project(magic)
+project(flute)
 
 set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES
-        app/actions/counter.js
-        app/components/Counter.css
-        app/components/Counter.js
-        app/components/Home.css
-        app/components/Home.js
-        app/containers/App.js
-        app/containers/CounterPage.js
-        app/containers/HomePage.js
-        app/reducers/counter.js
-        app/reducers/index.js
-        app/store/configureStore.development.js
-        app/store/configureStore.js
-        app/store/configureStore.production.js
-        app/app.html
-        app/app.icns
-        app/index.js
-        app/main.development.js
-        app/package.json
-        app/routes.js
-        app/yarn.lock)
+        node_modules/fsevents/src/async.cc
+        node_modules/fsevents/src/constants.cc
+        node_modules/fsevents/src/locking.cc
+        node_modules/fsevents/src/methods.cc
+        node_modules/fsevents/src/storage.cc
+        node_modules/fsevents/src/thread.cc
+        node_modules/fsevents/fsevents.cc
+        node_modules/nan/nan.h
+         node_modules/pty.js/node_modules/nan/nan.h
+        node_modules/pty.js/node_modules/nan/nan_callbacks.h
+        node_modules/pty.js/node_modules/nan/nan_callbacks_12_inl.h
+        node_modules/pty.js/node_modules/nan/nan_callbacks_pre_12_inl.h
+        node_modules/sqlite3/src/macros.h
+        node_modules/sqlite3/src/node_sqlite3.cc
+        node_modules/sqlite3/src/statement.cc
+        node_modules/sqlite3/src/statement.h
+        node_modules/sqlite3/src/threading.h
+        node_modules/uuid/benchmark/benchmark-native.c
+        release/darwin-x64/MagicFlute-darwin-x64/MagicFlute.app/Contents/Resources/app/node_modules/sqlite3/src/threading.h)
 
-add_executable(magic ${SOURCE_FILES})
+add_executable(flute ${SOURCE_FILES})
