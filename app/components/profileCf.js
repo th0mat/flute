@@ -3,14 +3,14 @@ import {connect} from 'react-redux';
 import {browserHistory} from 'react-router';
 import fs from 'fs';
 
-import {ContextMenu, MenuFactory, MenuItemFactory} from '@blueprintjs/core';
+import {ContextMenu, MenuFactory, MenuItemFactory, Intent} from '@blueprintjs/core';
 
 import * as actions from '../actions/appState';
 import {moveTo, backOne} from '../utils/nav';
 import titleCase from '../utils/titleCaseOui';
 import {remote} from 'electron';
 import tooltipButton from '../utils/tooltipButton';
-
+import Toaster from '../utils/toaster';
 
 const logger = remote.getGlobal('sharedObj').logger;
 
@@ -53,6 +53,8 @@ class ProfileCf extends React.Component {
         this.saveChanges = this.saveChanges.bind(this);
         this.removeTarget = this.removeTarget.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleMacChange = this.handleMacChange.bind(this);
+        this.validateMac = this.validateMac.bind(this);
         this.previewFile = this.previewFile.bind(this);
         this.cancelChanges = this.cancelChanges.bind(this);
         this.handleCheckboxes = this.handleCheckboxes.bind(this);
@@ -128,6 +130,11 @@ class ProfileCf extends React.Component {
 
 
     saveChanges() {
+
+        if (!this.validateMac(this.state.target.macHex)) {
+            Toaster.show({intent: Intent.WARNING, message: "enter a valid mac address"});
+            return;
+        }
         let updated;
         try {
             updated = JSON.parse(JSON.stringify(this.props.targets));
@@ -186,6 +193,30 @@ class ProfileCf extends React.Component {
         });
     }
 
+    handleMacChange(e) {
+        let updated = this.state.target;
+        updated[e.target.name] = this.strip(e.target.value);
+        this.setState({target: updated});
+    }
+
+
+
+    strip(mac){
+        const small = mac.toLowerCase();
+        const arr = small.split("");
+        const filtered = arr.filter((x)=>{
+            return (x >= 'a' && x <= 'f') || (x >= 0 && x <= 9 );
+        });
+        return filtered.join('');
+    }
+
+
+    validateMac(mac) {
+        if (~mac.search(/[^a-f0-9A-F\.:-]/)) return false;
+        return this.strip(mac).length === 12;
+    }
+
+
 
     render() {
 
@@ -204,9 +235,11 @@ class ProfileCf extends React.Component {
                                onChange={this.handleChange}/>
                         <br/>
                         <input name="macHex" value={this.state.target.macHex} type="text"
-                               onChange={this.handleChange}/><br/>
+                               onChange={this.handleMacChange}/><br/>
                         <p>
-                            <small>{titleCase(this.props.oui[this.state.target.macHex.substr(0, 6)])}</small>
+                            <small>{this.validateMac(this.state.target.macHex)
+                                ? titleCase(this.props.oui[this.state.target.macHex.substr(0, 6)])
+                               : <span style={{color: "orange"}}>invalid mac address</span>}</small>
                         </p>
 
 

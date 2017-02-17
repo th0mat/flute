@@ -1,12 +1,13 @@
 cosmetic update for settings table
-make saving of invalid mac impossible
 tooltip location bottom-right
+private beta sign-up
 fix double-scroll bar
-notify internet/email outage yes/no
 package build: app name, version, etc.
 
 =======
 DONE
+make saving of invalid mac impossible
+notify internet/email outage yes/no
 reverse order switch for logs
 histories add avatar
 scan add avatar
