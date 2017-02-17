@@ -122,6 +122,18 @@ class ConfigCfTable extends React.Component {
                     </tr>
 
                     <tr>
+                        <td>No internet connection notifications</td>
+                        <td>
+                            <label><input type="checkbox" value="noInternetNotifications"
+                                          onChange={this.handleUserConfigChange.bind(this)}
+                                          checked={this.props.userConfig.noInternetNotifications}/>
+                                &nbsp;&nbsp;show system notification when the connection is lost or returned
+                            </label>
+
+                        </td>
+                    </tr>
+
+                    <tr>
                         <td>Email notifications</td>
                         <td>
                             <label><input type="checkbox" value="autoOnEmailNotifications"

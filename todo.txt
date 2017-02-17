@@ -1,12 +1,16 @@
-package build: app name, version, etc.
+cosmetic update for settings table
+make saving of invalid mac impossible
 tooltip location bottom-right
 fix double-scroll bar
-incognito -> unknown
-notify email outage yes/no
-reverse order switch for logs
+notify internet/email outage yes/no
+package build: app name, version, etc.
 
 =======
 DONE
+reverse order switch for logs
+histories add avatar
+scan add avatar
+fixed slow activity log rebuild
 activity logs: add pics
 activity logs: add weekday
 activity logs: change 0000 -> +++ / ---

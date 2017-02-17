@@ -17,7 +17,9 @@ const props = (store)=> {
         oui: store.appState.oui,
         scanTraffic: store.appState.scanTraffic,
         liveSys: store.appState.userConfig.liveSys,
-        userDir: store.appState.userDir
+        userDir: store.appState.userDir,
+        incognito: store.appState.userConfig.incognito
+
     }
 }
 
@@ -151,6 +153,7 @@ class ScanCf extends Component {
                     <table className="pt-table pt-striped">
                         <thead>
                         <tr style={{display: this.state.hogs.size != 0 ? 'table-row' : 'none'}}>
+                            <th>Img</th>
                             <th>Name</th>
                             <th>Mac</th>
                             <th>Manufacturer</th>
@@ -160,9 +163,11 @@ class ScanCf extends Component {
                         <tbody>
                         {hogs.length == 0 ? this.state.zeroHogsMsg : hogs.map(x=> {
                             var target = targets.find(t=>t['macHex'] === x[0]);
-                            var dname = (target) ? target.dname : 'Unknown';
+                            var dname = (target) ? target.dname : this.props.incognito.dname;
+                            var avatar = (target) ? target.avatar : this.props.incognito.avatar;
                             return (
                                 <tr onClick={moveTo.bind(this, 'history', x[0])} key={x[0]} className="flHoverBg">
+                                    <td><img className="flTablePix" src={this.props.userDir + avatar} alt=""/></td>
                                     <td><span>{dname}</span></td>
                                     <td style={{fontFamily: "monospace"}}>{x[0]}</td>
                                     <td>{titleCase(this.props.oui[x[0].substr(0, 6)])}</td>

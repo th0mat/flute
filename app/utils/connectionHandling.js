@@ -23,16 +23,18 @@ export function updateInternetStatus() {
             if (oldStatus === true || oldStatus === null) {
                 store.dispatch({type: "UPDATE_INTERNET_STATUS", payload: false});
                 logger.warn("*** no internet connection");
-                new Notification(`Internet connection lost`, {
-                    body: `no connection available from ${moment().format("HH:mm")}`,
-                    icon: appDir + '/assets/img/Wifi.jpg'
-                });
+                if (store.getState().appState.userConfig.noInternetNotifications) {
+                    new Notification(`Internet connection lost`, {
+                        body: `no connection available from ${moment().format("HH:mm")}`,
+                        icon: appDir + '/assets/img/Wifi.jpg'
+                    });
+                }
             }
         }
         else {
             if (oldStatus === false || oldStatus === null) {
                 logger.info("*** internet available");
-                if (oldStatus !== null) { // no notification at startup
+                if (oldStatus !== null && store.getState().appState.userConfig.noInternetNotifications) { // no notification at startup
                     new Notification(`Internet connection back`, {
                         body: `connection back at ${moment().format("HH:mm")}`,
                         icon: appDir + '/assets/img/Wifi.jpg'

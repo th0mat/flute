@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 
 import saveAsCsv from '../utils/saveAsCsv';
-import {updateActivityLog, sortAscending} from '../utils/updateActivityLog';
+import {updateActivityLog, sortAscending, sortDescending} from '../utils/updateActivityLog';
 import {moveTo} from '../utils/nav';
 import tooltipButton from '../utils/tooltipButton';
 
@@ -65,7 +65,9 @@ class LogsCf extends Component {
     }
 
     render() {
-        this.logs = this.props.activityLog.activities.sort(sortAscending);
+        // this.logs = this.props.activityLog.activities.sort(sortAscending);
+        this.logs = this.props.activityLog.activities.sort(sortDescending);
+        // this.logs = this.props.activityLog.activities;
 
         const includeSys = this.state.includeSys ? 'imposssible' : "SYS";
         let k = 0;

@@ -9,6 +9,7 @@
     "autoOnPapageno": true,
     "autoOnSysNotifications": true,
     "autoOnEmailNotifications": false,
+    "noInternetNotifications": false,
     "notificationEmailAddress": "",
     "windowGoneTarget": 600,
     "windowGoneSysup": 300,

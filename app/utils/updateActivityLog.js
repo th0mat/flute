@@ -194,3 +194,23 @@ export function sortAscending(x, y) {
     }
 }
 
+export function sortDescending(x, y) {
+    if (x.ts != y.ts) {
+        return y.ts - x.ts
+    } else {
+        if (x.mac == y.mac) {
+            if (x.prez) {
+                return 1
+            } else {
+                return -1
+            }
+        } else {
+            if (x.mac > y.mac) {
+                return -1
+            } else {
+                return 1
+            }
+        }
+    }
+}
+

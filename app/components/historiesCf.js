@@ -13,12 +13,13 @@ import {remote} from 'electron';
 const logger = remote.getGlobal('sharedObj').logger;
 
 
-const props = (store)=> {
+const props = (store) => {
     return {
         userDir: store.appState.userDir,
         targets: store.appState.targets,
         oui: store.appState.oui,
-        rangeTraffic: store.appState.rangeTraffic
+        rangeTraffic: store.appState.rangeTraffic,
+        incognito: store.appState.userConfig.incognito
     }
 }
 
@@ -28,12 +29,12 @@ class HistoriesCf extends Component {
         super(props);
         const sqlite3 = require('sqlite3').verbose();
         this.db = new sqlite3.Database(this.props.userDir + 'papageno/papageno.db', sqlite3.OPEN_READONLY,
-            (err)=>{
-            if (err) {
-                logger.error("*** error opening db from timeRangeResults: ", err);
-                alert("timeRangeResults: " + err.stack);
-            }
-        });
+            (err) => {
+                if (err) {
+                    logger.error("*** error opening db from timeRangeResults: ", err);
+                    alert("timeRangeResults: " + err.stack);
+                }
+            });
         this.db.configure("busyTimeout", 5000);
         this.formatString = "YYYY-MM-DD HH:mm";
         this.today = moment().hours(0).minutes(0).seconds(0).milliseconds(0);
@@ -43,7 +44,9 @@ class HistoriesCf extends Component {
 
         this.state = {
             hogs: this.props.rangeTraffic.data || [],
-            zeroHogsMsg: <tr><td>select range then click play</td></tr>,
+            zeroHogsMsg: <tr>
+                <td>select range then click play</td>
+            </tr>,
             filter: {
                 manu: this.props.rangeTraffic.filterManu || "",
                 mac: this.props.rangeTraffic.filterMac || ""
@@ -55,7 +58,7 @@ class HistoriesCf extends Component {
         };
     }
 
-    componentWillMount(){
+    componentWillMount() {
     }
 
 
@@ -84,17 +87,21 @@ class HistoriesCf extends Component {
                     logger.error("*** db error in histories/Cf: ", err);
 
                 } else {
-                    rows.forEach((x)=>agg.push([x.mac, x.trafficVol]));
+                    rows.forEach((x) => agg.push([x.mac, x.trafficVol]));
                 }
                 this.setState({hogs: agg});
                 if (agg.length === 0) {
-                    this.setState({zeroHogsMsg: <tr><td>no traffic in this range</td></tr>})
+                    this.setState({
+                        zeroHogsMsg: <tr>
+                            <td>no traffic in this range</td>
+                        </tr>
+                    })
                 }
                 this.dispatchTrafficRange();
             }.bind(this));
     }
 
-    clearResults(){
+    clearResults() {
         this.setState({hogs: []});
         this.props.dispatch({
             type: "TRAFFIC_RANGE_DATA", payload: {fromDt: "", toDt: "", data: [], filterManu: "", filterMac: ""}
@@ -136,13 +143,13 @@ class HistoriesCf extends Component {
         this.dispatchTrafficRange();
     }
 
-    saveAs(){
+    saveAs() {
         let content = "mac; bytes; name; manufacturer\n";
         let targets = this.props.targets;
         let filtered = [];
         // apply filters
-        if (this.state.filter.manu != "" || this.state.filter.mac != ""){
-            filtered = this.state.hogs.filter((x)=>{
+        if (this.state.filter.manu != "" || this.state.filter.mac != "") {
+            filtered = this.state.hogs.filter((x) => {
                 return (x[0].includes(this.state.filter.mac) &&
                 (titleCase(this.props.oui[x[0].substr(0, 6)]).includes(this.state.filter.manu)));
             })
@@ -150,7 +157,7 @@ class HistoriesCf extends Component {
         }
         // create content string
         for (let m of filtered) {
-            let target = targets.find(t=>t['macHex'] === m[0]);
+            let target = targets.find(t => t['macHex'] === m[0]);
             let dname = (target) ? target.dname : 'Unknown';
             content += `${m[0]}; ${m[1]}; ${dname}; ${titleCase(this.props.oui[m[0].substr(0, 6)], 99)}\n`;
         }
@@ -161,12 +168,12 @@ class HistoriesCf extends Component {
     render() {
         let hogs = this.state.hogs;
         let targets = this.props.targets;
-        hogs = hogs.sort((x, y)=>y[1] - x[1]);
+        hogs = hogs.sort((x, y) => y[1] - x[1]);
 
         return (
 
 
-        <div className="flContentFrame">
+            <div className="flContentFrame">
                 <div className="flContentFrozenTop">
                     <h3>Traffic Histories</h3>
                     <table>
@@ -212,37 +219,43 @@ class HistoriesCf extends Component {
                         <tr style={{display: this.props.rangeTraffic.data.length != 0 ? 'table-row' : 'none'}}>
                             <th style={{paddingTop: '15px'}}>Filter</th>
                             <th style={{paddingTop: '15px'}}><input name="mac" value={this.state.filter.mac}
-                                       onChange={this.handleFilterChange.bind(this)}
-                                       type="text"/></th>
+                                                                    onChange={this.handleFilterChange.bind(this)}
+                                                                    type="text"/></th>
                             <th style={{paddingTop: '15px'}}><input name="manu" value={this.state.filter.manu}
-                                       onChange={this.handleFilterChange.bind(this)}
-                                       type="text"/></th>
+                                                                    onChange={this.handleFilterChange.bind(this)}
+                                                                    type="text"/></th>
                             <th style={{textAlign: 'right'}}>
-                                <button style={{marginTop: '0px'}} className="pt-button" onClick={this.applyFilter.bind(this)}>
+                                <button style={{marginTop: '0px'}} className="pt-button"
+                                        onClick={this.applyFilter.bind(this)}>
                                     <small>apply</small>
                                 </button>
                             </th>
                         </tr>
                         </thead>
                         < tbody >
-                        {hogs.length == 0 ? this.state.zeroHogsMsg : hogs.map(x=> {
-                            const target = targets.find(t=>t['macHex'] === x[0]);
-                            const dname = (target) ? target.dname : 'Incognito';
-                            if (
-                                (titleCase(this.props.oui[x[0].substr(0, 6)]).indexOf(this.props.rangeTraffic.filterManu) === -1)
-                                || (x[0].indexOf(this.props.rangeTraffic.filterMac) === -1)) {
-                                return
-                            } else {
-                                return (
-                                    <tr className="flHoverBg" onClick={moveTo.bind(this, 'history', x[0])} key={x[0]}>
-                                        <td><span>{dname}</span></td>
-                                        <td style={{fontFamily: "monospace"}}>{x[0]}</td>
-                                        <td>{titleCase(this.props.oui[x[0].substr(0, 6)], 22)}</td>
-                                        <td style={{textAlign: 'right'}}>{x[1].toLocaleString()}</td>
-                                    </tr>
-                                )
-                            }
-                        })}
+                        {hogs.length == 0 ? this.state.zeroHogsMsg : hogs.map(x => {
+                                const target = targets.find(t => t['macHex'] === x[0]);
+                                const dname = (target) ? target.dname : 'Incognito';
+                                if (
+                                    (titleCase(this.props.oui[x[0].substr(0, 6)]).indexOf(this.props.rangeTraffic.filterManu) === -1)
+                                    || (x[0].indexOf(this.props.rangeTraffic.filterMac) === -1)) {
+                                    return
+                                } else {
+                                    const target = targets.find(t => t['macHex'] === x[0]);
+                                    var avatar = (target) ? target.avatar : this.props.incognito.avatar;
+                                    return (
+                                        <tr className="flHoverBg" onClick={moveTo.bind(this, 'history', x[0])}
+                                            key={x[0]}>
+                                            <td><img className="flTablePix" src={this.props.userDir + avatar} alt=""/>
+                                            </td>
+                                            <td><span>{dname}</span></td>
+                                            <td style={{fontFamily: "monospace"}}>{x[0]}</td>
+                                            <td>{titleCase(this.props.oui[x[0].substr(0, 6)], 22)}</td>
+                                            <td style={{textAlign: 'right'}}>{x[1].toLocaleString()}</td>
+                                        </tr>
+                                    )
+                                }
+                            })}
                         </tbody >
                     </table >
                 </div>
