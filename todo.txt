@@ -1,10 +1,11 @@
-package build: app name, version, etc.
+profile top margin
 private beta sign-up
 
 
 
 =======
 DONE
+package build: app name, version, etc.
 fix double-scroll bar
 tooltip location bottom-right
 cosmetic update for settings table

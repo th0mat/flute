@@ -31,8 +31,7 @@ class AboutCf extends React.Component {
                     what their kids are doing. Engineers use it as a tool to better understand which devices
                     consume
                     the available wifi bandwidth. Security applications make use of the presence detection and
-                    recording functionality of MagicFlute. I am not sure I want to know everything else people use
-                    it for.</p>
+                    recording functionality of MagicFlute.</p>
 
                     <h4>What is MagicFlute not good for?</h4>
                     <p>MagicFlute cannot be used to see which websites someone visits. It can also not be used
@@ -47,7 +46,7 @@ class AboutCf extends React.Component {
 
                     <h4>Can this be legal?</h4>
                     <p>No idea. Big companies sell similar software for all sorts of debatable
-                    purposes, so the correct answer is probably 'it depends'. If you find out that it
+                    applications, so the correct answer is probably 'it depends'. If you find out that it
                     is illegal where you are, delete MagicFlute immediately and never mention my name. If you use
                     MagicFlute at home to check if your daughter is watching videos online or doing
                     her homework, you are probably ok. MagicFlute does not analyze the

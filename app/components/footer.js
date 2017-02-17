@@ -18,7 +18,7 @@ export default class Footer extends React.Component {
         return (
             <div className="flFooter">
                 <span>
-                    i'm a useless tiny footer
+                    i'm a tiny footer
                 </span>
             </div>
         )

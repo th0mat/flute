@@ -9,9 +9,6 @@ import DashboardCf from '../components/dashboardCf';
 
 export default class DashboardPage extends React.Component {
 
-    componentWillMount() {
-    }
-
 
     render() {
         return (

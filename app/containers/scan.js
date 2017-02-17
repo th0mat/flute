@@ -11,8 +11,6 @@ import ScanCf from '../components/scanCf';
 export default class ScanPage extends React.Component {
 
 
-    componentWillMount() {
-    }
 
     render() {
         return (

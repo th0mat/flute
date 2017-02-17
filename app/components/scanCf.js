@@ -40,15 +40,6 @@ class ScanCf extends Component {
     }
 
 
-    componentWillMount() {
-
-    }
-
-
-    componentDidMount() {
-        //if (this.props.scanTraffic.scanOn) this.turnOnScanning();
-    }
-
 
     componentWillUnmount() {
         if (this.term) this.term.destroy();
