@@ -1,10 +1,12 @@
-tooltip location bottom-right
-private beta sign-up
-fix double-scroll bar
 package build: app name, version, etc.
+private beta sign-up
+
+
 
 =======
 DONE
+fix double-scroll bar
+tooltip location bottom-right
 cosmetic update for settings table
 make saving of invalid mac impossible
 notify internet/email outage yes/no

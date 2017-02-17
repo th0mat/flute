@@ -60,6 +60,7 @@ html, body {
     padding-right: 10px;
     flex: 1;
     background-color: white;
+    overflow: hidden;
 }
 
 .flFooter {
