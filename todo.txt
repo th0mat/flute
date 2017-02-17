@@ -1,4 +1,3 @@
-cosmetic update for settings table
 tooltip location bottom-right
 private beta sign-up
 fix double-scroll bar
@@ -6,6 +5,7 @@ package build: app name, version, etc.
 
 =======
 DONE
+cosmetic update for settings table
 make saving of invalid mac impossible
 notify internet/email outage yes/no
 reverse order switch for logs

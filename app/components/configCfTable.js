@@ -88,64 +88,62 @@ class ConfigCfTable extends React.Component {
                 <table className="pt-table pt-striped">
                     <tbody>
 
+
                     <tr>
                         <td>MagicFlute start-up behaviour</td>
                         <td>
-                            <label><input type="checkbox" value="autoOnPapageno"
+                            <input type="checkbox" value="autoOnPapageno"
                                           onChange={this.handleUserConfigChange.bind(this)}
                                           checked={this.props.userConfig.autoOnPapageno}/>
-                                &nbsp;&nbsp;turn Papageno on at start-up (if not already running)
-                            </label>
                         </td>
+                        <td>turn Papageno on at start-up (if not already running)</td>
+
                     </tr>
 
                     <tr>
                         <td>MagicFlute quit behaviour</td>
                         <td>
-                            <label><input type="checkbox" value="onQuitStay"
+                            <input type="checkbox" value="onQuitStay"
                                           onChange={this.handleUserConfigChange.bind(this)}
                                           checked={this.props.userConfig.onQuitStay}/>
-                                &nbsp;&nbsp;continue recording history data after 'quit' [recommended]
-                            </label>
                         </td>
+                        <td>continue recording history data after 'quit' [recommended]</td>
                     </tr>
 
                     <tr>
                         <td>System notifications</td>
                         <td>
-                            <label><input type="checkbox" value="autoOnSysNotifications"
+                            <input type="checkbox" value="autoOnSysNotifications"
                                           onChange={this.handleUserConfigChange.bind(this)}
                                           checked={this.props.userConfig.autoOnSysNotifications}/>
-                                &nbsp;&nbsp;turn system notifications on at start-up
-                            </label>
                         </td>
+                        <td>turn system notifications on at start-up</td>
                     </tr>
 
                     <tr>
                         <td>No internet connection notifications</td>
                         <td>
-                            <label><input type="checkbox" value="noInternetNotifications"
+                            <input type="checkbox" value="noInternetNotifications"
                                           onChange={this.handleUserConfigChange.bind(this)}
                                           checked={this.props.userConfig.noInternetNotifications}/>
-                                &nbsp;&nbsp;show system notification when the connection is lost or returned
-                            </label>
 
                         </td>
+                        <td>show system notification when the connection is lost or returned</td>
                     </tr>
 
                     <tr>
                         <td>Email notifications</td>
                         <td>
-                            <label><input type="checkbox" value="autoOnEmailNotifications"
+                            <input type="checkbox" value="autoOnEmailNotifications"
                                           onChange={this.handleUserConfigChange.bind(this)}
                                           checked={this.props.userConfig.autoOnEmailNotifications}/>
-                                &nbsp;&nbsp;turn email notifications on at start-up
-                            </label>
                         </td>
+                        <td>turn email notifications on at start-up</td>
                     </tr>
 
                     <tr>
                         <td>Email address for notifications</td>
+                        <td></td>
                         <td>
                             <input type="text" value={this.props.userConfig.notificationEmailAddress}
                                           onChange={this.handleEmailAddrChange}/>
@@ -159,7 +157,6 @@ class ConfigCfTable extends React.Component {
                     <tr>
                         <td>Traffic data retention period</td>
                         <td>
-                                <label>
 
                                     <select value={this.props.userConfig.retentionDays} onChange={this.handleRetentionDayChange.bind(this)}>
                                         <option value="1">1</option>
@@ -170,10 +167,9 @@ class ConfigCfTable extends React.Component {
                                         <option value="6">6</option>
                                         <option value="7">7</option>
                                     </select>
-                                    &nbsp;&nbsp;days
-                                </label>
 
                         </td>
+                        <td>days</td>
                     </tr>
 
 
@@ -181,16 +177,16 @@ class ConfigCfTable extends React.Component {
                         <td>Turn logging on/off</td>
                         <td><a className="pt-button pt-icon-dashboard" role="button"
                                onClick={browserHistory.push.bind(this, '/dashboard')}/>
-                            <span>&nbsp;&nbsp;to dashboard</span>
                         </td>
+                        <td>click to go to dashboard</td>
                     </tr>
 
                     <tr>
                         <td>Clear database</td>
                         <td>
                             <a className="pt-button pt-icon-offline" role="button" onClick={this.resetDb.bind(this)}/>
-                            <span>&nbsp;&nbsp;clicking will erase all traffic data</span>
                         </td>
+                        <td>click to erase all data</td>
                     </tr>
 
                     </tbody>
