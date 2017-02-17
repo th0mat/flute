@@ -37,10 +37,12 @@ main.js.map
 app/user/papageno/papageno.db
 
 cmake-build-debug
-
+CMakeLists.txt
 bundle.js
 bundle.js.map
 style.css
 style.css.map
+
+todo.txt
 
 .idea
