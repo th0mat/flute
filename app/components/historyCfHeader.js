@@ -47,12 +47,12 @@ class HistoryCfHeader extends React.Component {
                     {this.props.mac !== SYSUP_MAC
                         ? tooltipButton("profile settings", "pt-icon-cog", "/profile/" + this.props.mac)
                         : ""}
-                    <br/><br/>
+                    <br/>
                     <p>{sub}</p>
                     <p>
                         <small>{this.props.mac !== SYSUP_MAC
                             ? titleCase(this.props.oui[this.props.mac.substr(0, 6)])
-                            : ""}</small>
+                            : <br/>}</small>
                     </p>
 
                 </div>
@@ -61,7 +61,7 @@ class HistoryCfHeader extends React.Component {
                     <h4>
                         {this.props.mac !== SYSUP_MAC
                             ? "Traffic history"
-                            : "Logging system history"}
+                            : <span>Logging system history</span>}
                     </h4>
                     {this.props.mac === SYSUP_MAC
                         ? <HistoryCfLegend sysUp={true}/>
