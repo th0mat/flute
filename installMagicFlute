@@ -27,35 +27,53 @@ import subprocess
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sudo_warning = """
 
-During the installation you might be asked for
-the ADMIN PASSWORD. Unfortunately this is
-required by some operating systems to enable
-wifi monitoring. The good news is, that this is
-ONLY REQUIRED ONCE, and only during the
-installation process.
+
+
+
+INSTALLING MagicFlute requires an admin password.
+
+
+RUNNING MagicFlute will not require a password.
+
+
+AFTER this script completes there will be ONE MORE THING
+courtesy of Apple:
+
+
+Right click on MagicFlute in the Applications folder,
+and select OPEN to start MagicFlute. Then accept that
+MagicFlute is from an 'unidentified developer'. That's
+how Apple calls people who don't pay an annual fee
+for the privilege of being 'identified'.
+
+
+
+
+
+
 
 """
 
 unsigned_warning = """
 
-The installation is completed and MagicFlute
-should now be available in the Applications
-folder.
 
-Because MagicFlute is not distributed through the
-Mac App Store MacOS will initially block it.
 
-Click the “Open Anyway” button on the Security pane
-of System Preferences. This button is available
-for about an hour after you try to open the app.
-To open this pane, choose
 
-Apple menu > System Preferences,
 
-then click Security & Privacy.
 
-This is only required the first time you open
+
+
+STOP: Remember the part ablut RIGHT CLICK - OPEN?
+Great, then close this window and have fun.
+
+
+Again, this is only required the first time you open
 MagicFlute.
+
+
+
+
+
 
 """
 
@@ -84,7 +102,7 @@ def copyFiles():
 
     subprocess.call(["cp", dir_path + "/.pap_live",
                      os.path.expanduser("~/Library/MagicFlute/papageno/pap_live")])
-    subprocess.call(["cp", dir_path + "/.pap_log",
+    subprocess.call(["cp", dir_path + "/.pap_live",
                      os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")])
 
 
@@ -105,8 +123,11 @@ def copyFiles():
     subprocess.call(["cp", "-R", dir_path + "/.img/", os.path.expanduser("~/Library/MagicFlute/img")])
 
 
-    # copy MagicFlute app to app directory
+    # copy MagicFlute app to app directory after first deleting an existing version
 
+
+
+    subprocess.call(["sudo", "rm", "-rf", "/Applications/MagicFlute.app"])
     subprocess.call(["cp", "-R", dir_path + "/.MagicFlute.app", "/Applications/MagicFlute.app"])
 
 

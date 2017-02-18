@@ -47,7 +47,21 @@ const DEFAULT_OPTS = {
   ignore: [
     '^/test($|/)',
     '^/release($|/)',
-    '^/main.development.js'
+    '^/resources($|/)',
+    '^/reference($|/)',
+    '^/cmake-build-debug($|/)',
+    '^/app/components($|/)',
+    '^/app/containers($|/)',
+    '^/app/reducers($|/)',
+    '^/app/utils($|/)',
+    '^/app/store($|/)',
+    '^/app/actions($|/)',
+    '^/app/config/oui.txt',
+    '^/main.development.js',
+    '^/CMakeLists.txt',
+    '^/wrap.js',
+    '^/main.js.map',
+    '^/todo.txt'
   ]
   .concat(devDeps)
   .concat(depsExternal)

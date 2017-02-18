@@ -50,12 +50,19 @@ const README = `MagicFlute Installation
 SUMMARY
 
 1. Install MagicFlute by double-clicking on installMagicFlute.
-2. Run MagicFlute - you find the icon to start on your Desktop or in your Apps folder.
+2. Go to the Applications foolder and find MagicFlute.
+3. Right-click MagicFlute and select OPEN.
+4. Accept the message about 'unidentified developer'.
+
+That's it. Step 2, 3 and 4 are only required the first time.
+After that MgicFlute can be started like any other application.
 
 After the installation the downloaded zip file and the folder it created can be
 deleted.
 
 --------------------------
+
+
 
 
 WHAT THE INSTALLER DOES
@@ -67,9 +74,11 @@ The installer goes through the following steps
 3. It creates a directory at ~/Library/MagicFlute to store data and settings.
 4. It does not overwrite existing traffic data and config settings.
 
-During the installation you might be asked for the admin password. Unfortunately this
+During the installation you will be asked for the admin password. Unfortunately this
 is required by the operating system to enable wifi monitoring. The good news is,
 that this is only required during the installation.
+
+
 
 --------------------------
 
@@ -91,7 +100,6 @@ done :-)
 
 archive.file('installMagicFlute', { name: 'installMagicFlute' });
 archive.file(homeDir + 'Library/MagicFlute/papageno/pap_live', { name: '.pap_live' });
-archive.file(homeDir + 'Library/MagicFlute/papageno/pap_log', { name: '.pap_log' });
 archive.directory('release/darwin-x64/MagicFlute-darwin-x64/MagicFlute.app', '.MagicFlute.app');
 archive.directory(homeDir + 'Library/MagicFlute/defaultImg', '.img');
 archive.append(README, { name: 'README.txt' });

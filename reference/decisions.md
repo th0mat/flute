@@ -60,6 +60,7 @@
 
 ### installer tasks
 
+* sudo spctl --master-disable // to disable gatekeeper or ask user to control-click-open when starting the first time
 * sudo chown root pap_* (find . -user root)
 * sudo chmod u+s pap_*  (find . -perm +4000)
 * copy a userConfig.json file to userDir
