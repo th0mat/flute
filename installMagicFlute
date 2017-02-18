@@ -29,9 +29,18 @@ sudo_warning = """
 
 
 
+ #     #                        #######
+ ##   ##   ##    ####  #  ####  #       #      #    # ##### ######
+ # # # #  #  #  #    # # #    # #       #      #    #   #   #
+ #  #  # #    # #      # #      #####   #      #    #   #   #####
+ #     # ###### #  ### # #      #       #      #    #   #   #
+ #     # #    # #    # # #    # #       #      #    #   #   #
+ #     # #    #  ####  #  ####  #       ######  ####    #   ######
+
+
+
 
 INSTALLING MagicFlute requires an admin password.
-
 
 RUNNING MagicFlute will not require a password.
 
@@ -39,6 +48,7 @@ RUNNING MagicFlute will not require a password.
 AFTER this script completes there will be ONE MORE THING
 courtesy of Apple:
 
+IMPORTANT:
 
 Right click on MagicFlute in the Applications folder,
 and select OPEN to start MagicFlute. Then accept that
@@ -64,13 +74,12 @@ unsigned_warning = """
 
 
 STOP: Remember the part ablut RIGHT CLICK - OPEN?
-Great, then close this window and have fun.
+Great.
 
-
-Again, this is only required the first time you open
+This is only required the first time you start
 MagicFlute.
 
-
+We hope you find MagicFlute useful.
 
 
 
