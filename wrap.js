@@ -5,22 +5,30 @@
 // deleted first.
 
 
-var fs = require('fs-extra');
-var archiver = require('archiver');
+const fs = require('fs-extra');
+const archiver = require('archiver');
+const version = require('./package.json').version;
+
 
 const homeDir = '/Users/thomasnatter/';
 
 
-// delete existing MagicFlute.zip in downloads folder if any
+// delete existing MagicFlute_v_* in downloads folder if any
+
+let ddir = fs.readdirSync(homeDir + "Downloads");
+ddir
+    .filter(x=>x.startsWith("MagicFlute"))
+    .forEach(x=>{
+        fs.removeSync(homeDir + 'Downloads/' + x);
+    })
 
 fs.removeSync(homeDir + 'Downloads/MagicFlute.zip');
 fs.removeSync(homeDir + 'Downloads/MagicFlute');
 
 
-
 // create a file to stream archive data to. 
 
-var output = fs.createWriteStream(homeDir + 'Downloads/MagicFlute.zip');
+var output = fs.createWriteStream(homeDir + `Downloads/MagicFlute_v_${version}.zip`);
 var archive = archiver('zip', {
     store: false // set to true for no compression.
 });
@@ -43,12 +51,10 @@ archive.on('error', function(err) {
 archive.pipe(output);
 
 
-
-
 // add files and directories to the archive
 
 archive.file('installMagicFlute', { name: 'installMagicFlute' });
-archive.file('README.txt', { name: 'README.txt' });
+archive.file('readme_first.txt', { name: 'README_FIRST.txt' });
 archive.file(homeDir + 'Library/MagicFlute/papageno/pap_live', { name: '.pap_live' });
 archive.directory('release/darwin-x64/MagicFlute-darwin-x64/MagicFlute.app', '.MagicFlute.app');
 archive.directory(homeDir + 'Library/MagicFlute/defaultImg', '.img');

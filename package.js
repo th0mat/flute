@@ -1,7 +1,3 @@
-/* eslint-disable strict, no-shadow, no-unused-vars, no-console */
-
-'use strict';
-
 /** Build file to package the app for release */
 
 //require('babel-polyfill');

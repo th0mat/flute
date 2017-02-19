@@ -26,9 +26,6 @@ import subprocess
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sudo_warning = """
-
-
-
  #     #                        #######
  ##   ##   ##    ####  #  ####  #       #      #    # ##### ######
  # # # #  #  #  #    # # #    # #       #      #    #   #   #
@@ -39,49 +36,33 @@ sudo_warning = """
 
 
 
-
 INSTALLING MagicFlute requires an admin password.
-
-RUNNING MagicFlute will not require a password.
 
 
 AFTER this script completes there will be ONE MORE THING
 courtesy of Apple:
 
-IMPORTANT:
+IMPORTANT
+=========
 
-Right click on MagicFlute in the Applications folder,
+RIGHT-CLICK on MagicFlute in the Applications folder,
 and select OPEN to start MagicFlute. Then accept that
 MagicFlute is from an 'unidentified developer'. That's
 how Apple calls people who don't pay an annual fee
 for the privilege of being 'identified'.
 
-
-
-
-
-
-
 """
 
 unsigned_warning = """
+-------------
 
-
-
-
-
-
-
-
-STOP: Remember the part ablut RIGHT CLICK - OPEN?
-Great.
+STOP.
+Remember the part about RIGHT-CLICK - OPEN? Great.
 
 This is only required the first time you start
-MagicFlute.
+MagicFlute. Afterwards it is business as usual.
 
 We hope you find MagicFlute useful.
-
-
 
 
 """
