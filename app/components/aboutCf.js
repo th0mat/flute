@@ -27,22 +27,22 @@ class AboutCf extends React.Component {
                         videos</span>. MagicFlute is so easy to use, you will not need a manual.</p>
 
                     <h4>What is MagicFlute good for?</h4>
-                    <p>Watch the YouTube videos. It will give you some ideas. Mothers use it to monitor
-                    what their kids are doing. Engineers use it as a tool to better understand which devices
+                    <p>Watch the YouTube videos. It will give you some ideas. Mothers can use it to monitor
+                    what their kids are doing. Engineers could use it as a tool to better understand which devices
                     consume
-                    the available wifi bandwidth. Security applications make use of the presence detection and
+                    the available Wi-Fi bandwidth. Security applications would make use of the presence detection and
                     recording functionality of MagicFlute.</p>
 
                     <h4>What is MagicFlute not good for?</h4>
                     <p>MagicFlute cannot be used to see which websites someone visits. It can also not be used
-                    to read email messages, see pictures or decode any other content going over wifi.
+                    to read email messages, see pictures or decode any other content going over Wi-Fi.
                     MagicFlute only notes that
                     communication takes place and how much of it. It feeds exclusively on meta data.</p>
 
                     <h4>How does it work?</h4>
-                    <p>Mainly magic but putting the wifi card in monitor mode helps too. Want to know more?
+                    <p>Mainly magic but putting the Wi-Fi card in monitor mode helps too. Want to know more?
                      I recommend reading 'Monitor mode' on Wikipedia. By the way, did you know
-                    that many phones emit wifi signals even when wifi is turned off? </p>
+                    that many phones emit Wi-Fi signals even when Wi-Fi is turned off? </p>
 
                     <h4>Can this be legal?</h4>
                     <p>No idea. Big companies sell similar software for all sorts of debatable
@@ -50,13 +50,13 @@ class AboutCf extends React.Component {
                     is illegal where you are, delete MagicFlute immediately and never mention my name. If you use
                     MagicFlute at home to check if your daughter is watching videos online or doing
                     her homework, you are probably ok. MagicFlute does not analyze the
-                    payload of wifi traffic or store any of the wifi packets it observes - it just
+                    payload of Wi-Fi traffic or store any of the Wi-Fi packets it observes - it just
                     counts them. So how can you know that the kids are still watching YouTube at midnight?
                     It is explained in the videos linked to above.</p>
 
-                    <h4>Black dot in the wifi symbol</h4>
+                    <h4>Black dot in the Wi-Fi symbol</h4>
                     <p><img src={this.props.appDir + 'assets/img/monitorMode.png'} alt=""/> The
-                    black dot in the wifi symbol on your title bar indicates that the wifi adapter
+                    black dot in the Wi-Fi symbol on your title bar indicates that the Wi-Fi adapter
                     in your computer is in monitor mode. You can turn monitor mode off on the MagicFlute
                     dashboard by turning off the logging system. Reversely, when you don't see that black dot,
                     you know that your logging system is off and not recording traffic data. When you look
@@ -108,7 +108,7 @@ class AboutCf extends React.Component {
                     <p>It's just a silly domain name that was available. MagicFlute wasn't.
                     That domain should belong to Mozart, who wrote an opera with that name, but someone
                     else was faster. Did I mention that the logging
-                    system which does the wifi packet catching in the background is named Papageno? The Papageno
+                    system which does the Wi-Fi packet catching in the background is named Papageno? The Papageno
                     character in Mozart's opera plays the flute to catch birds. If you write software,
                     you can give it silly names too.</p>
 
