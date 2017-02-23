@@ -1,6 +1,8 @@
 import child_process from 'child_process';
 import {store} from '../index';
 import {remote} from 'electron';
+import getWifiDevice from './getWifiDevice';
+
 
 const logger = remote.getGlobal('sharedObj').logger;
 
@@ -27,7 +29,7 @@ export function turnLogSysOn() {
         return;
     }
     try {
-        child_process.spawn(userDir + "papageno/" + config.logSys, {
+        child_process.spawn(userDir + "papageno/" + config.logSys, [getWifiDevice()], {
             stdio: 'ignore',
             detached: true,
             cwd: userDir + "papageno/"

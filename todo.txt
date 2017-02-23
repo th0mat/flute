@@ -1,3 +1,4 @@
+fix download from histories
 fix clear DB
 rm MagicFlute.app before copy?
 private beta sign-up

@@ -6,7 +6,7 @@ import saveAsCsv from '../utils/saveAsCsv';
 import {moveTo} from '../utils/nav';
 import moment from 'moment';
 import tooltipButton from '../utils/tooltipButton';
-
+import getWifiDevice from '../utils/getWifiDevice';
 import {remote} from 'electron';
 
 const logger = remote.getGlobal('sharedObj').logger;
@@ -49,7 +49,7 @@ class ScanCf extends Component {
 
 
   turnOnScanning() {
-        this.term = pty.spawn('sh', ['-c', `cd ${this.props.userDir}/papageno; ./pap_live json`], {
+        this.term = pty.spawn('sh', ['-c', `cd ${this.props.userDir}/papageno; ./pap_live ${getWifiDevice()} json`], {
             name: 'xterm-color', cols: 80, rows: 30, cwd: process.env.HOME, env: process.env
         });
         var that = this;

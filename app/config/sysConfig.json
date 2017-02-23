@@ -2,6 +2,7 @@
   "version": "0.1.0",
   "logSys": "pap_log",
   "liveSys": "pap_live",
+  "manualWifiDeviceOverride": null,
   "flengine": "https://magicflute-155501.appspot.com",
   "defaultUserConfig": {
     "retentionDays": "4",

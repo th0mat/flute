@@ -9,6 +9,8 @@ import sql from 'sqlite3';
 import {remote, shell} from 'electron';
 import MonitorCfTarget from './monitorCfTarget.js';
 import MonitorCfLegend from '../components/monitorCfLegend';
+import getWifiDevice from '../utils/getWifiDevice';
+
 
 const logger = remote.getGlobal('sharedObj').logger;
 
@@ -85,7 +87,7 @@ class MonitorConnect extends React.Component {
 
     turnOnScanning() {
 
-        this.term = pty.spawn('sh', ['-c', `cd ${this.props.userDir}/papageno; ./pap_live json`], {
+        this.term = pty.spawn('sh', ['-c', `cd ${this.props.userDir}/papageno; ./pap_live ${getWifiDevice()} json`], {
             name: 'xterm-color', cols: 80, rows: 30, cwd: process.env.HOME, env: process.env
         });
         const that = this;
