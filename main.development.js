@@ -160,6 +160,12 @@ app.on('before-quit', () => {
     }
 });
 
+app.on('window-all-closed', function(){
+    logger.warn("*** window-all-closed event triggered");
+    app.quit();
+});
+
+
 app.on('ready', async() => {
 //    await loadUserConfig();
     await installExtensions();

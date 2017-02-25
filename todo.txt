@@ -1,7 +1,7 @@
-fix close app
 
 =======
 DONE
+quit app on window-all-closed event
 fix download from histories
 add radar icon to scanner while running
 fix missing indicators (K)
