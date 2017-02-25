@@ -146,7 +146,7 @@ class HistoriesCf extends Component {
     saveAs() {
         let content = "mac; bytes; name; manufacturer\n";
         let targets = this.props.targets;
-        let filtered = [];
+        let filtered = this.state.hogs;
         // apply filters
         if (this.state.filter.manu != "" || this.state.filter.mac != "") {
             filtered = this.state.hogs.filter((x) => {
@@ -218,6 +218,7 @@ class HistoriesCf extends Component {
                         <thead>
                         <tr style={{display: this.props.rangeTraffic.data.length != 0 ? 'table-row' : 'none'}}>
                             <th style={{paddingTop: '15px'}}>Filter</th>
+                            <th></th>
                             <th style={{paddingTop: '15px'}}><input name="mac" value={this.state.filter.mac}
                                                                     onChange={this.handleFilterChange.bind(this)}
                                                                     type="text"/></th>

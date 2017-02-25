@@ -312,6 +312,7 @@ html, body {
 .flRadarGif {
     height: 35px;
     width: 35px;
+    filter: brightness(3)
 }
 
 .flRadarDiv {

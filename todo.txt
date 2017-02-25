@@ -1,8 +1,8 @@
-fix download from histories
-
+fix close app
 
 =======
 DONE
+fix download from histories
 add radar icon to scanner while running
 fix missing indicators (K)
 packetmozart youTube account
