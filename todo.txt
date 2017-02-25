@@ -1,14 +1,13 @@
 fix download from histories
-fix clear DB
-rm MagicFlute.app before copy?
-private beta sign-up
-
 
 
 =======
 DONE
+add radar icon to scanner while running
+fix missing indicators (K)
 packetmozart youTube account
 download pics
+fix clear DB
 profile top margin
 package build: app name, version, etc.
 fix double-scroll bar

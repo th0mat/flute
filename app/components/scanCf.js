@@ -11,13 +11,14 @@ import {remote} from 'electron';
 
 const logger = remote.getGlobal('sharedObj').logger;
 
-const props = (store)=> {
+const props = (store) => {
     return {
         targets: store.appState.targets,
         oui: store.appState.oui,
         scanTraffic: store.appState.scanTraffic,
         liveSys: store.appState.userConfig.liveSys,
         userDir: store.appState.userDir,
+        appDir: store.appState.appDir,
         incognito: store.appState.userConfig.incognito
 
     }
@@ -29,7 +30,9 @@ class ScanCf extends Component {
         super(props);
         this.state = {
             hogs: this.props.scanTraffic.data,
-            zeroHogsMsg: <tr><td>click play to start scan</td></tr>,
+            zeroHogsMsg: <tr>
+                <td>click play to start scan</td>
+            </tr>,
             scanOn: this.props.scanTraffic.scanOn
         };
         this.turnOnScanning = this.turnOnScanning.bind(this);
@@ -37,8 +40,9 @@ class ScanCf extends Component {
         this.resetScan = this.resetScan.bind(this);
         this.pauseScan = this.pauseScan.bind(this);
         this.saveAs = this.saveAs.bind(this);
+        this.radarGif = this.props.appDir + 'assets/img/radar.gif';
+        this.emptyGif = this.props.appDir + 'assets/img/empty.gif';
     }
-
 
 
     componentWillUnmount() {
@@ -48,7 +52,7 @@ class ScanCf extends Component {
     };
 
 
-  turnOnScanning() {
+    turnOnScanning() {
         this.term = pty.spawn('sh', ['-c', `cd ${this.props.userDir}/papageno; ./pap_live ${getWifiDevice()} json`], {
             name: 'xterm-color', cols: 80, rows: 30, cwd: process.env.HOME, env: process.env
         });
@@ -109,7 +113,7 @@ class ScanCf extends Component {
         let content = "mac; bytes; name; manufacturer\n";
         let targets = this.props.targets;
         for (let m of this.state.hogs) {
-            var target = targets.find(t=>t['macHex'] === m[0]);
+            var target = targets.find(t => t['macHex'] === m[0]);
             var dname = (target) ? target.dname : 'Unknown';
             content += `${m[0]}; ${m[1]}; ${dname}; ${titleCase(this.props.oui[m[0].substr(0, 6)], 99)}\n`;
         }
@@ -118,9 +122,13 @@ class ScanCf extends Component {
     }
 
     render() {
-        var hogs = Array.from(this.state.hogs);
-        var targets = this.props.targets;
-        hogs = hogs.sort((x, y)=>y[1] - x[1]);
+        let hogs = Array.from(this.state.hogs);
+        const targets = this.props.targets;
+        hogs = hogs.sort((x, y) => y[1] - x[1]);
+        const radar =
+            <div className="flRadarDiv">
+                <img className="flRadarGif" src={this.state.scanOn ? this.radarGif : this.emptyGif} alt=""/>
+            </div>
 
         return (
 
@@ -138,6 +146,7 @@ class ScanCf extends Component {
                     {tooltipButton("reset scan", "pt-icon-eject", this.resetScan)}
                     &nbsp;&nbsp;
                     {tooltipButton("export scan result", "pt-icon-download", this.saveAs)}
+                    {radar}
                 </div>
                 <div className="flContent">
                     {this.state.hogs.size == 0 ? <br/> : ""}
@@ -152,20 +161,20 @@ class ScanCf extends Component {
                         </tr>
                         </thead>
                         <tbody>
-                        {hogs.length == 0 ? this.state.zeroHogsMsg : hogs.map(x=> {
-                            var target = targets.find(t=>t['macHex'] === x[0]);
-                            var dname = (target) ? target.dname : this.props.incognito.dname;
-                            var avatar = (target) ? target.avatar : this.props.incognito.avatar;
-                            return (
-                                <tr onClick={moveTo.bind(this, 'history', x[0])} key={x[0]} className="flHoverBg">
-                                    <td><img className="flTablePix" src={this.props.userDir + avatar} alt=""/></td>
-                                    <td><span>{dname}</span></td>
-                                    <td style={{fontFamily: "monospace"}}>{x[0]}</td>
-                                    <td>{titleCase(this.props.oui[x[0].substr(0, 6)])}</td>
-                                    <td style={{textAlign: 'right'}}>{x[1].toLocaleString()}</td>
-                                </tr>
-                            )
-                        })}
+                        {hogs.length == 0 ? this.state.zeroHogsMsg : hogs.map(x => {
+                                var target = targets.find(t => t['macHex'] === x[0]);
+                                var dname = (target) ? target.dname : this.props.incognito.dname;
+                                var avatar = (target) ? target.avatar : this.props.incognito.avatar;
+                                return (
+                                    <tr onClick={moveTo.bind(this, 'history', x[0])} key={x[0]} className="flHoverBg">
+                                        <td><img className="flTablePix" src={this.props.userDir + avatar} alt=""/></td>
+                                        <td><span>{dname}</span></td>
+                                        <td style={{fontFamily: "monospace"}}>{x[0]}</td>
+                                        <td>{titleCase(this.props.oui[x[0].substr(0, 6)])}</td>
+                                        <td style={{textAlign: 'right'}}>{x[1].toLocaleString()}</td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
 
                     </table>

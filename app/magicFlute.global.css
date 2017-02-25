@@ -308,3 +308,14 @@ html, body {
     height: 30px;
     width: 30px;
 }
+
+.flRadarGif {
+    height: 35px;
+    width: 35px;
+}
+
+.flRadarDiv {
+    position: absolute;
+    top: 118px;
+    left: 170px;
+}

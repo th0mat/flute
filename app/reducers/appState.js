@@ -13,7 +13,7 @@ const initial = {
     imageBank: [],
     oui: {},
     rangeTraffic: {fromDt: "", toDt: "", data: [], filterManu: "", filterMac: ""},
-    scanTraffic: {data: new Map(), filterManu: "", filterMac: "", scanOn: true},
+    scanTraffic: {data: new Map(), filterManu: "", filterMac: "", scanOn: false},
     activityLog: {lastLog: 0, activities: []},
     notifier: {notifierId: null}, // needed to turn it off
     notifyBySys: false,
