@@ -50,7 +50,7 @@ class MonitorConnect extends React.Component {
         });
         let tmpTargets = JSON.parse(JSON.stringify(this.props.targets)); // to not add traffic[] to targets.json
         let targetsWithTraffic = tmpTargets.map(x => {
-            x['traffic'] = new Array(10).fill(0);
+            x['traffic'] = new Array(12).fill(0);
             return x;
         });
         this.state = {targets: targetsWithTraffic};
