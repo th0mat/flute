@@ -175,7 +175,7 @@ class HistoriesCf extends Component {
 
             <div className="flContentFrame">
                 <div className="flContentFrozenTop">
-                    <h3>Traffic Histories</h3>
+                    <h3>Traffic History</h3>
                     <table>
                         <tbody>
                         <tr>
@@ -220,9 +220,11 @@ class HistoriesCf extends Component {
                             <th style={{paddingTop: '15px'}}>Filter</th>
                             <th></th>
                             <th style={{paddingTop: '15px'}}><input name="mac" value={this.state.filter.mac}
+                                                                    placeholder="mac address"
                                                                     onChange={this.handleFilterChange.bind(this)}
                                                                     type="text"/></th>
                             <th style={{paddingTop: '15px'}}><input name="manu" value={this.state.filter.manu}
+                                                                    placeholder="manufacturer"
                                                                     onChange={this.handleFilterChange.bind(this)}
                                                                     type="text"/></th>
                             <th style={{textAlign: 'right'}}>

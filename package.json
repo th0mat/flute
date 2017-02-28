@@ -8,7 +8,7 @@
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --retries 2 --compilers js:babel-register --recursive --require ./test/setup.js test/**/*.spec.js",
     "test-all": "npm run lint && npm run flow && npm run test && npm run build",
     "test-watch": "npm test -- --watch",
-    "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --retries 2 --compilers js:babel-register --require ./test/setup.js ./test/e2e.js",
+    "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-core/register --require babel-polyfill --require ./test/setup.js --require co-mocha ./test/e2e.js",
     "lint": "eslint --cache --format=node_modules/eslint-formatter-pretty .",
     "lint-fix": "npm run lint -- --fix",
     "hot-server": "cross-env NODE_ENV=development node --max_old_space_size=2096 -r babel-register server.js",
@@ -51,7 +51,6 @@
       ]
     }
   },
-
   "bin": {
     "electron": "./node_modules/.bin/electron"
   },
@@ -84,6 +83,7 @@
     "babel-plugin-tcomb": "^0.3.24",
     "babel-plugin-transform-class-properties": "^6.22.0",
     "babel-plugin-transform-es2015-classes": "^6.22.0",
+    "babel-plugin-transform-regenerator": "^6.22.0",
     "babel-plugin-webpack-loaders": "^0.8.0",
     "babel-polyfill": "^6.22.0",
     "babel-preset-env": "^1.1.8",
@@ -96,14 +96,17 @@
     "babili-webpack-plugin": "^0.0.9",
     "boiler-room-custodian": "^0.6.1",
     "chai": "^3.5.0",
+    "chromedriver": "^2.27.3",
+    "co-mocha": "^1.2.0",
     "concurrently": "^3.1.0",
+    "core-js": "^2.4.1",
     "cross-env": "^3.1.4",
     "css-loader": "^0.26.1",
-    "devtron": "^1.4.0",
     "electron": "^1.4.15",
     "electron-builder": "^12.2.2",
     "electron-devtools-installer": "^2.0.1",
     "electron-packager": "^8.5.1",
+    "electron-prebuilt": "^1.4.13",
     "enzyme": "^2.7.1",
     "eslint": "^3.14.0",
     "eslint-config-airbnb": "^14.0.0",
@@ -130,6 +133,7 @@
     "mocha": "^3.2.0",
     "react-addons-test-utils": "^15.4.2",
     "redux-logger": "^2.7.4",
+    "selenium-webdriver": "^3.1.0",
     "sinon": "^1.17.7",
     "spectron": "^3.4.1",
     "style-loader": "^0.13.1",

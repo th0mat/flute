@@ -23,6 +23,10 @@ global.sharedObj = {
     configReset: false
 };
 
+if (process.env.NODE_ENV === "test"){
+    global.sharedObj.userDir = __dirname + '/mocks/userdir/';
+}
+
 
 //// verify that userDir has been created and that the logging system has the
 //// required permissions
