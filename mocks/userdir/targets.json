@@ -40,16 +40,6 @@
         "sortOrder": 3
     },
     {
-        "macHex": "4ca56d2e03d5",
-        "dname": "Nema's Old Note",
-        "avatar": "img/Nema.jpg",
-        "onMonitor": false,
-        "onLogs": false,
-        "notifyGone": true,
-        "notifyBack": true,
-        "sortOrder": 4
-    },
-    {
         "macHex": "f06bca2a0014",
         "dname": "Nema's Tab",
         "avatar": "img/Nema.jpg",
@@ -108,16 +98,6 @@
         "notifyGone": false,
         "notifyBack": false,
         "sortOrder": 10
-    },
-    {
-        "macHex": "20a99be5f860",
-        "dname": "Incognito",
-        "avatar": "img/Pumpkin.jpeg",
-        "notifyBack": false,
-        "notifyGone": false,
-        "onMonitor": false,
-        "onLogs": true,
-        "sortOrder": 11
     },
     {
         "macHex": "38cadacf0732",

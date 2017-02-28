@@ -1,13 +1,21 @@
+// before running this test main needs to be rebuilt to ensure that
+// electron changes userDir to ./mock/userdir
+//
+// npm run build-main-test
+
+
 import path from 'path';
 import chromedriver from 'chromedriver';
 import webdriver from 'selenium-webdriver';
 import {expect} from 'chai';
 import electronPath from 'electron-prebuilt';
+import {remote} from 'electron';
 
 
 chromedriver.start(); // on port 9515
 process.on('exit', chromedriver.stop);
 const By = webdriver.By;
+
 
 const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
@@ -31,7 +39,7 @@ describe('e2e tests', function spec() {
     });
 
     after(async() => {
-        await driver.quit();
+        // await driver.quit();
     });
 
     // const findCounter = () => this.driver.findElement(webdriver.By.className(counterStyles.counter));
