@@ -20,9 +20,9 @@
         "avatar": "img/MagicFlute.jpg"
     },
     "windowParams": {
-        "x": 81,
-        "y": 58,
-        "width": 1044,
-        "height": 885
+        "height": 953,
+        "width": 747,
+        "x": 138,
+        "y": 189
     }
 }

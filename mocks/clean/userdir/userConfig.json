@@ -1,0 +1,28 @@
+{
+    "retentionDays": "7",
+    "onQuitStay": true,
+    "autoOnPapageno": true,
+    "autoOnSysNotifications": true,
+    "autoOnEmailNotifications": true,
+    "noInternetNotifications": true,
+    "notificationEmailAddress": "th.natter@gmail.com",
+    "windowGoneTarget": 600,
+    "windowGoneSysup": 300,
+    "mfuidRegistered": true,
+    "incognito": {
+        "macHex": "666",
+        "dname": "Incognito",
+        "avatar": "img/Incognito.jpg"
+    },
+    "sysUp": {
+        "macHex": "000000000000",
+        "dname": "MagicFlute",
+        "avatar": "img/MagicFlute.jpg"
+    },
+    "windowParams": {
+        "x": 81,
+        "y": 58,
+        "width": 1044,
+        "height": 885
+    }
+}

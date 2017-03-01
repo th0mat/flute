@@ -256,7 +256,7 @@ class DashboardCf extends React.Component {
                 <div className="flContent">
 
 
-                    <h4 id="firstH4">Logging system status &nbsp;</h4>
+                    <h4 id="firstH4">Logging system status</h4>
                     <br/>
 
                     <Switch style={{display: 'inline'}} checked={this.props.logSysUp} label=""

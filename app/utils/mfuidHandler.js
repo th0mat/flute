@@ -41,10 +41,10 @@ export async function registerMfuid() {
             let userConfig = JSON.parse(JSON.stringify(store.getState().appState.userConfig));
             userConfig.mfuidRegistered = true;
             store.dispatch(actions.saveUserConfig(userConfig));
-            logger.info("*** mfui registration successful")
+            logger.info("*** mfuid registration successful")
         })
         .catch(err => {
-            logger.error("*** mfui registration attempt failed");
+            logger.error("*** mfuid registration attempt failed");
 
         });
 }

@@ -5,77 +5,93 @@
 
 
 import path from 'path';
-import chromedriver from 'chromedriver';
-import webdriver from 'selenium-webdriver';
 import {expect} from 'chai';
 import electronPath from 'electron-prebuilt';
 import {remote} from 'electron';
+import {Application} from 'spectron';
 
 
-chromedriver.start(); // on port 9515
-process.on('exit', chromedriver.stop);
-const By = webdriver.By;
+function getApp(){
+    app = new Application({
+        path: electronPath,
+        args: [path.resolve()],
+        env: {
+             // todo: not working - why?
+        }
+    })
+    return app.start();
+}
 
 
 const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
-let driver;
+let app;
+let client;
 
 describe('e2e tests', function spec() {
-    this.timeout(5000);
+    this.timeout(10000);
 
     before(async() => {
-        await delay(1000); // wait chromedriver start time
-        driver = new webdriver.Builder()
-            .usingServer('http://localhost:9515')
-            .withCapabilities({
-                chromeOptions: {
-                    binary: electronPath,
-                    args: [`app=${path.resolve()}`]
-                }
-            })
-            .forBrowser('electron')
-            .build();
+        getApp();
+        await delay(5000)
+        app.mainProcess.env().then(function (env) { console.log("*** env:", env)});
     });
 
     after(async() => {
-        // await driver.quit();
+        // await app.stop();
     });
 
-    // const findCounter = () => this.driver.findElement(webdriver.By.className(counterStyles.counter));
-    //
-    // const findButtons = () => this.driver.findElements(webdriver.By.className(counterStyles.btn));
 
     describe('header, footer & title', function spec() {
 
         it('should open window with title', async() => {
-            const title = await driver.getTitle();
+            const title = await app.client.getTitle();
             expect(title).to.be.equal('MagicFlute');
         });
 
         it('should have footer with text', async() => {
-            const footer = await driver.findElements(By.className('flFooter'));
-            const txt = await footer[0].getText();
-            expect(txt).to.be.equal("i'm a tiny footer");
+            const footer = await app.client.$('.flFooter').getText();
+            expect(footer).to.be.equal("i'm a tiny footer");
         });
 
         it('should have 8 button menu in header', async() => {
-            const buttons = await driver.findElements(By.className('flHeader'))
-                .then(x => Promise.resolve(x[0]))
-                .then(x => x.findElements(By.className('pt-button')));
+            const buttons = await app.client.$$('.flHeader .pt-button')
             expect(buttons.length).to.be.equal(8);
         });
 
 
-    })
+    });
 
     describe('dashboard view', function spec() {
 
         it('should have the right h4', async() => {
-            await delay(3000);
-            const h4 = await driver.findElement(By.id("firstH4"))
-                .then(x => x.getText());
-            expect(h4).to.be.equal("Logging system status  ");
+            const h4 = await app.client.$("#firstH4").getText();
+            expect(h4).to.be.equal("Logging system status");
+            //await app.stop();
         })
-    })
+
+    });
+
+
+
+    describe('communication with flengine', function spec() {
+
+        it('should register mfuid if none is present', async() => {
+        });
+
+        it('should not register mfuid if already registered', async()=>{
+
+        });
+
+        it('should display update msg if one is received', async()=>{
+
+        });
+
+        it('should not display update msg if none is received', async()=>{
+
+        });
+
+
+    });
+
 })

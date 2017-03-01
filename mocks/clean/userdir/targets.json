@@ -1,0 +1,112 @@
+[
+    {
+        "macHex": "28faa0c76b80",
+        "dname": "Somrutai",
+        "avatar": "img/Nim.jpg",
+        "onMonitor": true,
+        "onLogs": true,
+        "notifyGone": true,
+        "notifyBack": true,
+        "sortOrder": 0
+    },
+    {
+        "macHex": "ac5f3eefd2d3",
+        "dname": "Tom's Phone",
+        "avatar": "img/Tom.jpg",
+        "onMonitor": true,
+        "onLogs": true,
+        "notifyGone": true,
+        "notifyBack": true,
+        "sortOrder": 1
+    },
+    {
+        "macHex": "08eca9ce83b0",
+        "dname": "Tom's Pad",
+        "avatar": "img/Tom.jpg",
+        "onMonitor": true,
+        "onLogs": true,
+        "notifyGone": true,
+        "notifyBack": true,
+        "sortOrder": 2
+    },
+    {
+        "macHex": "b0702d20cef2",
+        "dname": "Nema's Phone",
+        "avatar": "img/Nema.jpg",
+        "notifyBack": true,
+        "notifyGone": true,
+        "onMonitor": true,
+        "onLogs": true,
+        "sortOrder": 3
+    },
+    {
+        "macHex": "f06bca2a0014",
+        "dname": "Nema's Tab",
+        "avatar": "img/Nema.jpg",
+        "onMonitor": false,
+        "onLogs": true,
+        "notifyBack": false,
+        "notifyGone": false,
+        "sortOrder": 5
+    },
+    {
+        "macHex": "6c71d94b75f1",
+        "dname": "Nema's Yogi",
+        "avatar": "img/Nema.jpg",
+        "onMonitor": true,
+        "onLogs": true,
+        "notifyGone": false,
+        "notifyBack": false,
+        "sortOrder": 6
+    },
+    {
+        "macHex": "7c9122d5a978",
+        "dname": "Mint",
+        "avatar": "img/Mint.jpg",
+        "notifyBack": true,
+        "notifyGone": true,
+        "onMonitor": true,
+        "onLogs": true,
+        "sortOrder": 7
+    },
+    {
+        "macHex": "040ccedde9f2",
+        "dname": "Tom Air",
+        "avatar": "img/Tom.jpg",
+        "onMonitor": false,
+        "onLogs": false,
+        "notifyGone": false,
+        "notifyBack": false,
+        "sortOrder": 8
+    },
+    {
+        "macHex": "bc8ccdf91ddd",
+        "dname": "TV",
+        "avatar": "img/TV.jpg",
+        "onMonitor": true,
+        "onLogs": true,
+        "notifyGone": true,
+        "notifyBack": true,
+        "sortOrder": 9
+    },
+    {
+        "macHex": "00d000017c11",
+        "dname": "Security",
+        "avatar": "img/Camera.jpg",
+        "onMonitor": true,
+        "onLogs": false,
+        "notifyGone": false,
+        "notifyBack": false,
+        "sortOrder": 10
+    },
+    {
+        "macHex": "38cadacf0732",
+        "dname": "Incognito",
+        "avatar": "img/Pumpkin.jpeg",
+        "notifyBack": false,
+        "notifyGone": false,
+        "onMonitor": true,
+        "onLogs": true,
+        "sortOrder": 13
+    }
+]
