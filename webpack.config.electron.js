@@ -40,7 +40,7 @@ export default validate(merge(baseConfig, {
     new webpack.DefinePlugin({
       'process.env': {  // MF_ENV='test' => change userDir to mocks/userdir
         NODE_ENV: JSON.stringify('production'),
-        //MF_USERDIR: JSON.stringify(process.env.MF_USERDIR)
+        MF_USERDIR: JSON.stringify(process.env.MF_USERDIR)
       }
     })
   ],

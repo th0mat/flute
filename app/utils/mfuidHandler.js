@@ -28,6 +28,7 @@ export async function mfuidFileHandler() {
         let userConfig = JSON.parse(JSON.stringify(store.getState().appState.userConfig));
         userConfig.mfuidRegistered = false;
         store.dispatch(actions.saveUserConfig(userConfig));
+        registerMfuid();
     }
     remote.getGlobal('sharedObj').mfuid = mfuid;
 }

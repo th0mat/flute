@@ -1,7 +1,7 @@
 {
   "name": "MagicFlute",
   "productName": "MagicFlute",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "description": "WiFi Traffic Monitor",
   "main": "main.js",
   "scripts": {
@@ -127,6 +127,7 @@
     "file-loader": "^0.10.0",
     "flow-bin": "^0.38.0",
     "flow-typed": "^2.0.0",
+    "fs-extra": "^2.0.0",
     "html-webpack-plugin": "^2.26.0",
     "jsdom": "^9.9.1",
     "json-loader": "^0.5.4",

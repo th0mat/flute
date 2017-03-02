@@ -30,7 +30,7 @@ import * as logSys from './utils/logSysOnOff';
 import trimDb from './utils/trimDb';
 import {fetchMozartMsg} from './utils/fetchMozartMsg';
 import {mfuidFileHandler, registerMfuid} from './utils/mfuidHandler';
-import { FocusStyleManager } from "@blueprintjs/core";
+import {FocusStyleManager} from "@blueprintjs/core";
 
 FocusStyleManager.onlyShowFocusOnTabs();
 
@@ -49,7 +49,7 @@ const history = syncHistoryWithStore(browserHistory, store); // history could be
 //  })
 
 
-process.on('warning', (w)=>{
+process.on('warning', (w) => {
     logger.warn(`*** process warning: ${w.name} - ${w.message}`);
 })
 
@@ -59,7 +59,7 @@ process.on('unhandledRejection', (reason, p) => {
 
 
 // rss - resident set size: code segment + stack + heap
-setInterval(()=>{
+setInterval(() => {
     let m = process.memoryUsage();
     logger.info(`*** renderer memory usage - rss: ${m.rss}, heapUsed: ${m.heapUsed}`)
 }, 1000 * 3600)
@@ -82,7 +82,6 @@ trimDb.call(this, parseInt(userConfig.retentionDays));
 setInterval(trimDb.bind(this, parseInt(userConfig.retentionDays)), 1000 * 60 * 60 * 24);
 
 
-
 setTimeout(updateActivityLog, 3000);
 
 //// turn on notifier if required but wait until targets are loaded
@@ -96,7 +95,9 @@ if (userConfig.autoOnSysNotifications || userConfig.autoOnEmailNotifications) {
 //// create .mfuid if required and register
 
 mfuidFileHandler();  // create .mfuid if not exist
-let registerHandle = setInterval(()=>{
+
+// in case registration first tried by mfuidFileHandler() failed
+let registerHandle = setInterval(() => {
     if (store.getState().appState.userConfig.mfuidRegistered == false) {
         registerMfuid()
     } else {
@@ -106,9 +107,8 @@ let registerHandle = setInterval(()=>{
 
 
 //// get updates from flengine
+
 fetchMozartMsg();
-
-
 
 
 win.on("move", _.debounce(storeWindowSize, 2000));
