@@ -3,13 +3,14 @@ import {remote} from 'electron';
 
 const logger = remote.getGlobal('sharedObj').logger;
 const flengineUrl = remote.getGlobal('sharedObj').sysConfig.flengine;
+
+
 const defaultConfig = {
     headers: {'Content-Type': 'application/json'}
 };
 
 
-
-export function postJsonPromise(api, load, config = defaultConfig) {
+export default function postJson(api, load, config = defaultConfig) {
     return new Promise((resolve, reject)=>{
         let uri = flengineUrl + api;
 

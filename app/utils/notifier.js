@@ -170,7 +170,10 @@ export default class Notifier {
             let content = x[1] === 'gone' ?
                 `${x[0]} was last seen at ${moment.unix(x[3]).format("h:mm a")}` :
                 `${x[0]} is back since ${moment.unix(x[3]).format("h:mm a")}`;
-            sendMail(subj, content);
+            sendMail(subj, content)
+                .catch(err => {
+                    logger.error(`*** sendMail promise from notifyByEmail rejected: ${err}`);
+                });
             logger.info(`*** email notification sent for ${x[0]} (${x[1]})`);
         })
     }

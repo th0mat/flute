@@ -1,5 +1,5 @@
 import fs from 'fs';
-import {postJsonPromise} from './flengineComm';
+import postJson from './postJson';
 import {remote} from 'electron';
 import {internetAvailable} from './connectionHandling';
 import {store} from '../index';
@@ -37,7 +37,7 @@ export async function mfuidFileHandler() {
 export async function registerMfuid() {
     if (!await internetAvailable()) return;
     let mfuid = remote.getGlobal('sharedObj').mfuid;
-    postJsonPromise('/mfapi/mfuidreg', {mfuid: mfuid})
+    postJson('/mfapi/mfuidreg', {mfuid: mfuid})
         .then(x => {
             let userConfig = JSON.parse(JSON.stringify(store.getState().appState.userConfig));
             userConfig.mfuidRegistered = true;

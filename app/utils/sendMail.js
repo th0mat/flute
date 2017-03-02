@@ -1,7 +1,7 @@
 import moment from 'moment';
 import {store} from '../index';
 import {remote} from 'electron';
-import {postJsonPromise} from './flengineComm';
+import postJson from './postJson';
 import {internetAvailable} from './connectionHandling';
 const logger = remote.getGlobal('sharedObj').logger;
 
@@ -19,7 +19,7 @@ export async function sendMail(subject, bodyText) {
     };
 
     if (await internetAvailable()) {
-        postJsonPromise('/mfapi/notify', mail)
+        postJson('/mfapi/notify', mail)
             .then(resp => logger.info("*** mail sent, server response: ", resp))
             .catch(err => {
                 pending.push(mail);
@@ -45,5 +45,8 @@ export function sendPendingMail(){
         newBodyText += x.message + '\n\n------------------\n\n';
     });
     store.dispatch({type: 'UPDATE_PENDING_MAIL', payload: []});
-    sendMail(subject, newBodyText);
+    sendMail(subject, newBodyText)
+        .catch(err => {
+            logger.error(`*** sendMail promise from sendPendingMail rejected: ${err}`);
+        });
 }

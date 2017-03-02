@@ -123,16 +123,18 @@ describe('e2e tests', function spec() {
             let arr = new Buffer(content, 'base64').toString().split("-");
             expect(arr[0]).to.be.equal('thomasnatter');
             expect(moment().diff(moment(parseInt(arr[1])), 'seconds')).to.be.below(60);
-            await app.stop();
         });
     });
 
     describe('flengine msg handling', function spec(){
 
-        // fetchMozartMsg is called from index
+        // fetchMozartMsg is called from index and then stored in appState.mozartMsg
 
-        it('should have logged response from ', async()=>{
+        it('received mozartMsg ', async()=>{
+            const logs = logLoader();
+            expect(logs.findIndex(x=>x.includes("flengine response from /mfapi/fetchMsg: 200"))).not.equal(-1);
 
+            await app.stop();
         });
 
 

@@ -13,6 +13,12 @@ const version = require('./package.json').version;
 const homeDir = '/Users/thomasnatter/';
 
 
+// check version numbering
+const sysConfigVersion = require('./app/config/sysConfig.json').version
+
+if (version !== sysConfigVersion) throw Error('sysConfig.version != package.version')
+
+
 // delete existing MagicFlute_v_* in downloads folder if any
 
 let ddir = fs.readdirSync(homeDir + "Downloads");

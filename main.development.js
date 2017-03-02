@@ -24,7 +24,6 @@ global.sharedObj = {
 };
 
 
-
 if (process.env.MF_USERDIR === "mock") global.sharedObj.userDir = __dirname + '/mocks/userdir/';
 
 
@@ -48,7 +47,6 @@ try {
     } else {
         throw new Error('logSys not installed correctly');
     }
-    ;
 } catch (e) {
     dialog.showErrorBox("MagicFlute", "It appears MagicFlute has not been installed correctly. The logging system " +
         "is missing or does not have the required permissions. " +
@@ -99,7 +97,7 @@ if (process.env.NODE_ENV === 'development') {
     require('electron-debug')(); // eslint-disable-line global-require
 }
 
-process.on('warning', (w)=>{
+process.on('warning', (w) => {
     logger.warn(`*** main process warning: ${w.name} - ${w.message}`);
 })
 
@@ -108,7 +106,7 @@ process.on('uncaughtException', function (e) {
 })
 
 // rss - resident set size: code segment + stack + heap
-setInterval(()=>{
+setInterval(() => {
     let m = process.memoryUsage();
     logger.info(`*** main memory usage - rss: ${m.rss}, heapUsed: ${m.heapUsed}`)
 }, 1000 * 3600)
@@ -164,7 +162,7 @@ app.on('before-quit', () => {
     }
 });
 
-app.on('window-all-closed', function(){
+app.on('window-all-closed', function () {
     logger.warn("*** window-all-closed event triggered");
     app.quit();
 });
@@ -182,7 +180,6 @@ app.on('ready', async() => {
         x: userConfig.windowParams.x || 100,
         y: userConfig.windowParams.y || 100
     });
-
 
 
     logger.info("*** loadURL: " + `file://${__dirname}/app/app.html`);
