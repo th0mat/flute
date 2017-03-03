@@ -1,7 +1,9 @@
-add auto systemConfig version no update to wrap
+placeholder in filter for activities
+placeholder in add mac address
 
 =======
 DONE
+add auto systemConfig version no update to wrap
 filter visually connected to fields
 quit app on window-all-closed event
 fix download from histories

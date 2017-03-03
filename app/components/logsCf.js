@@ -87,7 +87,9 @@ class LogsCf extends Component {
                     <span>Filter: </span>&nbsp;&nbsp;
 
 
-                    <input type="text" value={this.state.displayFilter} onChange={this.handleDisplayFilter}/>
+                    <input type="text" value={this.state.displayFilter}
+                           placeholder="name"
+                           onChange={this.handleDisplayFilter}/>
                     &nbsp;&nbsp;
 
 

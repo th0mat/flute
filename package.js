@@ -42,6 +42,7 @@ const DEFAULT_OPTS = {
   asar: shouldUseAsar,
   ignore: [
     '^/test($|/)',
+    '^/mocks($|/)',
     '^/release($|/)',
     '^/resources($|/)',
     '^/reference($|/)',
