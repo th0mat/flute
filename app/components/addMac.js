@@ -1,5 +1,8 @@
 import React from 'react';
 import {browserHistory} from 'react-router';
+import Toaster from '../utils/toaster';
+import {Intent} from '@blueprintjs/core';
+
 
 // via props get destination, buttonName, invalidMsg
 export default class AddMac extends React.Component {
@@ -7,11 +10,15 @@ export default class AddMac extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchTarget: 'abcdef123456'
+            searchTarget: ''
         }
     }
 
     buttonAction() {
+        if (this.state.searchTarget === "") {
+            Toaster.show({intent: Intent.WARNING, message: "enter a valid mac address"});
+            return;
+        }
         browserHistory.push(this.props.destination + this.strip(this.state.searchTarget))
     }
 
@@ -34,6 +41,7 @@ export default class AddMac extends React.Component {
 
     validateMac(mac) {
         if (~mac.search(/[^a-f0-9A-F\.:-]/)) return false;
+        if (mac==="") return true;
         return this.strip(mac).length === 12;
     }
 
@@ -47,7 +55,7 @@ export default class AddMac extends React.Component {
             return (
                 <span>
                     {/*<Button bsStyle="default" bsSize="small">search</Button> &nbsp;&nbsp;*/}
-                    <span style={{color: 'red'}}>{this.props.invalidMsg}</span>
+                    <span style={{color: 'orange'}}>{this.props.invalidMsg}</span>
                 </span>
             )
         }
@@ -59,7 +67,9 @@ export default class AddMac extends React.Component {
 
         return (
             <span>
-                <input name="targetMac" value={this.state.searchTarget} type="text"
+                <input name="targetMac" value={this.state.searchTarget}
+                       type="text"
+                       placeholder="mac address"
                        onChange={this.handleChange.bind(this)}/>&nbsp;&nbsp;
                 {this.getWarning()}
             </span>
