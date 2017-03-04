@@ -13,8 +13,6 @@ import {remote, shell} from 'electron';
 
 const logger = remote.getGlobal('sharedObj').logger;
 
-
-
 const props = (store) => {
     return {
         logSysUp: store.appState.logSysUp,
@@ -138,7 +136,7 @@ class DashboardCf extends React.Component {
                     logger.error('error accessing db dashboard/countMacs: ', err);
                     return;
                 }
-                that.setState({noMacs: rows.length});
+                that.setState({noMacs: rows.length - 1}); // -1 for 000000000000 sysup
             });
     }
 
@@ -271,11 +269,13 @@ class DashboardCf extends React.Component {
                     <br/>
 
                     <div>
-                        <Switch style={{display: 'inline'}} checked={this.props.notifyBySys} label={this.props.notifyBySys ? "system notifications are on" :
+                        <Switch id="sysNotify" style={{display: 'inline'}} checked={this.props.notifyBySys}
+                                label={this.props.notifyBySys ? "system notifications are on" :
                          "sytstem notifciations are off"} onChange={this.toggleSysNotifier}>
                         </Switch><br/><br/>
 
-                        <Switch style={{display: 'inline'}} checked={this.props.notifyByEmail} label={this.props.notifyByEmail ? "email notifications are on" :
+                        <Switch id="emailNotify" style={{display: 'inline'}} checked={this.props.notifyByEmail}
+                                label={this.props.notifyByEmail ? "email notifications are on" :
                          "email notifciations are off"} onChange={this.toggleEmailNotifier}>
                         </Switch>
 
@@ -312,11 +312,11 @@ class DashboardCf extends React.Component {
                             </tr>
                             <tr>
                                 <td style={{paddingLeft: '0px'}}>Number of records</td>
-                                <td style={{textAlign: 'right'}}>{formatNumber(this.state.noRecs, 0)}</td>
+                                <td id="noOfRecs" style={{textAlign: 'right'}}>{formatNumber(this.state.noRecs, 0)}</td>
                             </tr>
                             <tr>
                                 <td style={{paddingLeft: '0px'}}>Devices recorded</td>
-                                <td style={{textAlign: 'right'}}>{formatNumber(this.state.noMacs, 0)}</td>
+                                <td id="noOfDevs" style={{textAlign: 'right'}}>{formatNumber(this.state.noMacs, 0)}</td>
                             </tr>
                             <tr>
                                 <td style={{paddingLeft: '0px'}}>Retention period</td>

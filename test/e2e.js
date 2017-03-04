@@ -81,7 +81,34 @@ describe('e2e tests', function spec() {
         it('have the right h4', async() => {
             const h4 = await app.client.$("#firstH4").getText();
             expect(h4).to.be.equal("Logging system status");
-        })
+        });
+
+        it('have the right record count', async() => {
+            const recs = await app.client.$("#noOfRecs").getText();
+            expect(recs).to.be.equal("121,847");
+        });
+
+        it('have the right device number count', async() => {
+            const recs = await app.client.$("#noOfDevs").getText();
+            expect(recs).to.be.equal("10,075");
+        });
+
+        it('have email notification switch set correctly at start-up', async() => {
+            const global = await app.electron.remote.getGlobal('sharedObj');
+            const emailConfig = global.userConfig.autoOnEmailNotifications;
+            const actual = await app.client.$('#emailNotify').getAttribute('label');
+            expect(emailConfig).to.be.equal(actual.includes(' on'));
+        });
+
+        it('have system notification switch set correctly at start-up', async() => {
+            const global = await app.electron.remote.getGlobal('sharedObj');
+            const sysConfig = global.userConfig.autoOnSysNotifications;
+            const actual = await app.client.$('#sysNotify').getAttribute('label');
+            expect(sysConfig).to.be.equal(actual.includes(" on"));
+        });
+
+
+
 
     });
 
@@ -105,7 +132,7 @@ describe('e2e tests', function spec() {
             const mfuid = path.resolve('./mocks/userdir/.mfuid');
             if (fs.existsSync(mfuid)) fs.unlinkSync(mfuid);
             getApp();
-            await delay(15000);
+            await delay(5000);
             expect(fs.existsSync(mfuid)).to.be.ok;
         });
 
@@ -136,10 +163,6 @@ describe('e2e tests', function spec() {
 
             // await app.stop();
         });
-
-
-
-
     })
 
 

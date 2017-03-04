@@ -3,7 +3,7 @@
     "onQuitStay": true,
     "autoOnPapageno": true,
     "autoOnSysNotifications": true,
-    "autoOnEmailNotifications": true,
+    "autoOnEmailNotifications": false,
     "noInternetNotifications": true,
     "notificationEmailAddress": "th.natter@gmail.com",
     "windowGoneTarget": 600,
