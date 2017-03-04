@@ -20,10 +20,11 @@ export async function fetchMozartMsg() {
         postJson('/mfapi/fetchMsg', load)
             .then(msg => {
                 store.dispatch({type: 'UPDATE_MOZART_MSG', payload: msg});
-                logger.info("*** mozartMsg: ", JSON, stringify(msg));
+                logger.info("*** mozartMsg: ", JSON.stringify(msg));
             })
             .catch(err => {
                 logger.error(`*** try ${++tries} of ${maxTries} to fetchMozartMsg failed`);
+                logger.error(`*** fetchMozartMsg error: ${err}`);
                 if (tries < maxTries) {
                     setTimeout(fetchMozartMsg, wait);
                     wait *= 3; // 1 min, 3, 9, 27, 71 ...,
