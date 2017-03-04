@@ -1,5 +1,7 @@
 import moment from 'moment';
 import {remote} from 'electron';
+import currentMoment from './currentMoment';
+
 
 const logger = remote.getGlobal('sharedObj').logger;
 
@@ -37,7 +39,7 @@ export default function trimDb(days) {
         return;
     }
     // delete before ts
-    let tsCut = moment().hours(0).minutes(0).seconds(0).unix() // today
+    let tsCut = currentMoment().hours(0).minutes(0).seconds(0).unix() // today
         - days * 24 * 3600; // full retention days
 
     db

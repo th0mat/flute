@@ -42,8 +42,6 @@ const logger = remote.getGlobal('sharedObj').logger;
 export const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store); // history could be used to listen to nav changes
 
-console.log("*** sharedObj before", remote.getGlobal('sharedObj'))
-
 
 
 // process.on('uncaughtException', (e) => {

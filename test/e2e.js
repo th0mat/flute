@@ -134,7 +134,7 @@ describe('e2e tests', function spec() {
             const logs = logLoader();
             expect(logs.findIndex(x=>x.includes("flengine response from /mfapi/fetchMsg: 200"))).not.equal(-1);
 
-            await app.stop();
+            // await app.stop();
         });
 
 

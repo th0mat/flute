@@ -1,10 +1,10 @@
-if (test) now = date
-get now() function for all nows...
-
+fetch mozartMsg triggers multiple fetches
 
 
 =======
 DONE
+get now() function for all nows...
+if (test) now = date for trim and history
 make some buttons smaller via .flMini
 placeholder in filter for activities
 placeholder in add mac address

@@ -2,6 +2,7 @@ import {connect} from 'react-redux';
 import React from 'react';
 import moment from 'moment';
 import {remote} from 'electron';
+import currentMoment from '../utils/currentMoment';
 
 import HistoryCfHour from "./historyCfHour";
 
@@ -68,7 +69,7 @@ ON sysup.ts5=traffic.ts5;`,
 
     addEmptyTs(agg) {
         const allTs = new Map();
-        const todayDay24 = moment().hours(24).minutes(0).seconds(0).unix();
+        const todayDay24 = currentMoment().hours(24).minutes(0).seconds(0).unix();
         const firstDay00 = moment.unix(agg[0][0]).hours(0).minutes(0).seconds(0).unix();
         // create map of empty ts for all ts between 00:00 of first day and 24:00 of today
         let t = firstDay00 + (60 * 5);
@@ -100,10 +101,10 @@ ON sysup.ts5=traffic.ts5;`,
         }
         history = history.reverse();
         // cut off today's hours from now to midnight
-        const cutHours = 24 - moment().hours() - 1;
+        const cutHours = 24 - currentMoment().hours() - 1;
         history.splice(0, cutHours);
         // mark not yet minutes of current hour neg.
-        let notYetMinutes = Math.floor(moment().minutes() / 5) + 1;
+        let notYetMinutes = Math.floor(currentMoment().minutes() / 5) + 1;
         for (notYetMinutes; notYetMinutes < 12; notYetMinutes++) {
             history[0][1][1][notYetMinutes] = -0.01; // small enough to be rounded out
         }
