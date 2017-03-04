@@ -320,3 +320,10 @@ html, body {
     top: 118px;
     left: 170px;
 }
+
+.flMini {
+    min-width: 21px;
+    min-height: 20px;
+    line-height: 20px;
+    margin-bottom: 8px;
+}

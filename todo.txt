@@ -1,8 +1,13 @@
-placeholder in filter for activities
-placeholder in add mac address
+if (test) now = date
+get now() function for all nows...
+
+
 
 =======
 DONE
+make some buttons smaller via .flMini
+placeholder in filter for activities
+placeholder in add mac address
 add auto systemConfig version no update to wrap
 filter visually connected to fields
 quit app on window-all-closed event

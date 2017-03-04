@@ -20,12 +20,15 @@ global.sharedObj = {
     userConfig: null,
     sysConfig: null,
     mfuid: "not set yet",
+    test: false,
     configReset: false
 };
 
 
-if (process.env.MF_USERDIR === "mock") global.sharedObj.userDir = __dirname + '/mocks/userdir/';
-
+if (process.env.MF_USERDIR === "mock") {
+    global.sharedObj.userDir = __dirname + '/mocks/userdir/';
+    global.sharedObj.test = true;
+}
 
 //// verify that userDir has been created and that the logging system has the
 //// required permissions

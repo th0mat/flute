@@ -45,7 +45,7 @@ class HistoryCfHeader extends React.Component {
                 <div id="flProfileInfo">
                     <h3 style={{display: "inline", bottom: '20px'}}>{found.dname}&nbsp;&nbsp;</h3>
                     {this.props.mac !== SYSUP_MAC
-                        ? tooltipButton("profile settings", "pt-icon-cog", "/profile/" + this.props.mac)
+                        ? tooltipButton("profile settings", "flMini pt-icon-cog", "/profile/" + this.props.mac)
                         : ""}
                     <br/>
                     <p>{sub}</p>

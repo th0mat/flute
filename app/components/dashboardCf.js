@@ -199,7 +199,7 @@ class DashboardCf extends React.Component {
                          hoverOpenDelay={1000}
                          content={<div className="flToolTip"><p>disable logging system for 60 seconds,
                          then turn it on again automatically</p></div>}>
-                    <a className="pt-button pt-icon-automatic-updates" onClick={this.temporaryOff}></a></Tooltip>
+                    <a className="pt-button flMini pt-icon-automatic-updates" onClick={this.temporaryOff}></a></Tooltip>
                 </span>);
         } else {
             if (this.state.countDown == 0)
@@ -291,7 +291,7 @@ class DashboardCf extends React.Component {
                     <br/><br/>
 
                     <h4 style={{display: "inline"}}>Data base status &nbsp;</h4>
-                        {tooltipButton("refresh status", "pt-icon-refresh", '/bouncer/dashboard/1000')}
+                        {tooltipButton("refresh status", "pt-icon-refresh flMini", '/bouncer/dashboard/1000')}
                     <br/><br/>
                     <div>
                         <table className="pt-table pt-striped" style={{margin: 'auto'}}>

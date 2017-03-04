@@ -175,7 +175,7 @@ class ConfigCfTable extends React.Component {
 
                     <tr>
                         <td>Turn logging on/off</td>
-                        <td><a className="pt-button pt-icon-dashboard" role="button"
+                        <td><a className="pt-button flMini pt-icon-dashboard" role="button"
                                onClick={browserHistory.push.bind(this, '/dashboard')}/>
                         </td>
                         <td>click to go to dashboard</td>
@@ -184,7 +184,7 @@ class ConfigCfTable extends React.Component {
                     <tr>
                         <td>Clear database</td>
                         <td>
-                            <a className="pt-button pt-icon-offline" role="button" onClick={this.resetDb.bind(this)}/>
+                            <a className="pt-button flMini pt-icon-offline" role="button" onClick={this.resetDb.bind(this)}/>
                         </td>
                         <td>click to erase all data</td>
                     </tr>
