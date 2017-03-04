@@ -96,7 +96,7 @@ class ConfigCfTable extends React.Component {
                                           onChange={this.handleUserConfigChange.bind(this)}
                                           checked={this.props.userConfig.autoOnPapageno}/>
                         </td>
-                        <td>turn Papageno on at start-up (if not already running)</td>
+                        <td>turn traffic logging system on at application start (if not already running)</td>
 
                     </tr>
 
@@ -107,7 +107,7 @@ class ConfigCfTable extends React.Component {
                                           onChange={this.handleUserConfigChange.bind(this)}
                                           checked={this.props.userConfig.onQuitStay}/>
                         </td>
-                        <td>continue recording history data after 'quit' [recommended]</td>
+                        <td>keep traffic logging system on after application 'quit' [recommended]</td>
                     </tr>
 
                     <tr>
@@ -117,7 +117,7 @@ class ConfigCfTable extends React.Component {
                                           onChange={this.handleUserConfigChange.bind(this)}
                                           checked={this.props.userConfig.autoOnSysNotifications}/>
                         </td>
-                        <td>turn system notifications on at start-up</td>
+                        <td>turn system notifications on at application start</td>
                     </tr>
 
                     <tr>
@@ -138,7 +138,7 @@ class ConfigCfTable extends React.Component {
                                           onChange={this.handleUserConfigChange.bind(this)}
                                           checked={this.props.userConfig.autoOnEmailNotifications}/>
                         </td>
-                        <td>turn email notifications on at start-up</td>
+                        <td>turn email notifications on at application start</td>
                     </tr>
 
                     <tr>

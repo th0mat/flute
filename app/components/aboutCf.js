@@ -86,9 +86,13 @@ class AboutCf extends React.Component {
                     turned on. Email notifications only work if the internet connection is working.</p>
 
                     <h4>Still unclear?</h4>
-                    <p>Think of it this way. There are two programs. One, that's Papageno, records all
-                    traffic data in a little database. The other program, that's MagicFlute, provides a
-                    user interface. It is a little confusing at first. If you have a question,
+                    <p>Think of it this way. There are actually two programs. One records all
+                    traffic data in a little database. You cannot interact with that program
+                    directly - it is turned on or off via the second program, which is MagicFlute.
+                    MagicFlute is what you are dealing with right now. You can quit MagicFlute and
+                    keep the first program, which feeds the traffic history database, running. There is
+                    a setting for that.
+                    It is a little confusing at first. If you have a question,
                     send it to <span onClick={()=>{shell.openExternal("https://www.packetmozart.com/contact/")}}
                                      className="flAboutLink">th.natter@gmail.com</span> and I will try to help.</p>
 
@@ -107,8 +111,10 @@ class AboutCf extends React.Component {
                     <h4>What is PacketMozart?</h4>
                     <p>It's just a silly domain name that was available. MagicFlute wasn't.
                     That domain should belong to Mozart, who wrote an opera with that name, but someone
-                    else was faster. Did I mention that the logging
-                    system which does the Wi-Fi packet catching in the background is named Papageno? The Papageno
+                    else was faster. Did I mention that the traffic logging
+                    system which runs in background is called <span onClick={()=>{
+                       shell.openExternal("https://www.youtube.com/watch?v=87UE2GC5db0")}} className="flAboutLink">
+                        Papageno</span>? The Papageno
                     character in Mozart's opera plays the flute to catch birds. If you write software,
                     you can give it silly names too.</p>
 
