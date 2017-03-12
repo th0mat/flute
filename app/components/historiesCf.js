@@ -6,6 +6,7 @@ import titleCase from '../utils/titleCaseOui';
 import saveAsCsv from '../utils/saveAsCsv';
 import {moveTo} from '../utils/nav';
 import tooltipButton from '../utils/tooltipButton';
+import unknownMac from '../utils/unkownMac';
 
 import {remote} from 'electron';
 
@@ -238,14 +239,14 @@ class HistoriesCf extends Component {
                         < tbody >
                         {hogs.length == 0 ? this.state.zeroHogsMsg : hogs.map(x => {
                                 const target = targets.find(t => t['macHex'] === x[0]);
-                                const dname = (target) ? target.dname : 'Incognito';
+                                const dname = (target) ? target.dname : unknownMac(x[0]).dname;
                                 if (
                                     (titleCase(this.props.oui[x[0].substr(0, 6)]).indexOf(this.props.rangeTraffic.filterManu) === -1)
                                     || (x[0].indexOf(this.props.rangeTraffic.filterMac) === -1)) {
                                     return
                                 } else {
                                     const target = targets.find(t => t['macHex'] === x[0]);
-                                    var avatar = (target) ? target.avatar : this.props.incognito.avatar;
+                                    var avatar = (target) ? target.avatar : unknownMac(x[0]).avatar;
                                     return (
                                         <tr className="flHoverBg" onClick={moveTo.bind(this, 'history', x[0])}
                                             key={x[0]}>

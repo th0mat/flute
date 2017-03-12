@@ -7,7 +7,9 @@ import {moveTo} from '../utils/nav';
 import moment from 'moment';
 import tooltipButton from '../utils/tooltipButton';
 import getWifiDevice from '../utils/getWifiDevice';
+import unknownMac from '../utils/unkownMac';
 import {remote} from 'electron';
+
 
 const logger = remote.getGlobal('sharedObj').logger;
 
@@ -163,8 +165,8 @@ class ScanCf extends Component {
                         <tbody>
                         {hogs.length == 0 ? this.state.zeroHogsMsg : hogs.map(x => {
                                 var target = targets.find(t => t['macHex'] === x[0]);
-                                var dname = (target) ? target.dname : this.props.incognito.dname;
-                                var avatar = (target) ? target.avatar : this.props.incognito.avatar;
+                                var dname = (target) ? target.dname : unknownMac(x[0]).dname;
+                                var avatar = (target) ? target.avatar : unknownMac(x[0]).avatar;
                                 return (
                                     <tr onClick={moveTo.bind(this, 'history', x[0])} key={x[0]} className="flHoverBg">
                                         <td><img className="flTablePix" src={this.props.userDir + avatar} alt=""/></td>

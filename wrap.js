@@ -15,7 +15,6 @@ const homeDir = '/Users/thomasnatter/';
 
 // check version numbering
 const sysConfigVersion = require('./app/config/sysConfig.json').version
-
 if (version !== sysConfigVersion) throw Error('sysConfig.version != package.version')
 
 
@@ -32,10 +31,11 @@ fs.removeSync(homeDir + 'Downloads/MagicFlute.zip');
 fs.removeSync(homeDir + 'Downloads/MagicFlute');
 
 
-// create a file to stream archive data to. 
+// create a file to stream archive data to.
 
-var output = fs.createWriteStream(homeDir + `Downloads/MagicFlute_v_${version}.zip`);
-var archive = archiver('zip', {
+const versionString = version.replace(/\./g, '_');  // to avoid auto decompression name prob in Safari
+const output = fs.createWriteStream(homeDir + `Downloads/MagicFlute_v_${versionString}.zip`);
+const archive = archiver('zip', {
     store: false // set to true for no compression.
 });
 

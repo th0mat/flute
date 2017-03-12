@@ -14,15 +14,19 @@
         "dname": "Incognito",
         "avatar": "img/Incognito.jpg"
     },
+    "random": {
+        "dname": "Ramdomized",
+        "avatar": "img/Random.png"
+    },
     "sysUp": {
         "macHex": "000000000000",
         "dname": "MagicFlute",
         "avatar": "img/MagicFlute.jpg"
     },
     "windowParams": {
-        "x": 81,
-        "y": 58,
-        "width": 1044,
-        "height": 885
+        "x": 761,
+        "y": 80,
+        "width": 414,
+        "height": 502
     }
 }

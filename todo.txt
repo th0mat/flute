@@ -1,8 +1,10 @@
-fetch mozartMsg triggers multiple fetches
-
-
+randomized mac avatar
+rm sysup, random, incognito from usercongig -> sysconfig
 =======
+
+
 DONE
+fetch mozartMsg triggers multiple fetches
 get now() function for all nows...
 if (test) now = date for trim and history
 make some buttons smaller via .flMini

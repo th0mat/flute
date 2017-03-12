@@ -6,6 +6,7 @@ const webpack = require('webpack');
 const electronCfg = require('./webpack.config.electron');
 const cfg = require('./webpack.config.production');
 const packager = require('electron-packager');
+const fs = require('fs-extra');
 const del = require('del');
 const exec = require('child_process').exec;
 const pkg = require('./package.json');
@@ -111,7 +112,7 @@ async function startPack() {
      */
     await build(electronCfg);
     await build(cfg);
-    const paths = await del('release');
+    fs.removeSync('./release');
 
     // Start the packing process
     if (shouldBuildAll) {
