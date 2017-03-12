@@ -7,21 +7,19 @@ import {moveTo} from '../utils/nav';
 import moment from 'moment';
 import tooltipButton from '../utils/tooltipButton';
 import getWifiDevice from '../utils/getWifiDevice';
-import unknownMac from '../utils/unkownMac';
 import {remote} from 'electron';
+import Mac from '../utils/mac';
 
 
 const logger = remote.getGlobal('sharedObj').logger;
 
 const props = (store) => {
     return {
-        targets: store.appState.targets,
         oui: store.appState.oui,
         scanTraffic: store.appState.scanTraffic,
         liveSys: store.appState.userConfig.liveSys,
         userDir: store.appState.userDir,
         appDir: store.appState.appDir,
-        incognito: store.appState.userConfig.incognito
 
     }
 }
@@ -164,13 +162,12 @@ class ScanCf extends Component {
                         </thead>
                         <tbody>
                         {hogs.length == 0 ? this.state.zeroHogsMsg : hogs.map(x => {
-                                var target = targets.find(t => t['macHex'] === x[0]);
-                                var dname = (target) ? target.dname : unknownMac(x[0]).dname;
-                                var avatar = (target) ? target.avatar : unknownMac(x[0]).avatar;
+
+                                const mac = new Mac(x[0])
                                 return (
                                     <tr onClick={moveTo.bind(this, 'history', x[0])} key={x[0]} className="flHoverBg">
-                                        <td><img className="flTablePix" src={this.props.userDir + avatar} alt=""/></td>
-                                        <td><span>{dname}</span></td>
+                                        <td><img className="flTablePix" src={this.props.userDir + mac.avatar} alt=""/></td>
+                                        <td><span>{mac.dname}</span></td>
                                         <td style={{fontFamily: "monospace"}}>{x[0]}</td>
                                         <td>{titleCase(this.props.oui[x[0].substr(0, 6)])}</td>
                                         <td style={{textAlign: 'right'}}>{x[1].toLocaleString()}</td>
