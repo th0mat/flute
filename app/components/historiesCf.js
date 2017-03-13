@@ -157,6 +157,7 @@ class HistoriesCf extends Component {
 
     render() {
         let hogs = this.state.hogs;
+        
         hogs = hogs.sort((x, y) => y[1] - x[1]);
 
         return (

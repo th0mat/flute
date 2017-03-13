@@ -9,20 +9,6 @@
     "windowGoneTarget": 600,
     "windowGoneSysup": 300,
     "mfuidRegistered": true,
-    "incognito": {
-        "macHex": "666",
-        "dname": "Incognito",
-        "avatar": "img/Incognito.jpg"
-    },
-    "random": {
-        "dname": "Ramdomized",
-        "avatar": "img/Random.png"
-    },
-    "sysUp": {
-        "macHex": "000000000000",
-        "dname": "MagicFlute",
-        "avatar": "img/MagicFlute.jpg"
-    },
     "windowParams": {
         "x": 761,
         "y": 80,

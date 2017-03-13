@@ -129,8 +129,8 @@ function buildTrafficLogEntries(allTraffic, activityLog) {
 
 function buildSysupLogEntries(sysups, activityLog) {
     const window = store.getState().appState.userConfig.windowGoneSysup;
+    const sysUp = remote.getGlobal('sharedObj').sysConfig.sysUp;
     const activities = activityLog.activities;
-    const sysUp = store.getState().appState.userConfig.sysUp;
     sysups
         .forEach((x, i, arr) => {
             if (i === 0) {  // first sysup entry for incremental log build

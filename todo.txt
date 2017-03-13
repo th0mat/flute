@@ -1,10 +1,13 @@
+reload consts of mac class after targets change
 
 
-rm sysup, random, incognito from usercongig -> sysconfig
+
 =======
 
 
 DONE
+add SYSUP MAC to  new Mac();
+rm sysup, random, incognito from usercongig -> sysconfig
 randomized mac avatar
 fetch mozartMsg triggers multiple fetches
 get now() function for all nows...
