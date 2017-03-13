@@ -136,7 +136,7 @@ class DashboardCf extends React.Component {
                     logger.error('error accessing db dashboard/countMacs: ', err);
                     return;
                 }
-                that.setState({noMacs: rows.length - 1}); // -1 for 000000000000 sysup
+                that.setState({noMacs: rows.length});
             });
     }
 

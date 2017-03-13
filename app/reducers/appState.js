@@ -12,7 +12,7 @@ const initial = {
     targets: [],
     imageBank: [],
     oui: {},
-    rangeTraffic: {fromDt: "", toDt: "", data: [], filterManu: "", filterMac: ""},
+    rangeTraffic: {fromDt: "", toDt: "", data: [], filterManu: "", filterMac: "", page: 1},
     scanTraffic: {data: new Map(), filterManu: "", filterMac: "", scanOn: false},
     activityLog: {lastLog: 0, activities: []},
     notifier: {notifierId: null}, // needed to turn it off

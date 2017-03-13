@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import moment from 'moment';
+import {Intent, Popover, Position, Switch, Tooltip} from "@blueprintjs/core";
 
 import titleCase from '../utils/titleCaseOui';
 import saveAsCsv from '../utils/saveAsCsv';
@@ -20,6 +21,8 @@ const props = (store) => {
         rangeTraffic: store.appState.rangeTraffic,
     }
 }
+
+const PER_PAGE = 5;
 
 class HistoriesCf extends Component {
 
@@ -42,6 +45,8 @@ class HistoriesCf extends Component {
 
         this.state = {
             hogs: this.props.rangeTraffic.data || [],
+            filtered: this.props.rangeTraffic.filtered || [],
+            currentPage: this.props.rangeTraffic.page || 1,
             zeroHogsMsg: <tr>
                 <td>select range then click play</td>
             </tr>,
@@ -57,9 +62,9 @@ class HistoriesCf extends Component {
     }
 
 
-
     componentWillUnmount() {
         this.db.close();
+        this.dispatchTrafficRange();
     }
 
 
@@ -81,6 +86,7 @@ class HistoriesCf extends Component {
                 } else {
                     rows.forEach((x) => agg.push([x.mac, x.trafficVol]));
                 }
+                agg = agg.sort((x, y) => y[1] - x[1]);
                 this.setState({hogs: agg});
                 if (agg.length === 0) {
                     this.setState({
@@ -89,14 +95,16 @@ class HistoriesCf extends Component {
                         </tr>
                     })
                 }
+                this.applyFilter();
                 this.dispatchTrafficRange();
             }.bind(this));
     }
 
     clearResults() {
-        this.setState({hogs: []});
+        this.setState({hogs: [], filtered: [], currentPage: 1});
         this.props.dispatch({
-            type: "TRAFFIC_RANGE_DATA", payload: {fromDt: "", toDt: "", data: [], filterManu: "", filterMac: ""}
+            type: "TRAFFIC_RANGE_DATA",
+            payload: {fromDt: "", toDt: "", page: 1, data: [], filtered: [], filterManu: "", filterMac: ""}
         })
     }
 
@@ -104,7 +112,8 @@ class HistoriesCf extends Component {
         this.props.dispatch({
             type: "TRAFFIC_RANGE_DATA", payload: {
                 fromDt: this.state.range.fromDt, toDt: this.state.range.toDt, data: this.state.hogs,
-                filterManu: this.state.filter.manu, filterMac: this.state.filter.mac
+                filtered: this.state.filtered, filterManu: this.state.filter.manu, filterMac: this.state.filter.mac,
+                page: this.state.currentPage
             }
         })
     }
@@ -132,11 +141,6 @@ class HistoriesCf extends Component {
     }
 
     applyFilter() {
-        this.dispatchTrafficRange();
-    }
-
-    saveAs() {
-        let content = "mac; bytes; name; manufacturer\n";
         let filtered = this.state.hogs;
         // apply filters
         if (this.state.filter.manu != "" || this.state.filter.mac != "") {
@@ -144,8 +148,14 @@ class HistoriesCf extends Component {
                 return (x[0].includes(this.state.filter.mac) &&
                 (titleCase(new Mac(x[0]).manuf).includes(this.state.filter.manu)));
             })
-
         }
+        this.setState({filtered: filtered, currentPage: 1});
+        this.dispatchTrafficRange();
+    }
+
+    saveAs() {
+        let content = "mac; bytes; name; manufacturer\n";
+        let filtered = this.state.filtered;
         // create content string
         for (let m of filtered) {
             let mac = new Mac(m[0]);
@@ -155,10 +165,53 @@ class HistoriesCf extends Component {
         saveAsCsv(`history-data@${ts}.txt`, content);
     }
 
+    pageNav() {
+        const maxPage = Math.floor(this.state.filtered.length / PER_PAGE) + 1;
+        if (this.state.filtered.length === 0) return;
+        const menu = [
+            ['first page', 'pt-icon-double-chevron-left', () => this.setState({currentPage: 1})],
+            ['previous page', 'pt-icon-chevron-left', () => {
+                if (this.state.currentPage === 1) return;
+                this.setState({currentPage: this.state.currentPage - 1})
+            }],
+            ['next page', 'pt-icon-chevron-right', () => {
+                if (this.state.currentPage === maxPage) return;
+                this.setState({
+                    currentPage: this.state.currentPage + 1
+                })
+            }],
+            ['last page', 'pt-icon-double-chevron-right', () => this.setState({currentPage: maxPage})],
+        ]
+        return (
+            <div>
+                <div id="flPageNavStats">
+                    {(this.state.currentPage - 1) * PER_PAGE +1}-
+                    {this.state.currentPage * PER_PAGE > this.state.filtered.length ? this.state.filtered.length :
+                        this.state.currentPage * PER_PAGE}
+                    /{this.state.filtered.length}
+                </div>
+                <div id="flPageNav">
+                    {menu.map(x => {
+                        return (
+                            <Tooltip key={x[0]} position={Position.BOTTOM}
+                                     hoverOpenDelay={1000}
+                                     content={x[0]}><a id={`hm-${x[0]}`} className={`pt-button pt-minimal ${x[1]}`}
+                                                       onClick={x[2]} role="button"></a>
+                            </Tooltip>
+                        )
+
+                    })}
+
+
+                </div>
+            </div>)
+
+    }
+
     render() {
-        let hogs = this.state.hogs;
-        
-        hogs = hogs.sort((x, y) => y[1] - x[1]);
+        let hogs = this.state.filtered.slice(
+            (this.state.currentPage - 1) * PER_PAGE, this.state.currentPage * PER_PAGE);
+
 
         return (
 
@@ -228,26 +281,21 @@ class HistoriesCf extends Component {
                         < tbody >
                         {hogs.length == 0 ? this.state.zeroHogsMsg : hogs.map(x => {
                                 const mac = new Mac(x[0]);
-                                if (
-                                    (titleCase(mac.manuf).indexOf(this.props.rangeTraffic.filterManu) === -1)
-                                    || (x[0].indexOf(this.props.rangeTraffic.filterMac) === -1)) {
-                                    return
-                                } else {
-                                    return (
-                                        <tr className="flHoverBg" onClick={moveTo.bind(this, 'history', x[0])}
-                                            key={x[0]}>
-                                            <td><img className="flTablePix" src={this.props.userDir + mac.avatar} alt=""/>
-                                            </td>
-                                            <td><span>{mac.dname}</span></td>
-                                            <td style={{fontFamily: "monospace"}}>{x[0]}</td>
-                                            <td>{titleCase(mac.manuf, 22)}</td>
-                                            <td style={{textAlign: 'right'}}>{x[1].toLocaleString()}</td>
-                                        </tr>
-                                    )
-                                }
+                                return (
+                                    <tr className="flHoverBg" onClick={moveTo.bind(this, 'history', x[0])}
+                                        key={x[0]}>
+                                        <td><img className="flTablePix" src={this.props.userDir + mac.avatar} alt=""/>
+                                        </td>
+                                        <td><span>{mac.dname}</span></td>
+                                        <td style={{fontFamily: "monospace"}}>{x[0]}</td>
+                                        <td>{titleCase(mac.manuf, 22)}</td>
+                                        <td style={{textAlign: 'right'}}>{x[1].toLocaleString()}</td>
+                                    </tr>
+                                )
                             })}
                         </tbody >
                     </table >
+                    {this.pageNav()}
                 </div>
             </div>
         );

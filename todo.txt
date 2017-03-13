@@ -1,11 +1,11 @@
 reload consts of mac class after targets change
 
 
-
 =======
 
 
 DONE
+histories pagination
 add SYSUP MAC to  new Mac();
 rm sysup, random, incognito from usercongig -> sysconfig
 randomized mac avatar

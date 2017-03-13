@@ -331,3 +331,14 @@ html, body {
     line-height: 20px;
     margin-bottom: 8px;
 }
+
+#flPageNav {
+    text-align: center;
+}
+
+#flPageNavStats {
+    margin-top: 20px;
+    text-align: center;
+    color: grey;
+    font-size: x-small;
+}
