@@ -1,4 +1,3 @@
-
 import {remote} from 'electron';
 import {store} from '../index';
 
@@ -7,16 +6,21 @@ import {store} from '../index';
 const incognito = remote.getGlobal('sharedObj').sysConfig.incognito;
 const random = remote.getGlobal('sharedObj').sysConfig.random;
 const sysUp = remote.getGlobal('sharedObj').sysConfig.sysUp;
+
 const resInc = {dname: incognito.dname, avatar: incognito.avatar};
 const resRand = {dname: random.dname, avatar: random.avatar};
+
 const randStr = '2367abef';
 
-let oui, targets;
-
+let targets, oui;
 let loaded = false;
 
-//
-export function reload(){
+
+
+// loading in constructor is too slow
+// when targets are changed, a reload needs to happen
+// via targets action
+export function reloadTargets(){
     oui = store.getState().appState.oui;
     targets = store.getState().appState.targets;
     targets.push(sysUp);
@@ -24,12 +28,13 @@ export function reload(){
 }
 
 
+
 export default class Mac {
     constructor(mac) {
         this.mac = mac;
         // this.targets = store.getState().appState.targets;
         // this.targets.push(sysUp);
-        if (!loaded) reload();
+        if (!loaded) reloadTargets();
     }
 
     get dname(){
@@ -61,7 +66,4 @@ export default class Mac {
         }
         return '';
     }
-
-
-
 }

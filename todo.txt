@@ -1,10 +1,12 @@
-reload consts of mac class after targets change
+filter histories by profiles
+
 
 
 =======
 
 
 DONE
+reload consts of mac class after targets change
 histories pagination
 add SYSUP MAC to  new Mac();
 rm sysup, random, incognito from usercongig -> sysconfig

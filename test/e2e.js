@@ -13,6 +13,8 @@ import {Application} from 'spectron';
 import {logLoader, logPath} from './utils/logLoader';
 import refreshMocks from './utils/refreshMocks';
 
+let app;
+
 function getApp(){
     app = new Application({
         path: electronPath,
@@ -27,8 +29,6 @@ function getApp(){
 
 const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
-let app;
-let client;
 
 refreshMocks();
 
@@ -38,10 +38,10 @@ refreshMocks();
 describe('e2e tests', function spec() {
     this.timeout(60 * 1000);
 
-    before(async() => {
-        getApp();
-        await delay(5000)
-    });
+    // before(async() => {
+    //     getApp();
+    //     await delay(5000)
+    // });
 
     after(async() => {
         // await app.stop();
@@ -59,6 +59,9 @@ describe('e2e tests', function spec() {
     describe('header, footer & title', function spec() {
 
         it('open window with correct title', async() => {
+            getApp();
+            await delay(5000);
+
             const title = await app.client.getTitle();
             expect(title).to.be.equal('MagicFlute');
         });
@@ -90,7 +93,7 @@ describe('e2e tests', function spec() {
 
         it('have the right device number count', async() => {
             const recs = await app.client.$("#noOfDevs").getText();
-            expect(recs).to.be.equal("10,075");
+            expect(recs).to.be.equal("10,076");
         });
 
         it('have email notification switch set correctly at start-up', async() => {

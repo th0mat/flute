@@ -2,7 +2,7 @@ import {readFilePromise, writeFilePromise} from '../utils/promisify';
 import fs from 'fs';
 import {store} from '../index';
 import {remote} from 'electron';
-
+import {reloadTargets} from '../utils/mac';
 const logger = remote.getGlobal('sharedObj').logger;
 
 
@@ -11,7 +11,7 @@ export function loadUserConfig() {
     return function (dispatch) {
         readFilePromise(configPath)
             .then((data) => {
-            return dispatch({
+                return dispatch({
                     type: "USER_CONFIG_LOADED", payload: JSON.parse(data)
                 });
             })
@@ -26,7 +26,7 @@ export function saveUserConfig(configObj) {
     const configPath = store.getState().appState.userDir + 'userConfig.json';
     return function (dispatch) {
         writeFilePromise(configPath, configObj)
-            .then((data)=>dispatch(
+            .then((data) => dispatch(
                 {type: "USER_CONFIG_LOADED", payload: configObj}
             ))
             .catch((err) => {
@@ -40,7 +40,7 @@ export function loadTargets() {
     return function (dispatch) {
         const targetsPath = store.getState().appState.userDir + 'targets.json'
         readFilePromise(targetsPath)
-            .then((data)=>dispatch({
+            .then((data) => dispatch({
                 type: "TARGETS_LOADED", payload: JSON.parse(data)
             })).catch((err) => {
             logger.error('*** loading of targets failed: ', err);
@@ -48,24 +48,25 @@ export function loadTargets() {
     }
 }
 
-export function loadOui() {
+export function postTargetChanges(targets) {
+    const targetsPath = store.getState().appState.userDir + 'targets.json';
     return function (dispatch) {
-        const ouiPath = store.getState().appState.appDir + '/config/oui.json';
-        readFilePromise(ouiPath).then((data)=>dispatch(
-            {type: "OUI_LOADED", payload: JSON.parse(data)}
-        )).catch((err) => {
-            logger.error('*** loading of oui failed: ', err);
+        writeFilePromise(targetsPath, targets).then((data) => {
+            dispatch({type: "TARGETS_LOADED", payload: targets});
+            reloadTargets();
+        }).catch((err) => {
+            logger.error('*** updating of targets failed: ', err);
         })
     }
 }
 
-export function postTargetChanges(targets) {
-    const targetsPath = store.getState().appState.userDir + 'targets.json';
+export function loadOui() {
     return function (dispatch) {
-        writeFilePromise(targetsPath, targets).then((data)=>dispatch(
-            {type: "TARGETS_LOADED", payload: targets}
+        const ouiPath = store.getState().appState.appDir + '/config/oui.json';
+        readFilePromise(ouiPath).then((data) => dispatch(
+            {type: "OUI_LOADED", payload: JSON.parse(data)}
         )).catch((err) => {
-            logger.error('*** updating of targets failed: ', err);
+            logger.error('*** loading of oui failed: ', err);
         })
     }
 }
@@ -89,12 +90,14 @@ export function uploadProfileImage(file, index, targets) {
 export function loadImgBank() {
     return function (dispatch) {
         const imgBankDir = store.getState().appState.userDir + 'img';
-        fs.readdir(imgBankDir, (err, result)=> {
+        fs.readdir(imgBankDir, (err, result) => {
             if (err) {
                 logger.error('*** loading img bank failed: ' + err);
                 return;
             }
-            let cleaned = result.filter(x=>{return !x.startsWith(".");}); // excl .DS_store, etc.
+            let cleaned = result.filter(x => {
+                return !x.startsWith(".");
+            }); // excl .DS_store, etc.
             dispatch({type: 'IMG_BANK_LOADED', payload: cleaned});
 
         });

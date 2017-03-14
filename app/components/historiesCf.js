@@ -22,7 +22,7 @@ const props = (store) => {
     }
 }
 
-const PER_PAGE = 5;
+const PER_PAGE = 100;
 
 class HistoriesCf extends Component {
 
@@ -189,6 +189,7 @@ class HistoriesCf extends Component {
                     {this.state.currentPage * PER_PAGE > this.state.filtered.length ? this.state.filtered.length :
                         this.state.currentPage * PER_PAGE}
                     /{this.state.filtered.length}
+                    {this.state.filtered.length !== this.state.hogs.length ? " [filtered]" : ""}
                 </div>
                 <div id="flPageNav">
                     {menu.map(x => {
