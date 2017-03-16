@@ -22,7 +22,7 @@ let loaded = false;
 // via targets action
 export function reloadTargets(){
     oui = store.getState().appState.oui;
-    targets = store.getState().appState.targets;
+    targets = [...store.getState().appState.targets];
     targets.push(sysUp);
     loaded = true;
 }

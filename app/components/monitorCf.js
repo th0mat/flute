@@ -1,7 +1,3 @@
-/**
- * Created by thomasnatter on 8/13/16.
- */
-
 import React from 'react';
 import {connect} from 'react-redux'
 import pty from 'pty.js';

@@ -1,11 +1,11 @@
 filter histories by profiles
 
 
-
 =======
 
 
 DONE
+magic flute/sysup appears in profiles
 reload consts of mac class after targets change
 histories pagination
 add SYSUP MAC to  new Mac();

@@ -8,6 +8,7 @@ const initial = {
     userDir: remote.getGlobal('sharedObj').userDir,
     userConfig: remote.getGlobal('sharedObj').userConfig,
     logSysUp: false,
+    monitorCp: null,
     internetOn: null,
     targets: [],
     imageBank: [],
@@ -74,6 +75,10 @@ export default function appState(state = initial, action) {
 
         case 'ADD_NOTIFIER': {
             return {...state, notifier: action.payload};
+        }
+
+        case 'SET_MONITOR_CP': {
+            return {...state, monitorCp: action.payload}
         }
 
         case 'UPDATE_PENDING_MAIL': {

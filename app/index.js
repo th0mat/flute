@@ -8,6 +8,8 @@ import {ipcRenderer} from 'electron';
 import * as _ from 'lodash';
 import './magicFlute.global.css';
 
+
+
 import LoaderPage from './containers/loader';
 import BouncerPage from './containers/bouncer';
 import DashboardPage from './containers/dashboard';
@@ -22,6 +24,7 @@ import TimeRangePage from './containers/histories';
 import ConfigPage from './containers/config';
 import TestPage from './containers/test'
 
+import './utils/liveEvents';
 import {updateActivityLog} from './utils/updateActivityLog';
 import Notifier from './utils/notifier';
 import {updateInternetStatus} from './utils/connectionHandling';
@@ -42,7 +45,7 @@ const logger = remote.getGlobal('sharedObj').logger;
 export const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store); // history could be used to listen to nav changes
 
-
+const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
 // process.on('uncaughtException', (e) => {
 //      logger.error("*** uncaught renderer process exception: ", e);

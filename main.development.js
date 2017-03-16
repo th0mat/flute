@@ -157,7 +157,8 @@ app.on('window-all-closed', () => {
 
 app.on('before-quit', () => {
     logger.info("*** cleaning up...");
-    logger.info("*** onQuitStay: ", global.sharedObj.userConfig.onQuitStay)
+    logger.info("*** onQuitStay: ", global.sharedObj.userConfig.onQuitStay);
+    turnLiveMonitorOff();
     if (!global.sharedObj.userConfig.onQuitStay) {
         turnLogSysOff();
     } else {
@@ -365,6 +366,24 @@ function turnLogSysOff() {
         pid = parseInt(pidString);
     } catch (e) {
         logger.error("*** problem turning off logSystem: ", e);
+        return 0;
+    }
+    if (pid) {
+        child_process.exec("kill " + pid);
+        logger.info("*** killed logSys pid: ", pid)
+    }
+}
+
+
+
+function turnLiveMonitorOff() {
+    let pid;
+    try {
+        const pidRaw = child_process.execSync(`pgrep pap_live`);
+        const pidString = pidRaw.toString("utf-8").trim();
+        pid = parseInt(pidString);
+    } catch (e) {
+        logger.error("*** problem turning off live monitor: ", e);
         return 0;
     }
     if (pid) {
