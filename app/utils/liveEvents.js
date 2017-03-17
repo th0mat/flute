@@ -39,11 +39,12 @@ setInterval(x => {
 
 
 function parseAndEmit(raw) {
-    var arr = raw.match(/{.*?}/g);  // splits combined json obj, e.g. {}\n{}
+    let arr = raw.match(/{.*?}/g);
+    // let arr = raw.split('\n');
     arr.forEach(x => {
         ee.emit('data', x);
     })
-    if (arr.length > 1) logger.warn(`*** split data into ${arr.length} events`)
+    if (arr.length > 1) logger.info(`*** split data into ${arr.length} events`)
 }
 
 

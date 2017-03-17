@@ -388,7 +388,7 @@ function turnLiveMonitorOff() {
     }
     if (pid) {
         child_process.exec("kill " + pid);
-        logger.info("*** killed logSys pid: ", pid)
+        logger.info("*** killed live monitor pid: ", pid)
     }
 }
 
