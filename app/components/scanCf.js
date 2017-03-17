@@ -8,6 +8,7 @@ import tooltipButton from '../utils/tooltipButton';
 import {remote} from 'electron';
 import Mac from '../utils/mac';
 import * as liveEvents from '../utils/liveEvents';
+import {store} from '../index';
 
 const logger = remote.getGlobal('sharedObj').logger;
 
@@ -15,6 +16,7 @@ const props = (store) => {
     return {
         oui: store.appState.oui,
         scanTraffic: store.appState.scanTraffic,
+        scanData: store.appState.scanData,
         liveSys: store.appState.userConfig.liveSys,
         userDir: store.appState.userDir,
         appDir: store.appState.appDir,
@@ -24,13 +26,41 @@ const props = (store) => {
 }
 
 
+function scan(data) {
+    try {
+        var justIn = JSON.parse(data);
+        //todo: try to move getState outside
+        store.dispatch({type: "SCAN_DATA", payload: addLastIn(store.getState().appState.scanData, justIn)});
+    } catch (e) {
+        logger.error("*** parsing error - data received: ", data.toString())
+        logger.error("*** parsing error - error: ", e)
+    }
+}
+
+function addLastIn(hogs, justIn) {
+    hogs = new Map(hogs);  //clone hogs to maintain immutability
+    for (var x in justIn) {
+        if (justIn.hasOwnProperty(x)) {
+            if (hogs.has(x)) {
+                hogs.set(x, hogs.get(x) + parseInt(justIn[x]));
+            }
+            else {
+                hogs.set(x, parseInt(justIn[x]))
+            }
+        }
+    }
+    return hogs;
+}
+
+let term;
+
 
 class ScanCf extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            hogs: this.props.scanTraffic.data,
+            hogs: this.props.scanData,
             zeroHogsMsg: <tr>
                 <td>click play to start scan</td>
             </tr>,
@@ -40,7 +70,6 @@ class ScanCf extends Component {
         this.resetScan = this.resetScan.bind(this);
         this.pauseScan = this.pauseScan.bind(this);
         this.saveAs = this.saveAs.bind(this);
-        this.scan = this.scan.bind(this);
         this.removeListener = this.removeListener.bind(this);
         this.radarGif = this.props.appDir + 'assets/img/radar.gif';
         this.emptyGif = this.props.appDir + 'assets/img/empty.gif';
@@ -48,75 +77,39 @@ class ScanCf extends Component {
 
 
     componentWillUnmount() {
-        this.removeListener();
-        this.updateTrafficScanData();
-
     };
 
-
-    scan(data) {
-        try {
-            var justIn = JSON.parse(data);
-            this.setState({hogs: this.addLastIn(this.state.hogs, justIn)});
-        } catch (e) {
-            logger.error("*** parsing error - data received: ", data.toString())
-        }
-    }
 
     startScan() {
         if (!this.monitorCp) liveEvents.turnMonitorOn();
-        this.term = liveEvents.ee;
+        term = liveEvents.ee;
         this.removeListener();
-        this.term.on('data', this.scan);
+        term.on('data', scan);
         this.setState({scanOn: true});
     };
 
-    addLastIn(hogs, justIn) {
-        hogs = new Map(hogs);  //clone hogs to maintain immutability
-        for (var x in justIn) {
-            if (justIn.hasOwnProperty(x)) {
-                if (hogs.has(x)) {
-                    hogs.set(x, hogs.get(x) + parseInt(justIn[x]));
-                }
-                else {
-                    hogs.set(x, parseInt(justIn[x]))
-                }
-            }
-        }
-        return hogs;
-    }
-
-
-    updateTrafficScanData() {
-        let scanObj = {...this.props.scanTraffic};
-        scanObj.data = this.state.hogs;
-        scanObj.scanOn = this.state.scanOn;
-        this.props.dispatch({type: "TRAFFIC_SCAN_DATA", payload: scanObj});
-    }
 
     removeListener(){
-        if (this.term && this.term.listeners('data').includes(this.scan)) {
-            this.term.removeListener('data', this.scan);
+        if (term && term.listeners('data').includes(scan)) {
+            term.removeListener('data', scan);
             this.setState({scanOn: false});
         }
     }
 
     pauseScan() {
         this.removeListener();
-        this.updateTrafficScanData();
     };
 
     resetScan() {
         this.removeListener();
-        this.setState({hogs: new Map()});
-        this.updateTrafficScanData();
+        this.props.dispatch({type: "SCAN_DATA", payload: new Map()});
     };
 
 
     saveAs() {
         let content = "mac; bytes; name; manufacturer\n";
         let targets = this.props.targets;
-        for (let m of this.state.hogs) {
+        for (let m of this.props.scanData) {
             var target = targets.find(t => t['macHex'] === m[0]);
             var dname = (target) ? target.dname : 'Unknown';
             content += `${m[0]}; ${m[1]}; ${dname}; ${titleCase(this.props.oui[m[0].substr(0, 6)], 99)}\n`;
@@ -126,7 +119,7 @@ class ScanCf extends Component {
     }
 
     render() {
-        let hogs = Array.from(this.state.hogs);
+        let hogs = Array.from(this.props.scanData);
         const targets = this.props.targets;
         hogs = hogs.sort((x, y) => y[1] - x[1]);
         const radar =

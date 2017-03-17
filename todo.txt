@@ -1,3 +1,6 @@
+turn liveMonitor on/off
+no radar icon in scan when liveMonitor off
+
 filter histories by profiles
 
 

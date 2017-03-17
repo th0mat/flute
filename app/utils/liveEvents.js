@@ -13,6 +13,8 @@ let cp,
 
 setTimeout(turnMonitorOn, 2000);
 
+
+//todo: change cwd to avoid creation of new papageno.db
 export function turnMonitorOn() {
     if (cp) return;
     //todo: use sysConfig

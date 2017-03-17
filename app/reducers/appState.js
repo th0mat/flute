@@ -14,7 +14,8 @@ const initial = {
     imageBank: [],
     oui: {},
     rangeTraffic: {fromDt: "", toDt: "", data: [], filterManu: "", filterMac: "", page: 1},
-    scanTraffic: {data: new Map(), filterManu: "", filterMac: "", scanOn: false},
+    scanData: new Map(),
+    //scanTraffic: {data: new Map(), filterManu: "", filterMac: "", scanOn: false},
     activityLog: {lastLog: 0, activities: []},
     notifier: {notifierId: null}, // needed to turn it off
     notifyBySys: false,
@@ -65,9 +66,9 @@ export default function appState(state = initial, action) {
             return {...state, rangeTraffic: action.payload};
         }
 
-        case "TRAFFIC_SCAN_DATA": {
-            return {...state, scanTraffic: action.payload};
-        }
+        // case "TRAFFIC_SCAN_DATA": {
+        //     return {...state, scanTraffic: action.payload};
+        // }
 
         case 'OUI_LOADED': {
             return {...state, oui: action.payload};
@@ -83,6 +84,10 @@ export default function appState(state = initial, action) {
 
         case 'UPDATE_PENDING_MAIL': {
             return {...state, pendingMail: action.payload};
+        }
+
+        case 'SCAN_DATA': {
+            return {...state, scanData: action.payload}
         }
 
         default:
