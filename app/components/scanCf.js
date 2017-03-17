@@ -81,7 +81,9 @@ class ScanCf extends Component {
 
 
     startScan() {
-        if (!this.monitorCp) liveEvents.turnMonitorOn();
+        if (!this.monitorCp) {
+            //liveEvents.turnLiveMonitorOn()
+            };
         term = liveEvents.ee;
         this.removeListener();
         term.on('data', scan);

@@ -168,21 +168,21 @@ class DashboardCf extends React.Component {
 
     handleLogSysSwitch() {
         if (this.props.logSysUp) {
-            logSys.turnLogSysOff()
+            logSys.monitorModeOff()
         } else {
             this.setState({countDown: 0});
-            logSys.turnLogSysOn();
+            logSys.monitorModeOn();
         }
     }
 
     temporaryOff() {
-        logSys.turnLogSysOff();
+        logSys.monitorModeOff();
         this.setState({countDown: 60});
         this.countDownInterval = setInterval(() => {
             this.setState({countDown: this.state.countDown - 1})
         }, 1000);
         setTimeout(() => {
-            logSys.turnLogSysOn();
+            logSys.monitorModeOn();
             clearInterval(this.countDownInterval);
             this.countDownInterval = null;
             this.setState({countDown: 0});

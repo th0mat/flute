@@ -9,6 +9,7 @@ import {store} from '../index';
 
 
 const logger = remote.getGlobal('sharedObj').logger;
+const userDir = remote.getGlobal('sharedObj').userDir;
 
 function addPeriod(targets, justIn) {
     for (let i = 0; i < targets.length - 1; i++) { // don't include TOTAL in loop
@@ -36,6 +37,60 @@ function monitor(data) {
     }
 }
 
+
+// started by index.js to ensure early data collection
+
+export function initialMonitorStartup() {
+    const sqlite3 = sql.verbose();
+    const db = new sqlite3.Database(userDir + 'papageno/papageno.db', (err) => {
+        if (err) {
+            logger.error("*** error opening db from monitorConnect: ", err);
+            alert("monitorConnect.js: " + err.stack);
+        }
+    });
+    // add traffic[] to targets
+    let tmpTargets = JSON.parse(JSON.stringify(store.getState().appState.targets));
+    let targetsWithTraffic = tmpTargets.map(x => {
+        x['traffic'] = new Array(12).fill(0);
+        return x;
+    });
+
+    const lastSeen = {};
+    db.all(
+        `SELECT mac, MAX(ts) AS ts FROM traffic GROUP BY mac`,
+        function (err, rows) {
+            if (err) {
+                logger.error("*** error in MonitorConnect/updateLastSeen", err);
+                return;
+            }
+            rows.forEach((x) => {
+                lastSeen[x.mac] = x.ts
+            });
+            for (let t of targetsWithTraffic) {
+                t.lastSeen = lastSeen[t.macHex] ? new Date(lastSeen[t.macHex] * 1000) : null;
+            }
+            store.dispatch({type: "MONITOR_DATA", payload: targetsWithTraffic})
+            turnOnMonitor();
+            db.close();
+        });
+    }
+
+
+export function turnOnMonitor() {
+    if (!store.getState().appState.monitorCp) liveEvents.turnLiveMonitorOn();
+    term = liveEvents.ee;
+    removeListener();
+    term.on('data', monitor);
+};
+
+
+function removeListener(){
+    if (term && term.listeners('data').includes(monitor)) {
+        term.removeListener('data', monitor);
+    }
+}
+
+
 let term;
 
 const props = (store) => {
@@ -53,67 +108,18 @@ class MonitorConnect extends React.Component {
 
     constructor(props) {
         super(props);
-        const sqlite3 = sql.verbose();
-        this.db = new sqlite3.Database(this.props.userDir + 'papageno/papageno.db', (err) => {
-            if (err) {
-                logger.error("*** error opening db from monitorConnect: ", err);
-                alert("monitorConnect.js: " + err.stack);
-            }
-        });
-        if (!this.props.monitorData[0]) {
-            let tmpTargets = JSON.parse(JSON.stringify(this.props.targets));
-            let targetsWithTraffic = tmpTargets.map(x => {
-                x['traffic'] = new Array(12).fill(0);
-                return x;
-            });
-            this.props.dispatch({type: "MONITOR_DATA", payload: targetsWithTraffic});
-            this.updateLastSeen(targetsWithTraffic);
-        }
     }
 
 
     componentDidMount() {
-        this.turnOnMonitor();
+        //turnOnMonitor();
     }
 
 
-    updateLastSeen(targetsTmp) {
-        this.lastSeen = {};
-        this.db.all(
-            `SELECT mac, MAX(ts) AS ts FROM traffic GROUP BY mac`,
-            function (err, rows) {
-                if (err) {
-                    logger.error("*** error in MonitorConnect/updateLastSeen", err);
-                    return;
-                }
-                rows.forEach((x) => {
-                    this.lastSeen[x.mac] = x.ts
-                });
-                for (let t of targetsTmp) {
-                    t.lastSeen = this.lastSeen[t.macHex] ? new Date(this.lastSeen[t.macHex] * 1000) : null;
-                }
-                this.props.dispatch({type: "MONITOR_DATA", payload: targetsTmp})
-            }.bind(this));
-    }
 
-
-    turnOnMonitor() {
-        if (!this.monitorCp) liveEvents.turnMonitorOn();
-        term = liveEvents.ee;
-        this.removeListener();
-        term.on('data', monitor);
-    };
-
-
-    removeListener(){
-        if (term && term.listeners('data').includes(monitor)) {
-            term.removeListener('data', monitor);
-        }
-    }
 
 
     componentWillUnmount() {
-        this.db.close();
     };
 
     noTargetsMsg(){

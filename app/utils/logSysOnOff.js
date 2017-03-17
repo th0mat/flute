@@ -2,7 +2,7 @@ import child_process from 'child_process';
 import {store} from '../index';
 import {remote} from 'electron';
 import getWifiDevice from './getWifiDevice';
-
+import * as liveEvents from './liveEvents';
 
 const logger = remote.getGlobal('sharedObj').logger;
 
@@ -48,6 +48,17 @@ export function turnLogSysOn() {
 }
 
 
+export function monitorModeOn(){
+    turnLogSysOn();
+    liveEvents.turnLiveMonitorOn();
+}
+
+export function monitorModeOff(){
+    turnLogSysOff();
+    liveEvents.turnLiveMonitorOff();
+}
+
+
 export function turnLogSysOff() {
     let pid = getLogSysPid();
     if (!pid) {
@@ -57,7 +68,7 @@ export function turnLogSysOff() {
     }
     try {
         child_process.exec("kill " + pid);
-        logger.info("*** killed pid: ", pid)
+        logger.info("*** killed log sys pid: ", pid)
         store.dispatch({type: "SET_LOG_SYS_STATUS", payload: false});
     } catch (e) {
         logger.error("problem turning off log system, err msg: " + e)

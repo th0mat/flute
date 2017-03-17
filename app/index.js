@@ -28,6 +28,7 @@ import './utils/liveEvents';
 import {updateActivityLog} from './utils/updateActivityLog';
 import Notifier from './utils/notifier';
 import {updateInternetStatus} from './utils/connectionHandling';
+import {initialMonitorStartup} from './components/monitorCf';
 import * as actions from './actions/appState';
 import * as logSys from './utils/logSysOnOff';
 import trimDb from './utils/trimDb';
@@ -85,8 +86,9 @@ store.dispatch({type: "SET_NOTIFIER_EMAIL", payload: userConfig.autoOnEmailNotif
 trimDb.call(this, parseInt(userConfig.retentionDays));
 setInterval(trimDb.bind(this, parseInt(userConfig.retentionDays)), 1000 * 60 * 60 * 24);
 
-
 setTimeout(updateActivityLog, 3000);
+setTimeout(initialMonitorStartup, 1000);
+
 
 //// turn on notifier if required but wait until targets are loaded
 if (userConfig.autoOnSysNotifications || userConfig.autoOnEmailNotifications) {
