@@ -20,6 +20,7 @@ const initial = {
     notifier: {notifierId: null}, // needed to turn it off
     notifyBySys: false,
     notifyByEmail: false,
+    monitorData: [],
     pendingMail: [],
     mozartMsg: null // {dashboardTip: null}
 };
@@ -66,10 +67,6 @@ export default function appState(state = initial, action) {
             return {...state, rangeTraffic: action.payload};
         }
 
-        // case "TRAFFIC_SCAN_DATA": {
-        //     return {...state, scanTraffic: action.payload};
-        // }
-
         case 'OUI_LOADED': {
             return {...state, oui: action.payload};
         }
@@ -88,6 +85,10 @@ export default function appState(state = initial, action) {
 
         case 'SCAN_DATA': {
             return {...state, scanData: action.payload}
+        }
+
+        case 'MONITOR_DATA': {
+            return {...state, monitorData: action.payload}
         }
 
         default:

@@ -1,11 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import pty from 'pty.js';
 import sql from 'sqlite3';
 import {remote, shell} from 'electron';
 import MonitorCfTarget from './monitorCfTarget.js';
 import MonitorCfLegend from '../components/monitorCfLegend';
-import getWifiDevice from '../utils/getWifiDevice';
+import * as liveEvents from '../utils/liveEvents';
+import {store} from '../index';
 
 
 const logger = remote.getGlobal('sharedObj').logger;
@@ -23,9 +23,25 @@ function addPeriod(targets, justIn) {
     return targets;
 }
 
+
+function monitor(data) {
+    try {
+        const justIn = JSON.parse(data);
+        let targetsTmp = JSON.parse(JSON.stringify(store.getState().appState.monitorData));
+        targetsTmp = addPeriod(targetsTmp, justIn);
+        store.dispatch({type: "MONITOR_DATA", payload: targetsTmp
+        });
+    } catch (e) {
+        logger.warn("*** error processing live data: ", data.toString())
+    }
+}
+
+let term;
+
 const props = (store) => {
     return {
         targets: store.appState.targets,
+        monitorData: store.appState.monitorData,
         userDir: store.appState.userDir,
         appDir: store.appState.appDir,
         liveSys: store.appState.userConfig.liveSys
@@ -44,24 +60,25 @@ class MonitorConnect extends React.Component {
                 alert("monitorConnect.js: " + err.stack);
             }
         });
-        let tmpTargets = JSON.parse(JSON.stringify(this.props.targets)); // to not add traffic[] to targets.json
-        let targetsWithTraffic = tmpTargets.map(x => {
-            x['traffic'] = new Array(12).fill(0);
-            return x;
-        });
-        this.state = {targets: targetsWithTraffic};
-        this.updateLastSeen();
+        if (!this.props.monitorData[0]) {
+            let tmpTargets = JSON.parse(JSON.stringify(this.props.targets));
+            let targetsWithTraffic = tmpTargets.map(x => {
+                x['traffic'] = new Array(12).fill(0);
+                return x;
+            });
+            this.props.dispatch({type: "MONITOR_DATA", payload: targetsWithTraffic});
+            this.updateLastSeen(targetsWithTraffic);
+        }
     }
 
 
     componentDidMount() {
-        this.turnOnScanning();
+        this.turnOnMonitor();
     }
 
 
-    updateLastSeen() {
+    updateLastSeen(targetsTmp) {
         this.lastSeen = {};
-        const targetsTmp = JSON.parse(JSON.stringify(this.state.targets));
         this.db.all(
             `SELECT mac, MAX(ts) AS ts FROM traffic GROUP BY mac`,
             function (err, rows) {
@@ -73,36 +90,29 @@ class MonitorConnect extends React.Component {
                     this.lastSeen[x.mac] = x.ts
                 });
                 for (let t of targetsTmp) {
-
                     t.lastSeen = this.lastSeen[t.macHex] ? new Date(this.lastSeen[t.macHex] * 1000) : null;
                 }
-                this.setState({targets: targetsTmp})
+                this.props.dispatch({type: "MONITOR_DATA", payload: targetsTmp})
             }.bind(this));
     }
 
 
-    turnOnScanning() {
+    turnOnMonitor() {
+        if (!this.monitorCp) liveEvents.turnMonitorOn();
+        term = liveEvents.ee;
+        this.removeListener();
+        term.on('data', monitor);
+    };
 
-        this.term = pty.spawn('sh', ['-c', `cd ${this.props.userDir}/papageno; ./pap_live ${getWifiDevice()} json`], {
-            name: 'xterm-color', cols: 80, rows: 30, cwd: process.env.HOME, env: process.env
-        });
-        const that = this;
-        this.term.on('data', function (data) {
-            try {
-                const justIn = JSON.parse(data);
-                let targetsTmp = JSON.parse(JSON.stringify(that.state.targets));
-                targetsTmp = addPeriod(targetsTmp, justIn);
-                that.setState({
-                    targets: targetsTmp
-                });
-            } catch (e) {
-                logger.warn("*** error processing live data: ", data.toString())
-            }
-        })
+
+    removeListener(){
+        if (term && term.listeners('data').includes(monitor)) {
+            term.removeListener('data', monitor);
+        }
     }
 
+
     componentWillUnmount() {
-        if (this.term) this.term.destroy();
         this.db.close();
     };
 
@@ -128,9 +138,9 @@ class MonitorConnect extends React.Component {
                 </div>
                 <div className="flContent" style={{paddingRight: '0px'}}>
                     <div>
-                        {this.props.targets.length == 0 ? this.noTargetsMsg() :
+                        {this.props.monitorData.length == 0 ? this.noTargetsMsg() :
                             <div className="flTargets"> {
-                                this.state.targets
+                                this.props.monitorData
                                     .filter(x => {
                                         return x.onMonitor
                                     })
