@@ -96,7 +96,6 @@ export default validate(merge(baseConfig, {
         // })
     ],
     externals: [
-        'pty.js',
         'sqlite3'
     ],
     // https://github.com/chentsulin/webpack-target-electron-renderer#how-this-module-works

@@ -135,7 +135,7 @@ class ScanCf extends Component {
 
                 <div className="flContentFrozenTop">
                     <h3>Scan for all devices</h3>
-                    <span>Number of devices detected: {this.state.hogs.size}</span>
+                    <span>Number of devices detected: {this.props.scanData.size}</span>
                     <br/><br/>
                     &nbsp;&nbsp;
                     {tooltipButton("start scan", "pt-icon-play", this.startScan)}
