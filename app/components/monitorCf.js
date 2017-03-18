@@ -6,6 +6,7 @@ import MonitorCfTarget from './monitorCfTarget.js';
 import MonitorCfLegend from '../components/monitorCfLegend';
 import * as liveEvents from '../utils/liveEvents';
 import {store} from '../index';
+import {liveMonitorOffWarning} from '../utils/logSysOnOff';
 
 
 const logger = remote.getGlobal('sharedObj').logger;
@@ -115,8 +116,9 @@ class MonitorConnect extends React.Component {
         //turnOnMonitor();
     }
 
-
-
+    componentWillMount() {
+        liveMonitorOffWarning();
+    };
 
 
     componentWillUnmount() {
@@ -135,6 +137,7 @@ class MonitorConnect extends React.Component {
 
 
     render() {
+
         return (
 
             <div className="flContentFrame">

@@ -15,7 +15,7 @@ const initial = {
     oui: {},
     rangeTraffic: {fromDt: "", toDt: "", data: [], filterManu: "", filterMac: "", page: 1},
     scanData: new Map(),
-    //scanTraffic: {data: new Map(), filterManu: "", filterMac: "", scanOn: false},
+    scanOn: false,
     activityLog: {lastLog: 0, activities: []},
     notifier: {notifierId: null}, // needed to turn it off
     notifyBySys: false,
@@ -85,6 +85,10 @@ export default function appState(state = initial, action) {
 
         case 'SCAN_DATA': {
             return {...state, scanData: action.payload}
+        }
+
+        case 'SCAN_ON': {
+            return {...state, scanOn: action.payload}
         }
 
         case 'MONITOR_DATA': {

@@ -9,8 +9,6 @@ import * as actions from '../actions/appState';
 import {moveTo, backOne} from '../utils/nav';
 import titleCase from '../utils/titleCaseOui';
 import {remote} from 'electron';
-import tooltipButton from '../utils/tooltipButton';
-import Toaster from '../utils/toaster';
 
 const logger = remote.getGlobal('sharedObj').logger;
 

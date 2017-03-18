@@ -3,6 +3,7 @@ import events from 'events';
 import {remote} from 'electron';
 import getWifiDevice from './getWifiDevice'
 import {store} from '../index';
+import {initialMonitorStartup} from '../components/monitorCf';
 
 const logger = remote.getGlobal('sharedObj').logger;
 const config = remote.getGlobal('sharedObj').sysConfig;
@@ -16,12 +17,18 @@ setTimeout(turnLiveMonitorOn, 2000);
 
 //todo: change cwd to avoid creation of new papageno.db
 export function turnLiveMonitorOn() {
-    if (cp) return;
+    if (cp) {
+        logger.info("*** live monitor already running");
+        return;
+    }
     //todo: use sysConfig
     cp = child_process.spawn('sh',
-        ['-c', `${userDir}papageno/${config.liveSys} ${getWifiDevice()} json`], {});
+        ['-c', `${userDir}papageno/${config.liveSys} ${getWifiDevice()} json`], {
+            cwd: `${userDir}papageno`  // to ensure no new db file is created
+        });
     store.dispatch({type: "SET_MONITOR_CP", payload: cp});
     logger.info("*** live monitor turned on, pid: ", cp.pid)
+    initialMonitorStartup(); // to ensure that all live monitor blips are reset
 }
 
 export function turnLiveMonitorOff() {

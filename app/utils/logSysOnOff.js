@@ -3,6 +3,9 @@ import {store} from '../index';
 import {remote} from 'electron';
 import getWifiDevice from './getWifiDevice';
 import * as liveEvents from './liveEvents';
+import Toaster from '../utils/toaster';
+import {Intent} from '@blueprintjs/core';
+
 
 const logger = remote.getGlobal('sharedObj').logger;
 
@@ -73,4 +76,14 @@ export function turnLogSysOff() {
     } catch (e) {
         logger.error("problem turning off log system, err msg: " + e)
     }
+}
+
+export function liveMonitorOffWarning(){
+    if (!store.getState().appState.monitorCp) {
+        Toaster.show({
+            intent: Intent.WARNING, message: "turn " +
+            "on logging system"
+        })
+    }
+
 }

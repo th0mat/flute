@@ -3,6 +3,7 @@ import fs from 'fs';
 import {store} from '../index';
 import {remote} from 'electron';
 import {reloadTargets} from '../utils/mac';
+import {initialMonitorStartup} from '../components/monitorCf';
 const logger = remote.getGlobal('sharedObj').logger;
 
 
@@ -54,6 +55,7 @@ export function postTargetChanges(targets) {
         writeFilePromise(targetsPath, targets).then((data) => {
             dispatch({type: "TARGETS_LOADED", payload: targets});
             reloadTargets();
+            initialMonitorStartup();
         }).catch((err) => {
             logger.error('*** updating of targets failed: ', err);
         })

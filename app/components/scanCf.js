@@ -8,15 +8,19 @@ import tooltipButton from '../utils/tooltipButton';
 import {remote} from 'electron';
 import Mac from '../utils/mac';
 import * as liveEvents from '../utils/liveEvents';
+import {liveMonitorOffWarning} from '../utils/logSysOnOff';
 import {store} from '../index';
+
+import {Intent} from '@blueprintjs/core';
 
 const logger = remote.getGlobal('sharedObj').logger;
 
 const props = (store) => {
     return {
         oui: store.appState.oui,
-        scanTraffic: store.appState.scanTraffic,
+        //scanTraffic: store.appState.scanTraffic,
         scanData: store.appState.scanData,
+        scanOn: store.appState.scanOn,
         liveSys: store.appState.userConfig.liveSys,
         userDir: store.appState.userDir,
         appDir: store.appState.appDir,
@@ -64,7 +68,7 @@ class ScanCf extends Component {
             zeroHogsMsg: <tr>
                 <td>click play to start scan</td>
             </tr>,
-            scanOn: false
+            //scanOn: false
         };
         this.startScan = this.startScan.bind(this);
         this.resetScan = this.resetScan.bind(this);
@@ -76,22 +80,23 @@ class ScanCf extends Component {
     }
 
 
-    componentWillUnmount() {
+    componentWillMount() {
+        liveMonitorOffWarning();
     };
 
 
     startScan() {
         if (!this.monitorCp) {
-            //liveEvents.turnLiveMonitorOn()
-            };
+            liveMonitorOffWarning();
+        }
         term = liveEvents.ee;
         this.removeListener();
         term.on('data', scan);
-        this.setState({scanOn: true});
+        this.props.dispatch({type: "SCAN_ON", payload: true})
     };
 
 
-    removeListener(){
+    removeListener() {
         if (term && term.listeners('data').includes(scan)) {
             term.removeListener('data', scan);
             this.setState({scanOn: false});
@@ -100,10 +105,12 @@ class ScanCf extends Component {
 
     pauseScan() {
         this.removeListener();
+        this.props.dispatch({type: "SCAN_ON", payload: false})
     };
 
     resetScan() {
         this.removeListener();
+        this.props.dispatch({type: "SCAN_ON", payload: false})
         this.props.dispatch({type: "SCAN_DATA", payload: new Map()});
     };
 
@@ -124,9 +131,10 @@ class ScanCf extends Component {
         let hogs = Array.from(this.props.scanData);
         const targets = this.props.targets;
         hogs = hogs.sort((x, y) => y[1] - x[1]);
+        const showRadar = this.props.scanOn;
         const radar =
             <div className="flRadarDiv">
-                <img className="flRadarGif" src={this.state.scanOn ? this.radarGif : this.emptyGif} alt=""/>
+                <img className="flRadarGif" src={showRadar ? this.radarGif : this.emptyGif} alt=""/>
             </div>
 
         return (
@@ -165,7 +173,8 @@ class ScanCf extends Component {
                                 const mac = new Mac(x[0])
                                 return (
                                     <tr onClick={moveTo.bind(this, 'history', x[0])} key={x[0]} className="flHoverBg">
-                                        <td><img className="flTablePix" src={this.props.userDir + mac.avatar} alt=""/></td>
+                                        <td><img className="flTablePix" src={this.props.userDir + mac.avatar} alt=""/>
+                                        </td>
                                         <td><span>{mac.dname}</span></td>
                                         <td style={{fontFamily: "monospace"}}>{x[0]}</td>
                                         <td>{titleCase(this.props.oui[x[0].substr(0, 6)])}</td>

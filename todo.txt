@@ -1,12 +1,13 @@
-update monitorData when targets are changed (rerun initialMonitorSetup)
-no radar icon in scan when liveMonitor off
-add pwd to avoid papageno.db creation
-why is electron-debug in dependencies and not dev-dep
+change to instant notifier
 
 =======
 
 
 DONE
+why is electron-debug in dependencies and not dev-dep
+no radar icon in scan when liveMonitor off
+update monitorData when targets are changed (rerun initialMonitorSetup)
+add pwd to avoid papageno.db creation
 scan: fix number of devices detected
 rm pty.js from package.js etc.
 stop turning on liveMonitor when going to live page
