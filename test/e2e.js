@@ -93,7 +93,7 @@ describe('e2e tests', function spec() {
 
         it('have the right device number count', async() => {
             const recs = await app.client.$("#noOfDevs").getText();
-            expect(recs).to.be.equal("10,076");
+            expect(recs).to.be.equal("4,046");
         });
 
         it('have email notification switch set correctly at start-up', async() => {

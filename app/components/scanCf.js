@@ -177,7 +177,7 @@ class ScanCf extends Component {
                                         </td>
                                         <td><span>{mac.dname}</span></td>
                                         <td style={{fontFamily: "monospace"}}>{x[0]}</td>
-                                        <td>{titleCase(this.props.oui[x[0].substr(0, 6)])}</td>
+                                        <td>{titleCase(mac.manuf)}</td>
                                         <td style={{textAlign: 'right'}}>{x[1].toLocaleString()}</td>
                                     </tr>
                                 )

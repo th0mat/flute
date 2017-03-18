@@ -31,7 +31,7 @@
     },
     {
         "macHex": "b0702d20cef2",
-        "dname": "Nema's iPhone",
+        "dname": "Nema's Phone",
         "avatar": "img/Nema.jpg",
         "notifyBack": true,
         "notifyGone": true,
@@ -108,10 +108,5 @@
         "onMonitor": true,
         "onLogs": true,
         "sortOrder": 13
-    },
-    {
-        "macHex": "000000000000",
-        "dname": "MagicFlute",
-        "avatar": "img/MagicFlute.jpg"
     }
 ]

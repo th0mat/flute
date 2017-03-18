@@ -81,7 +81,8 @@ if (userConfig.autoOnPapageno) logSys.turnLogSysOn();
 store.dispatch({type: "SET_LOG_SYS_STATUS", payload: logSys.getLogSysPid() != 0});
 store.dispatch({type: "SET_NOTIFIER_SYS", payload: userConfig.autoOnSysNotifications});
 store.dispatch({type: "SET_NOTIFIER_EMAIL", payload: userConfig.autoOnEmailNotifications});
-
+logger.info(`*** system notifications turned ${userConfig.autoOnSysNotifications ? 'on' : 'off'}`)
+logger.info(`*** email notififications turned ${userConfig.autoOnEmailNotifications ? 'on' : 'off'}`)
 
 trimDb.call(this, parseInt(userConfig.retentionDays));
 setInterval(trimDb.bind(this, parseInt(userConfig.retentionDays)), 1000 * 60 * 60 * 24);

@@ -18,7 +18,7 @@ export default class Notifier {
         if (this.notifierId) return; // already running
         this.run();
         logger.info("*** notifier turned on")
-        this.notifierId = setInterval(() => this.run(), 1000 * 55); // sqlite write is every 60 secs
+        this.notifierId = setInterval(() => this.run(), 1000 * 30); // sqlite write is every 60 secs
     }
 
     turnOff() {

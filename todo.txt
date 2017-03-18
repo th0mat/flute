@@ -1,9 +1,14 @@
 change to instant notifier
-
+smarten read record number
+update notifier
 =======
 
 
 DONE
+no manuf for rand in scan
+show email notification on/off status
+show sysNotif on/off status
+show randomized mac %age in dashboard
 change version no
 notification on/off logger entry
 why is electron-debug in dependencies and not dev-dep

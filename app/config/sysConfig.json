@@ -1,5 +1,5 @@
 {
-  "version": "0.10.3",
+  "version": "0.10.4",
   "logSys": "pap_log",
   "liveSys": "pap_live",
   "manualWifiDeviceOverride": null,
@@ -28,7 +28,7 @@
     "avatar": "img/Incognito.jpg"
   },
   "random": {
-    "dname": "Ramdomized",
+    "dname": "Randomized",
     "avatar": "img/Random.png"
   }
 }

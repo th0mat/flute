@@ -49,7 +49,8 @@ class DashboardCf extends React.Component {
         this.db.configure("busyTimeout", 5000)
         this.state = {
             dbSize: 0,
-            noMacs: 0,
+            noHardMacs: 0,
+            noSoftMacs: 0,
             noRecs: 0,
             minTs: 0,
             countDown: 0
@@ -90,6 +91,7 @@ class DashboardCf extends React.Component {
 
     getMinTs() {
         const that = this;
+        const dbTimer = +new Date();
         this.db.all(
             `SELECT MIN(ts) as ts FROM traffic`,
             function (err, rows) {
@@ -98,11 +100,13 @@ class DashboardCf extends React.Component {
                     return;
                 }
                 that.setState({minTs: rows[0].ts});
+                logger.info(`*** earliest timestamp db read time: ${+new Date() - dbTimer} ms`);
             });
     }
 
     getMaxTs() {
         const that = this;
+        const dbTimer = +new Date();
         this.db.all(
             `SELECT MAX(ts) as ts FROM traffic`,
             function (err, rows) {
@@ -110,12 +114,14 @@ class DashboardCf extends React.Component {
                     logger.error('error accessing db dashboard/getMaxTs: ', err);
                     return;
                 }
+                logger.info(`*** newest timestamp db read time: ${+new Date() - dbTimer} ms`);
                 that.setState({maxTs: rows[0].ts});
             });
     }
 
     countRecs() {
         const that = this;
+        const dbTimer = +new Date();
         this.db.all(
             `SELECT COUNT(ts) as ts FROM traffic`,
             function (err, rows) {
@@ -123,12 +129,15 @@ class DashboardCf extends React.Component {
                     logger.error('error accessing db dashboard/countRecs: ', err);
                     return;
                 }
+                logger.info(`*** count records db read time: ${+new Date() - dbTimer} ms`);
                 that.setState({noRecs: rows[0].ts});
             });
     }
 
     countMacs() {
         const that = this;
+        const randStr = '2367abef';
+        const dbTimer = +new Date();
         this.db.all(
             `select mac from traffic group by mac`,
             function (err, rows) {
@@ -136,11 +145,14 @@ class DashboardCf extends React.Component {
                     logger.error('error accessing db dashboard/countMacs: ', err);
                     return;
                 }
-                that.setState({noMacs: rows.length});
+                let rands = rows.filter(x=>randStr.includes(x.mac[1]));
+                logger.info(`*** count unique macs db read time: ${+new Date() - dbTimer} ms`);
+                that.setState({noHardMacs: rows.length - rands.length, noSoftMacs: rands.length});
             });
     }
 
     toggleSysNotifier() {
+        logger.info(`*** system notifications turned ${!this.props.notifyBySys ? 'on' : 'off'}`)
         this.props.dispatch({type: "SET_NOTIFIER_SYS", payload: !this.props.notifyBySys});
         if (this.props.notifier.notifierId) {
             if (!this.props.notifyByEmail) {
@@ -154,6 +166,7 @@ class DashboardCf extends React.Component {
     }
 
     toggleEmailNotifier() {
+        logger.info(`*** email notifications turned ${!this.props.notifyByEmail ? 'on' : 'off'}`)
         this.props.dispatch({type: "SET_NOTIFIER_EMAIL", payload: !this.props.notifyByEmail});
         if (this.props.notifier.notifierId) {
             if (!this.props.notifyBySys) {
@@ -315,8 +328,12 @@ class DashboardCf extends React.Component {
                                 <td id="noOfRecs" style={{textAlign: 'right'}}>{formatNumber(this.state.noRecs, 0)}</td>
                             </tr>
                             <tr>
-                                <td style={{paddingLeft: '0px'}}>Devices recorded</td>
-                                <td id="noOfDevs" style={{textAlign: 'right'}}>{formatNumber(this.state.noMacs, 0)}</td>
+                                <td style={{paddingLeft: '0px'}}>Hardware mac addresses</td>
+                                <td id="noOfDevs" style={{textAlign: 'right'}}>{formatNumber(this.state.noHardMacs, 0)}</td>
+                            </tr>
+                            <tr>
+                                <td style={{paddingLeft: '0px'}}>Randomized mac addresses</td>
+                                <td id="noOfSoftMacs" style={{textAlign: 'right'}}>{formatNumber(this.state.noSoftMacs, 0)}</td>
                             </tr>
                             <tr>
                                 <td style={{paddingLeft: '0px'}}>Retention period</td>
