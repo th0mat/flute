@@ -27,7 +27,7 @@ export function turnLiveMonitorOn() {
             cwd: `${userDir}papageno`  // to ensure no new db file is created
         });
     store.dispatch({type: "SET_MONITOR_CP", payload: cp});
-    logger.info("*** live monitor turned on, pid: ", cp.pid)
+    logger.info("*** live monitor turned on, pid:", cp.pid)
     initialMonitorStartup(); // to ensure that all live monitor blips are reset
 }
 
@@ -37,7 +37,7 @@ export function turnLiveMonitorOff() {
         cp.kill();
         cp = null;
         store.dispatch({type: "SET_MONITOR_CP", payload: null});
-        logger.info("*** killed live monitor pid: ", pid)
+        logger.info("*** killed live monitor, pid:", pid)
     }
 }
 
@@ -57,7 +57,7 @@ function parseAndEmit(raw) {
     arr.forEach(x => {
         ee.emit('data', x);
     })
-    if (arr.length > 1) logger.info(`*** split data into ${arr.length} events`)
+    if (arr.length > 1) logger.warn(`*** split stdout data into ${arr.length} objects`)
 }
 
 

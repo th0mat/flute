@@ -74,6 +74,7 @@ class HistoriesCf extends Component {
             return;
         }
         let agg = [];
+        const dbTimer = +new Date();
         this.db.all(
             `SELECT mac, SUM(bytes) as trafficVol FROM traffic WHERE 
             ts >= ${moment(this.state.range.fromDt).unix()} AND
@@ -96,6 +97,7 @@ class HistoriesCf extends Component {
                     })
                 }
                 this.applyFilter();
+                logger.info(`*** histories db read time: ${+new Date() - dbTimer} ms`);
                 this.dispatchTrafficRange();
             }.bind(this));
     }

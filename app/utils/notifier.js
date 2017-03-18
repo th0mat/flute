@@ -10,21 +10,21 @@ const logger = remote.getGlobal('sharedObj').logger;
 export default class Notifier {
 
     constructor() {
-        //this.windowGone = store.getState().appState.userConfig.windowGoneTarget;
-        //this.run();
         this.notifierId = null;
-        this.lastSeenNew = {};
+        //this.lastSeenNew = {};
     }
 
     turnOn() {
         if (this.notifierId) return; // already running
         this.run();
-        this.notifierId = setInterval(() => this.run(), 1000 * 10); // sqlite write is every 60 secs
+        logger.info("*** notifier turned on")
+        this.notifierId = setInterval(() => this.run(), 1000 * 55); // sqlite write is every 60 secs
     }
 
     turnOff() {
         clearInterval(this.notifierId);
         this.notifierId = null;
+        logger.info("*** notifier turned off")
         this.run.old = null;
     }
 
@@ -50,6 +50,7 @@ export default class Notifier {
         const targetMacs = targets.map(x => x.macHex);
         let now = moment().unix();
         now = now - now % 60;
+        const dbTimer = +new Date();
         db.all(
             `SELECT mac, MAX(ts) AS ts FROM traffic WHERE ts >= ${now - windowGone} GROUP BY mac`,
             function (err, rows) {
@@ -67,6 +68,7 @@ export default class Notifier {
                             lastSeenNew[x.mac] = x.ts
                         });
                 }
+                logger.info(`*** notifier db read time: ${+new Date() - dbTimer} ms`);
                 db.close();
                 if (this.run.old) {
                     this.lastSeenComparer(this.run.old, lastSeenNew);
