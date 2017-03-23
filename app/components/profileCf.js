@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {browserHistory} from 'react-router';
 import fs from 'fs';
+import tooltipButton from '../utils/tooltipButton';
 
 import {ContextMenu, MenuFactory, MenuItemFactory, Intent} from '@blueprintjs/core';
 

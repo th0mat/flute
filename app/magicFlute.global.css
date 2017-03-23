@@ -247,13 +247,69 @@ html, body {
 }
 
 
-.flProfilesPix {
-    height: 35px;
-    width: 35px;
-}
 
 
 /* end of profile classes ***************************************************/
+
+
+
+
+/* begin of profiles classes *************************************************/
+
+.flProfilesPix {
+    height: 35px;
+    width: 35px;
+    margin-right: 10px;
+}
+
+
+#flProfilesList {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+
+.flProfilesItem {
+    margin: 0px 0px 5px 0px;
+    border: solid;
+    border-width: 2px;
+    border-color: lightgrey;
+    padding: 5px;
+}
+
+
+.flProfilesItem:hover {
+    background: #F0FEF1;
+    cursor: zoom-in;
+}
+
+.flPIName {
+    display: inline-block;
+    margin-right: 10px;
+    width: 200px;
+}
+
+.flPIMac {
+    display: inline-block;
+    font-family: monospace;
+    margin-right: 10px;
+}
+
+.flPIFlags {
+    display: inline-block;
+    margin-left: 30px;
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+}
+
+/* end of profiles classes ***************************************************/
+
+
+
+
+
+
 
 
 
@@ -342,3 +398,4 @@ html, body {
     color: grey;
     font-size: x-small;
 }
+

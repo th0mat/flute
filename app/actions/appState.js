@@ -44,7 +44,8 @@ export function loadTargets() {
             .then((data) => dispatch({
                 type: "TARGETS_LOADED", payload: JSON.parse(data)
             })).catch((err) => {
-            logger.error('*** loading of targets failed: ', err);
+            logger.warn('*** loading of targets failed:', err);
+            logger.warn('*** starting with empty targets.json');
         })
     }
 }

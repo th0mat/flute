@@ -61,6 +61,7 @@ export default class Mac {
         if (this.mac.substr(0,6) === 'daa119'){
             return 'Randomized Android'
         }
+        // 92:68:C3 would be Motorola - not significant enough at this time
         if (randStr.includes(this.mac[1])) {
             return 'Randomized mac';
         }

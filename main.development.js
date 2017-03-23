@@ -365,7 +365,7 @@ function turnLogSysOff() {
         const pidString = pidRaw.toString("utf-8").trim();
         pid = parseInt(pidString);
     } catch (e) {
-        logger.error("*** problem turning off logSystem: ", e);
+        logger.error("*** problem turning off logSystem:", e);
         return 0;
     }
     if (pid) {
@@ -383,12 +383,12 @@ function turnLiveMonitorOff() {
         const pidString = pidRaw.toString("utf-8").trim();
         pid = parseInt(pidString);
     } catch (e) {
-        logger.error("*** problem turning off live monitor: ", e);
+        logger.error("*** problem turning off live monitor:", e);
         return 0;
     }
     if (pid) {
         child_process.exec("kill " + pid);
-        logger.info("*** killed live monitor pid: ", pid)
+        logger.info("*** killed live monitor, pid:", pid)
     }
 }
 
