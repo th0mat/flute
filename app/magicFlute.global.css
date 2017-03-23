@@ -257,6 +257,7 @@ html, body {
 /* begin of profiles classes *************************************************/
 
 .flProfilesPix {
+    display: inline-flex;
     height: 35px;
     width: 35px;
     margin-right: 10px;
@@ -266,14 +267,19 @@ html, body {
 #flProfilesList {
     list-style-type: none;
     padding-left: 0px;
+    min-width: 450px;
+    max-width: 450px;
 }
 
 
 .flProfilesItem {
+    display: flex;
+    align-items: center;
     margin: 0px 0px 5px 0px;
     border: solid;
     border-width: 2px;
     border-color: lightgrey;
+    border-radius: 5px;
     padding: 5px;
 }
 
@@ -284,23 +290,29 @@ html, body {
 }
 
 .flPIName {
-    display: inline-block;
+    display: inline-flex;
     margin-right: 10px;
-    width: 200px;
+    width: 150px;
+    min-width: 150px;
 }
 
 .flPIMac {
-    display: inline-block;
+    display: inline-flex;
     font-family: monospace;
-    margin-right: 10px;
+    margin-right: 30px;
 }
 
 .flPIFlags {
-    display: inline-block;
-    margin-left: 30px;
-    width: 100px;
-    min-width: 100px;
-    max-width: 100px;
+    display: inline-flex;
+    margin-left: 10px;
+    min-width: 15px;
+}
+
+#flPIFooter {
+    margin: 20px 0px;
+    font-size: x-small;
+    color: gray;
+
 }
 
 /* end of profiles classes ***************************************************/

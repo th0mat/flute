@@ -4,6 +4,23 @@ import {browserHistory} from 'react-router';
 import {shell} from 'electron';
 import AddMac from './addMac';
 import * as actions from '../actions/appState';
+import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'react-sortable-hoc';
+
+
+const SortableItem = SortableElement(({value}) =>
+    <li style={{listStyleType: 'none'}}>{value}</li>
+);
+
+
+const SortableList = SortableContainer(({items}) => {
+    return (
+        <ul id="flProfilesList">
+            {items.map((value, index) => (
+                <SortableItem key={`item-${index}`} index={index} value={value}/>
+            ))}
+        </ul>
+    )
+});
 
 
 const props = (store) => {
@@ -18,30 +35,49 @@ class ProfileSelect extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            items: this.initialItemList(),
+            targets: this.props.targets
+        };
+    }
+
+    componentWillUnmount() {
+    };
+
+
+    onSortEnd = ({oldIndex, newIndex}) => {
+        let sorted = arrayMove(this.state.targets, oldIndex, newIndex);
+        this.setState({
+            items: arrayMove(this.state.items, oldIndex, newIndex),
+            targets: sorted
+        });
+        this.props.dispatch(actions.postTargetChanges(sorted));
     }
 
 
-    arrowClick(mac, direction) {
-        // get targets
-        const targets = this.props.targets;
-        // find target
-        const target = targets.find((x) => {
-            return x.macHex === mac
-        });
-        // update sortOrder
-        target.sortOrder += direction;
-        // sort by sortOrder
-        const sorted = targets.sort((x, y) => {
-            return x.sortOrder - y.sortOrder
-        });
-        // update sortOrder field to index
-        const updated = sorted.map((x, i) => {
-            x.sortOrder = i;
-            return x;
-        });
-        // dispatch targets
-        this.props.dispatch(actions.postTargetChanges(updated));
+    initialItemList() {
+        const check = <span style={{color: "grey"}} className="pt-icon pt-icon-small-tick"></span>;
+        let items = this.props.targets.map(x => {
+            return (
+                <div className="flProfilesItem" onClick={()=>browserHistory.push('/profile/' + x.macHex)}>
+                    <img
+                        className="flProfilesPix"
+                        src={this.props.userDir + x.avatar}
+                        alt={x.dname}/>
+                    <div className="flPIName">{x.dname}</div>
+                    <div className="flPIMac" style={{fontFamily: "monospace"}}>{x.macHex}</div>
+                    <div className="flPIFlags">{x.onMonitor ?
+                        <span className="pt-icon pt-icon-people"></span> : ""}</div>
+                    <div className="flPIFlags">{x.onLogs ?
+                        <span className="pt-icon pt-icon-sort"></span> : ""}</div>
+                    <div className="flPIFlags">{x.notifyGone || x.notifyBack ?
+                        <span className="pt-icon pt-icon-notifications"></span> : ""}</div>
+                </div>
+            )
+        })
+        return items;
     }
+
 
     noTargetsMsg() {
         return <div style={{paddingRight: '10px'}}><br/><h4>No profiles to display yet</h4><p>Learn how to add,
@@ -62,7 +98,7 @@ class ProfileSelect extends React.Component {
         return (
             <div className="flContentFrame">
 
-                <div className="flContentFrozenTop">
+                <div className="flContentFrozenTop" style={{maxWidth: '500px'}}>
                     <h3>Edit Profiles</h3>
                     <p>Profiles make it easier to recognize known devices. They are required for life
                             monitoring and only registered profiles appear in logs.
@@ -78,57 +114,21 @@ class ProfileSelect extends React.Component {
 
                 <div className="flContent">
 
-                    {targets.length !== 0 ? <table className="pt-table pt-striped">
-                            <thead>
-                            <tr>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Mac</th>
-                                <th><span className="pt-icon pt-icon-people"></span></th>
-                                <th><span className="pt-icon pt-icon-sort"></span></th>
-                                <th><span className="pt-icon pt-icon-notifications"></span></th>
-                                <th>Sort</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {targets.map(x => {
-                                return (
-                                    <tr className="flHoverBg" key={x.macHex}>
+                    <SortableList items={this.state.items}
+                                  onSortEnd={this.onSortEnd}
+                                  useWindowAsScrollContainer={true}
+                                  pressDelay={150}
+                    />
 
-                                        <td>< img
-                                            className="flProfilesPix"
-                                            src={
-                                                  this.props.userDir + x.avatar
-                                              }
-                                            alt={x.dname}
-                                            onClick={()=>browserHistory.push('/profile/' + x.macHex)}
-                                        />
-
-                                        </td>
-                                        <td onClick={()=>browserHistory.push('/profile/' + x.macHex)}>{x.dname}</td>
-                                        <td onClick={()=>browserHistory.push('/profile/' + x.macHex)}
-                                            style={{fontFamily: "monospace"}}>{x.macHex}</td>
-                                        <td onClick={()=>browserHistory.push('/profile/' + x.macHex)}>{x.onMonitor ? check : ""}</td>
-                                        <td onClick={()=>browserHistory.push('/profile/' + x.macHex)}>{x.onLogs ? check : ""}</td>
-                                        <td onClick={()=>browserHistory.push('/profile/' + x.macHex)}>{(x.notifyGone || x.notifyBack) ? check : ""}</td>
-                                        <td style={{color: "blue"}}><span
-                                            className="pt-icon pt-icon-arrow-up flSortArrow"
-                                            onClick={this.arrowClick.bind(this, x.macHex, -1.5)}></span>
-                                            &nbsp;
-                                            <span className="pt-icon pt-icon-arrow-down flSortArrow"
-                                                  onClick={this.arrowClick.bind(this, x.macHex, +1.5)}></span></td>
-
-                                    </tr>
-                                )
-                            })}
-                            </tbody>
-                        </table> : this.noTargetsMsg()}
+                    <div id="flPIFooter">drag profile to change sort order</div>
                 </div>
+
             </div>
         )
     }
 
-};
+}
+
 
 
 export default connect(props)(ProfileSelect);
