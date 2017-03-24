@@ -1,5 +1,5 @@
 {
-  "version": "0.10.4",
+  "version": "0.10.5",
   "logSys": "pap_log",
   "liveSys": "pap_live",
   "manualWifiDeviceOverride": null,
@@ -23,7 +23,6 @@
     "avatar": "img/MagicFlute.jpg"
   },
   "incognito": {
-    "macHex": "666",
     "dname": "Incognito",
     "avatar": "img/Incognito.jpg"
   },

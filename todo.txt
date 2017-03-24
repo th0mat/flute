@@ -1,7 +1,6 @@
 "appspot-preview.l.google.com" and "magicflute-155501.appspot.com
 
 
-
 change to instant notifier
 smarten read record number
 update mf version notifier
