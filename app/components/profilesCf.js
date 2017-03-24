@@ -106,22 +106,32 @@ class ProfileSelect extends React.Component {
 
                     <div>
                         <AddMac buttonName='add device' destination="/profile/" invalidMsg="invalid mac address"/>
-                        <br/>
+                        <br/><br/>
                     </div>
+
+                <p>Drag and drop profiles to change the sorting order. Click on a profile to change its
+                settings or delete it.</p>
 
                 </div>
 
 
                 <div className="flContent">
 
-                    <SortableList items={this.state.items}
-                                  onSortEnd={this.onSortEnd}
-                                  useWindowAsScrollContainer={true}
-                                  pressDelay={150}
-                    />
-
-                    <div id="flPIFooter">drag profile to change sort order</div>
+                <div id="flPILegend">
+                    <span className="pt-icon pt-icon-people"> live monitor&nbsp;&nbsp;&nbsp;</span>
+                    <span className="pt-icon pt-icon-sort"> activity log&nbsp;&nbsp;&nbsp;</span>
+                    <span className="pt-icon pt-icon-notifications"> notifications</span>
                 </div>
+
+                    {this.props.targets.length == 0
+                        ? this.noTargetsMsg()
+                        : <SortableList items={this.state.items}
+                                        onSortEnd={this.onSortEnd}
+                                        useWindowAsScrollContainer={true}
+                                        pressDelay={150}/>
+                    }
+
+                 </div>
 
             </div>
         )

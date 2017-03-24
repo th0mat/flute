@@ -1,5 +1,4 @@
-ensure profiles 0 targets msg is put back
-
+"appspot-preview.l.google.com" and "magicflute-155501.appspot.com
 
 change to instant notifier
 smarten read record number
@@ -8,6 +7,7 @@ update mf version notifier
 
 
 DONE
+ensure profiles 0 targets msg is put back
 drag and drop profiles list
 92:68:C3 Motorola owned space with local bit set - used by Motorola
 pumpkin img

@@ -66,8 +66,9 @@ html, body {
 .flFooter {
     display: flex;
     justify-content: center;
-
     height: 20px;
+    font-size: smaller;
+    padding-top: 4px;
     order: 3;
     background-color: darkgrey;
     color: white;
@@ -308,10 +309,13 @@ html, body {
     min-width: 15px;
 }
 
-#flPIFooter {
-    margin: 20px 0px;
+#flPILegend {
+    margin: 10px 0px;
     font-size: x-small;
     color: gray;
+    text-align: right;
+    min-width: 450px;
+    max-width: 450px;
 
 }
 
