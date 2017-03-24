@@ -252,7 +252,7 @@ class ProfileCf extends React.Component {
                                         <input type="checkbox" value="onMonitor" onChange={this.handleCheckboxes}
                                                checked={this.state.target.onMonitor}/>
                                     </td>
-                                    <td><span className="flBold">monitor:</span> profile appears on monitor view</td>
+                                    <td><span className="pt-icon pt-icon-people"/> profile appears on monitor view</td>
                                 </tr>
 
                                 <tr>
@@ -260,7 +260,7 @@ class ProfileCf extends React.Component {
                                         <input type="checkbox" value="onLogs" onChange={this.handleCheckboxes}
                                                checked={this.state.target.onLogs}/>
                                     </td>
-                                    <td><span className="flBold">logs:</span> profile is included in activity logs</td>
+                                    <td><span className="pt-icon pt-icon-sort"/> profile is included in activity logs</td>
                                 </tr>
 
                                 <tr>
@@ -268,7 +268,7 @@ class ProfileCf extends React.Component {
                                         <input type="checkbox" value="notifyBack" onChange={this.handleCheckboxes}
                                                checked={this.state.target.notifyBack}/>
                                     </td>
-                                    <td><span className="flBold">notify back:</span> a notification is triggered when this profile appears
+                                    <td><span className="pt-icon pt-icon-notifications"/> a notification is triggered when this profile appears
                                     again after an absence
                                     </td>
                                 </tr>
@@ -278,7 +278,7 @@ class ProfileCf extends React.Component {
                                         <input type="checkbox" value="notifyGone" onChange={this.handleCheckboxes}
                                                checked={this.state.target.notifyGone}/>
                                     </td>
-                                    <td><span className="flBold">notify gone:</span> a notification is triggered if no traffic has been
+                                    <td><span className="pt-icon pt-icon-notifications"/> a notification is triggered if no traffic has been
                                     observed for this profile for a set period
                                     </td>
                                 </tr>
