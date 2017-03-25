@@ -58,7 +58,7 @@ export function postTargetChanges(targets) {
             reloadTargets();
             initialMonitorStartup();
             const notifier = store.getState().appState.notifier;
-            if (notifier.notifierId) {
+            if (notifier.notifierInterval) {
                 notifier.turnOff();
                 notifier.turnOn();
             }

@@ -17,7 +17,7 @@ const initial = {
     scanData: new Map(),
     scanOn: false,
     activityLog: {lastLog: 0, activities: []},
-    notifier: {notifierId: null}, // needed to turn it off
+    notifier: {notifierInterval: null}, // needed to turn it off
     notifyBySys: false,
     notifyByEmail: false,
     monitorData: [],

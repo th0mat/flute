@@ -154,7 +154,7 @@ class DashboardCf extends React.Component {
     toggleSysNotifier() {
         logger.info(`*** system notifications turned ${!this.props.notifyBySys ? 'on' : 'off'}`)
         this.props.dispatch({type: "SET_NOTIFIER_SYS", payload: !this.props.notifyBySys});
-        if (this.props.notifier.notifierId) {
+        if (this.props.notifier.notifierInterval) {
             if (!this.props.notifyByEmail) {
                 this.props.notifier.turnOff();
             } else {
@@ -168,7 +168,7 @@ class DashboardCf extends React.Component {
     toggleEmailNotifier() {
         logger.info(`*** email notifications turned ${!this.props.notifyByEmail ? 'on' : 'off'}`)
         this.props.dispatch({type: "SET_NOTIFIER_EMAIL", payload: !this.props.notifyByEmail});
-        if (this.props.notifier.notifierId) {
+        if (this.props.notifier.notifierInterval) {
             if (!this.props.notifyBySys) {
                 this.props.notifier.turnOff();
             } else {

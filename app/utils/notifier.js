@@ -11,24 +11,24 @@ const logger = remote.getGlobal('sharedObj').logger;
 export default class Notifier {
 
     constructor() {
-        this.notifierId = null;
+        this.notifierInterval = null;
         this.ee = ee;
         this.liveWatch = this.liveWatch.bind(this);
-        //this.lastSeenNew = {};
+        this.liveWatch.last = {};
     }
 
     turnOn() {
-        if (this.notifierId) return; // already running
+        if (this.notifierInterval) return; // already running
         this.run();
-        logger.info("*** notifier turned on")
-        this.notifierId = setInterval(() => this.run(), 1000 * 30); // sqlite write is every 60 secs
+        this.notifierInterval = setInterval(() => this.run(), 1000 * 30); // sqlite write is every 60 secs
+        logger.info(`*** notifier interval ${this.notifierInterval} created`)
         this.ee.on('data', this.liveWatch);
     }
 
     turnOff() {
-        clearInterval(this.notifierId);
-        this.notifierId = null;
-        logger.info("*** notifier turned off");
+        clearInterval(this.notifierInterval);
+        logger.info(`*** notifier interval ${this.notifierInterval} cleared`);
+        this.notifierInterval = null;
         this.ee.removeListener('data', this.liveWatch);
         this.run.old = null;
     }
@@ -45,31 +45,8 @@ export default class Notifier {
         return db;
     }
 
-    liveWatch(data){
-        const targets = store.getState().appState.targets;
-        const targetMacs = targets.map(x=>x.macHex);
-        let back = [];
-        let arr = Object.entries(JSON.parse(data));
-        arr = arr.map(x=>{return x[0]});
-        arr = arr.filter(x=>targetMacs.includes(x));
-        // console.log("*** arrData:", arr)
-        let now = +new Date()/1000;
-        if (this.run.old) {
-            arr.forEach(x=>{
-                if (!this.run.old[x]) {  // if not found in the old last seen
-                    back.push([x, now]);
-                    console.log("+++ back notification for ", [x, now]);
-                    this.run.old[x] = now;
-                }
-            })
-        }
-        if (back.length > 0) {
-            if (store.getState().appState.notifyBySys) this.notifyBySys([], back);
-            if (store.getState().appState.notifyByEmail) this.notifyByEmail([], back);
-        }
-    }
-
-    run() {
+    run() {  // for gone notifications and creation of run.old
+        // which is also used for back comparison
         const windowGone = store.getState().appState.userConfig.windowGoneTarget;
         const db = this.openDb();
         const lastSeenNew = {};
@@ -101,39 +78,73 @@ export default class Notifier {
                 if (this.run.old) {
                     this.lastSeenComparer(this.run.old, lastSeenNew);
                 } else {
-                    this.run.old = lastSeenNew;
+                    this.run.old = lastSeenNew; // to not overwrite liveWatch entries
+                    // into this.run.old
                 }
             }.bind(this));
     }
+
 
     lastSeenComparer(lsOld, lsNew) {
         const windowGone = store.getState().appState.userConfig.windowGoneTarget;
         let now = moment().unix();
         now = now - now % 60;
-        const gone = [], back = [];
+        const gone = [];
+        const back = [];
         // looking for GONE
         for (let key in lsNew) {
             // was there (=> not yet notified, otherwise null), but long ago
             if (lsOld[key] && lsNew[key] && (now - lsNew[key] >= windowGone)) {
-                gone.push([key, lsNew[key]]);
-                lsNew[key] = null;
+                if (!this.liveWatch.last[key] || this.liveWatch.last[key] < now - 100) {  // to check against double issuance to to run.old overwrite
+                    gone.push([key, lsNew[key]]);
+                    logger.info(`*** gone notification trigger for ${key}`)
+                    lsNew[key] = null;
+                }
+                // if the same period is run again, to avoid second notification the
+                // following run
+                if (!lsOld[key] && now - lsNew[key] > 60) {
+                    lsNew[key] = null;
+                }
             }
-            // if the same period is run again, to avoid second notification the
-            // following run
-            if (!lsOld[key] && now - lsNew[key] > 60) {
-                lsNew[key] = null;
-            }
+            this.run.old = lsNew;
+            if (store.getState().appState.notifyBySys) this.notifyBySys(gone, back);
+            if (store.getState().appState.notifyByEmail) this.notifyByEmail(gone, back);
         }
-        // looking for BACK
-        // for (let key in lsNew) {
-        //     if (lsNew[key] && !lsOld[key]) {
-        //         back.push([key, lsNew[key]]);
-        //     }
-        // }
-        this.run.old = lsNew;
-        if (store.getState().appState.notifyBySys) this.notifyBySys(gone, back);
-        if (store.getState().appState.notifyByEmail) this.notifyByEmail(gone, back);
     }
+
+    liveWatch(data) {  // for back notifications
+        const targets = store.getState().appState.targets;
+        const targetMacs = targets.map(x => x.macHex);
+        let back = [];
+        let arr = Object.entries(JSON.parse(data));
+        arr = arr.map(x => {
+            return x[0]
+        });
+        arr = arr.filter(x => targetMacs.includes(x));
+        // console.log("*** arrData:", arr)
+        let now = moment().unix();
+        now = now - now % 60;
+        const last = this.liveWatch.last || {};
+        if (this.run.old) {
+            arr.forEach(x => {
+                if (!this.run.old[x]) {  // if not found in the old last seen
+                    if (!last[x] || last[x] < now - 100) {  // to check against double issuance to to run.old overwrite
+                        back.push([x, now]);
+                        logger.info(`*** back notification trigger for ${x}`)
+                        last[x] = now;
+                        console.log("*** this.liveWatch.last", this.liveWatch.last);
+                        this.run.old[x] = now;
+
+                    }
+                }
+            })
+        }
+        if (back.length > 0) {
+            if (store.getState().appState.notifyBySys) this.notifyBySys([], back);
+            if (store.getState().appState.notifyByEmail) this.notifyByEmail([], back);
+        }
+    }
+
 
     notifyBySys(gone, back) {
         const targets = store.getState().appState.targets;
@@ -207,7 +218,6 @@ export default class Notifier {
         })
     }
 }
-
 
 // assumption: activityLog was already updated
 export function getLogTableHtml() {
