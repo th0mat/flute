@@ -158,9 +158,9 @@ app.on('window-all-closed', () => {
 app.on('before-quit', () => {
     logger.info("*** cleaning up...");
     logger.info("*** onQuitStay: ", global.sharedObj.userConfig.onQuitStay);
-    turnLiveMonitorOff();
+    killProcess('pap_live');
     if (!global.sharedObj.userConfig.onQuitStay) {
-        turnLogSysOff();
+        killProcess('pap_log');
     } else {
         logger.info("*** logSysStatus was not changed");
     }
@@ -354,43 +354,23 @@ const installExtensions = async() => {
 };
 
 
-//// utility to shut down traffic logging system at electron shut down if
-//// so configured
 
-
-function turnLogSysOff() {
-    let pid;
-    try {
-        const pidRaw = child_process.execSync(`pgrep pap_log`);
-        const pidString = pidRaw.toString("utf-8").trim();
-        pid = parseInt(pidString);
+function killProcess(pname){
+    let pidArr = [];
+    try { // pgrep failes if process not found
+        const pidRaw = child_process.execSync(`pgrep ${pname}`);
+        pidArr = new Buffer(pidRaw).toString().trim().split('\n'); // for case > 1
     } catch (e) {
-        logger.error("*** problem turning off logSystem:", e);
+        logger.warn(`*** killing process ${name} failed - process not found`)
         return 0;
     }
-    if (pid) {
-        child_process.exec("kill " + pid);
-        logger.info("*** killed logSys pid: ", pid)
+    if (pidArr.length > 1) {
+        logger.warn(`*** more than one (${pidArr.length}) running process detected for ${pname}`)
     }
+    pidArr.forEach(x=>{
+        child_process.exec("kill " + x);
+        logger.info(`*** killed ${pname}, pid: ${x}`)
+    })
 }
-
-
-
-function turnLiveMonitorOff() {
-    let pid;
-    try {
-        const pidRaw = child_process.execSync(`pgrep pap_live`);
-        const pidString = pidRaw.toString("utf-8").trim();
-        pid = parseInt(pidString);
-    } catch (e) {
-        logger.error("*** problem turning off live monitor:", e);
-        return 0;
-    }
-    if (pid) {
-        child_process.exec("kill " + pid);
-        logger.info("*** killed live monitor, pid:", pid)
-    }
-}
-
 
 

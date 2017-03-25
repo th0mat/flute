@@ -1,7 +1,15 @@
+change to instant notifier
+
+UI tweak: monitor view line hight adjustment
+UI tweak: scan text vertical alignment
+UI tweak: histories text vertical alignment
+from change profile pix back to history - old pix still there
+
+
 "appspot-preview.l.google.com" and "magicflute-155501.appspot.com
 
-
-change to instant notifier
+scan view: sort by options
+scan view: scan duration display
 smarten read record number
 update mf version notifier
 =======

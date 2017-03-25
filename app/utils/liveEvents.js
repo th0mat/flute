@@ -15,7 +15,6 @@ let cp,
 setTimeout(turnLiveMonitorOn, 2000);
 
 
-//todo: change cwd to avoid creation of new papageno.db
 export function turnLiveMonitorOn() {
     if (cp) {
         logger.info("*** live monitor already running");
@@ -45,9 +44,10 @@ export function turnLiveMonitorOff() {
 setInterval(x => {
     if (!cp) return;
     let raw = cp.stdout.read();
-    if (raw) (
+    if (raw) {
+        // console.log("*** data sent to parseAndEmit", new Buffer(raw).toString())
         parseAndEmit(new Buffer(raw).toString())
-    )
+    }
 }, 1000)
 
 

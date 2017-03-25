@@ -3,6 +3,7 @@ import {store} from '../index';
 import {sendMail} from './sendMail';
 import {sortAscending} from './updateActivityLog';
 import {remote} from 'electron';
+import {ee} from './liveEvents';
 
 const logger = remote.getGlobal('sharedObj').logger;
 
@@ -11,6 +12,8 @@ export default class Notifier {
 
     constructor() {
         this.notifierId = null;
+        this.ee = ee;
+        this.liveWatch = this.liveWatch.bind(this);
         //this.lastSeenNew = {};
     }
 
@@ -19,12 +22,14 @@ export default class Notifier {
         this.run();
         logger.info("*** notifier turned on")
         this.notifierId = setInterval(() => this.run(), 1000 * 30); // sqlite write is every 60 secs
+        this.ee.on('data', this.liveWatch);
     }
 
     turnOff() {
         clearInterval(this.notifierId);
         this.notifierId = null;
-        logger.info("*** notifier turned off")
+        logger.info("*** notifier turned off");
+        this.ee.removeListener('data', this.liveWatch);
         this.run.old = null;
     }
 
@@ -40,6 +45,29 @@ export default class Notifier {
         return db;
     }
 
+    liveWatch(data){
+        const targets = store.getState().appState.targets;
+        const targetMacs = targets.map(x=>x.macHex);
+        let back = [];
+        let arr = Object.entries(JSON.parse(data));
+        arr = arr.map(x=>{return x[0]});
+        arr = arr.filter(x=>targetMacs.includes(x));
+        // console.log("*** arrData:", arr)
+        let now = +new Date()/1000;
+        if (this.run.old) {
+            arr.forEach(x=>{
+                if (!this.run.old[x]) {  // if not found in the old last seen
+                    back.push([x, now]);
+                    console.log("+++ back notification for ", [x, now]);
+                    this.run.old[x] = now;
+                }
+            })
+        }
+        if (back.length > 0) {
+            if (store.getState().appState.notifyBySys) this.notifyBySys([], back);
+            if (store.getState().appState.notifyByEmail) this.notifyByEmail([], back);
+        }
+    }
 
     run() {
         const windowGone = store.getState().appState.userConfig.windowGoneTarget;
@@ -97,12 +125,11 @@ export default class Notifier {
             }
         }
         // looking for BACK
-        for (let key in lsNew) {
-//            if (lsNew[key] && !lsOld[key] && now - lsNew[key] < 100) {
-            if (lsNew[key] && !lsOld[key]) {
-                back.push([key, lsNew[key]]);
-            }
-        }
+        // for (let key in lsNew) {
+        //     if (lsNew[key] && !lsOld[key]) {
+        //         back.push([key, lsNew[key]]);
+        //     }
+        // }
         this.run.old = lsNew;
         if (store.getState().appState.notifyBySys) this.notifyBySys(gone, back);
         if (store.getState().appState.notifyByEmail) this.notifyByEmail(gone, back);
