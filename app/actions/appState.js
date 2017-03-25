@@ -57,6 +57,11 @@ export function postTargetChanges(targets) {
             dispatch({type: "TARGETS_LOADED", payload: targets});
             reloadTargets();
             initialMonitorStartup();
+            const notifier = store.getState().appState.notifier;
+            if (notifier.notifierId) {
+                notifier.turnOff();
+                notifier.turnOn();
+            }
         }).catch((err) => {
             logger.error('*** updating of targets failed: ', err);
         })
