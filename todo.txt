@@ -1,14 +1,16 @@
-new profile does not show traffic in live monitor
+history profile not updated after change of profile
+profiles not updated after change of profile
+
+multiple gone notification
+rm sort order property
 
 
 UI tweak: monitor view line hight adjustment
 UI tweak: scan text vertical alignment
 UI tweak: histories text vertical alignment
-from change profile pix back to history - old pix still there
 
 
-"appspot-preview.l.google.com" and "magicflute-155501.appspot.com
-
+db trim error
 scan view: sort by options
 scan view: scan duration display
 smarten read record number
@@ -17,6 +19,7 @@ update mf version notifier
 
 
 DONE
+last profile does not show traffic in live monitor
 change to instant notifier
 add icons to profile view
 ensure profiles 0 targets msg is put back

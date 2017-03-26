@@ -17,10 +17,14 @@ const actionCreators = {
 
 logger.info("*** redux configured via configureStore.development");
 
+const filter = (getState, action) => {
+    return action.type !== 'SCAN_DATA' && action.type !== 'MONITOR_DATA'
+}
 
 const reduxLogger = createLogger({
   level: 'info',
-  collapsed: true
+  collapsed: true,
+    predicate: filter
 });
 
 

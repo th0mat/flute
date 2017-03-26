@@ -13,7 +13,7 @@ const logger = remote.getGlobal('sharedObj').logger;
 const userDir = remote.getGlobal('sharedObj').userDir;
 
 function addPeriod(targets, justIn) {
-    for (let i = 0; i < targets.length - 1; i++) { // don't include TOTAL in loop
+    for (let i = 0; i < targets.length; i++) {
         if (justIn[targets[i].macHex]) { // just in mac is a target
             targets[i].traffic.unshift(justIn[targets[i].macHex]);
             targets[i].lastSeen = new Date();

@@ -32,8 +32,6 @@ export function reloadTargets(){
 export default class Mac {
     constructor(mac) {
         this.mac = mac;
-        // this.targets = store.getState().appState.targets;
-        // this.targets.push(sysUp);
         if (!loaded) reloadTargets();
     }
 

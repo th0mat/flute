@@ -3,7 +3,7 @@ import fs from 'fs';
 import {store} from '../index';
 import {remote} from 'electron';
 import {reloadTargets} from '../utils/mac';
-import {initialMonitorStartup} from '../components/monitorCf';
+import {initialMonitorStartup, turnOnMonitor} from '../components/monitorCf';
 const logger = remote.getGlobal('sharedObj').logger;
 
 
@@ -55,12 +55,14 @@ export function postTargetChanges(targets) {
     return function (dispatch) {
         writeFilePromise(targetsPath, targets).then((data) => {
             dispatch({type: "TARGETS_LOADED", payload: targets});
-            reloadTargets();
+            reloadTargets(); // for mac class
             initialMonitorStartup();
             const notifier = store.getState().appState.notifier;
             if (notifier.notifierInterval) {
+                console.log("+++ noticed notifier ON from postTargetChanges");
                 notifier.turnOff();
                 notifier.turnOn();
+                turnOnMonitor();
             }
         }).catch((err) => {
             logger.error('*** updating of targets failed: ', err);
