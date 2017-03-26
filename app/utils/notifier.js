@@ -15,6 +15,9 @@ export default class Notifier {
         this.ee = ee;
         this.liveWatch = this.liveWatch.bind(this);
         this.liveWatch.last = {};
+        this.windowGone = store.getState().appState.userConfig.windowGoneTarget;
+        this.run.last = {};
+        this.lastSeenComparer = this.lastSeenComparer.bind(this);
     }
 
     turnOn() {
@@ -47,7 +50,7 @@ export default class Notifier {
 
     run() {  // for gone notifications and creation of run.old
         // which is also used for back comparison
-        const windowGone = store.getState().appState.userConfig.windowGoneTarget;
+        const windowGone = this.windowGone;
         const db = this.openDb();
         const lastSeenNew = {};
         const targets = store.getState().appState.targets;
@@ -85,36 +88,32 @@ export default class Notifier {
     }
 
 
-    lastSeenComparer(lsOld, lsNew) {
-        const windowGone = store.getState().appState.userConfig.windowGoneTarget;
+    lastSeenComparer(lsOld, lsNew) {  // for gone notifications
+        const windowGone = this.windowGone;
         let now = moment().unix();
         now = now - now % 60;
         const gone = [];
-        const back = [];
-        // looking for GONE
         for (let key in lsNew) {
             // was there (=> not yet notified, otherwise null), but long ago
             if (lsOld[key] && lsNew[key] && (now - lsNew[key] >= windowGone)) {
-                if (!this.liveWatch.last[key] || this.liveWatch.last[key] < now - 100) {  // to check against double issuance to to run.old overwrite
+                // to check against double issuance due to run.old overwrite by liveWatch
+                if (!this.run.last[key] || this.run.last[key] < now - windowGone / 2) {
                     gone.push([key, lsNew[key]]);
-                    logger.info(`*** gone notification trigger for ${key}`)
-                    lsNew[key] = null;
-                }
-                // if the same period is run again, to avoid second notification the
-                // following run
-                if (!lsOld[key] && now - lsNew[key] > 60) {
+                    logger.info(`*** gone notification trigger for ${key}`);
+                    this.run.last[key] = now;
                     lsNew[key] = null;
                 }
             }
-            this.run.old = lsNew;
-            if (store.getState().appState.notifyBySys) this.notifyBySys(gone, back);
-            if (store.getState().appState.notifyByEmail) this.notifyByEmail(gone, back);
         }
+        if (store.getState().appState.notifyBySys) this.notifyBySys(gone, []);
+        if (store.getState().appState.notifyByEmail) this.notifyByEmail(gone, []);
+        this.run.old = lsNew;
     }
 
     liveWatch(data) {  // for back notifications
         const targets = store.getState().appState.targets;
         const targetMacs = targets.map(x => x.macHex);
+        const windowGone = this.windowGone;
         let back = [];
         let arr = Object.entries(JSON.parse(data));
         arr = arr.map(x => {
@@ -128,11 +127,11 @@ export default class Notifier {
         if (this.run.old) {
             arr.forEach(x => {
                 if (!this.run.old[x]) {  // if not found in the old last seen
-                    if (!last[x] || last[x] < now - 100) {  // to check against double issuance to to run.old overwrite
+                    // to check against double issuance due to run.old overwrite by lastSeenComparer
+                    if (!last[x] || last[x] < now - windowGone/2) {
                         back.push([x, now]);
                         logger.info(`*** back notification trigger for ${x}`)
                         last[x] = now;
-                        console.log("*** this.liveWatch.last", this.liveWatch.last);
                         this.run.old[x] = now;
 
                     }

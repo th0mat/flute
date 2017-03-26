@@ -1,24 +1,30 @@
-history profile not updated after change of profile
-profiles not updated after change of profile
-
-multiple gone notification
-rm sort order property
+db trim error
+smarten read record number
+update mf version notifier
 
 
 UI tweak: monitor view line hight adjustment
 UI tweak: scan text vertical alignment
 UI tweak: histories text vertical alignment
 
+profile: change from waiting for 200ms to subscribing to store chg event
 
-db trim error
+
+next Version
+------------
 scan view: sort by options
 scan view: scan duration display
-smarten read record number
-update mf version notifier
+
+
+
 =======
 
 
 DONE
+rm sort order property
+multiple gone notification
+history profile not updated after change of profile
+profiles not updated after change of profile
 last profile does not show traffic in live monitor
 change to instant notifier
 add icons to profile view

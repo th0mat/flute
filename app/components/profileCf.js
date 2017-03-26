@@ -37,7 +37,6 @@ class ProfileCf extends React.Component {
                 notifyGone: false,
                 onMonitor: true,
                 onLogs: true,
-                sortOrder: this.props.targets.length + 1
             };
             this.state = {
                 targetIndex: this.index, target: this.target, file: null, fileMsg: ''
@@ -149,7 +148,7 @@ class ProfileCf extends React.Component {
             // target changes only
             this.props.dispatch(actions.postTargetChanges(updated));
         }
-        browserHistory.go(-1);
+        setTimeout(browserHistory.go.bind(this, -1), 200);
     }
 
     goHistoryHandler(route, mac) {
