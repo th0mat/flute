@@ -22,10 +22,63 @@
 
 
 import os
+import sys
 import subprocess
+
+def wait_key():
+    ''' Wait for a key press on the console and return it. '''
+    result = None
+    if os.name == 'nt':
+        import msvcrt
+        result = msvcrt.getch()
+    else:
+        import termios
+        fd = sys.stdin.fileno()
+
+        oldterm = termios.tcgetattr(fd)
+        newattr = termios.tcgetattr(fd)
+        newattr[3] = newattr[3] & ~termios.ICANON & ~termios.ECHO
+        termios.tcsetattr(fd, termios.TCSANOW, newattr)
+
+        try:
+            result = sys.stdin.read(1)
+        except IOError:
+            pass
+        finally:
+            termios.tcsetattr(fd, termios.TCSAFLUSH, oldterm)
+    return result
+
+def mfNotRunningCheck():
+    process = subprocess.Popen(["pgrep", "MagicFlute"], stdout=subprocess.PIPE)
+    result = process.communicate()[0]
+    if type(result) is not str:
+        result = result.decode("utf-8") # in case of ptyhon 3
+    if len(result) > 0:
+        print('\n\n')
+        print('Please quit MagicFlute before running this installer.')
+        print('Before quitting MagicFlute turn off the MagicFlute logging system.')
+        print('\n\n')
+        sys.exit(1)
+
+
+def papNotRunningCheck():
+    process = subprocess.Popen(["pgrep", "pap_"], stdout=subprocess.PIPE)
+    result = process.communicate()[0]
+    if type(result) is not str:
+        result = result.decode("utf-8") # in case of ptyhon 3
+    if len(result) > 0:
+        print('\n\n')
+        print('The MagicFlute logging system is still running.')
+        print('Please restart MagicFlute, turn off the MagicFlute logging system')
+        print('and then quit MagicFlute before re-running this installer.')
+        print('\n\n')
+        sys.exit(1)
+
+
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sudo_warning = """
+
  #     #                        #######
  ##   ##   ##    ####  #  ####  #       #      #    # ##### ######
  # # # #  #  #  #    # # #    # #       #      #    #   #   #
@@ -53,81 +106,158 @@ for the privilege of being 'identified'.
 
 """
 
-unsigned_warning = """
--------------
-
-STOP.
-Remember the part about RIGHT-CLICK - OPEN? Great.
-
-This is only required the first time you start
-MagicFlute. Afterwards it is business as usual.
-
-We hope you find MagicFlute useful.
 
 
-"""
-
-
-
-
-def copyFiles():
+def install():
     print('\n*** installMagicFlute started...\n')
     print(sudo_warning)
 
+    print("Press any key to continue...\n\n")
+    wait_key()
 
     # create dirs if they do not already exist
 
-    subprocess.call(["mkdir", os.path.expanduser("~/Library/MagicFlute")])
-    subprocess.call(["mkdir", os.path.expanduser("~/Library/MagicFlute/img")])
-    subprocess.call(["mkdir", os.path.expanduser("~/Library/MagicFlute/papageno")])
+    if os.path.isdir(os.path.expanduser("~/Library/MagicFlute")):
+        print("--- MagicFlute directory existed already")
+    else:
+        subprocess.call(["mkdir", os.path.expanduser("~/Library/MagicFlute")])
+        print("+++ MagicFlute directory created")
+
+
+    if os.path.isdir(os.path.expanduser("~/Library/MagicFlute/img")):
+        print("--- img directory existed already")
+    else:
+        subprocess.call(["mkdir", os.path.expanduser("~/Library/MagicFlute/img")])
+        print("+++ img directory created")
+
+
+    if os.path.isdir(os.path.expanduser("~/Library/MagicFlute/papageno")):
+        print("--- papageno directory existed already")
+    else:
+        subprocess.call(["mkdir", os.path.expanduser("~/Library/MagicFlute/papageno")])
+        print("+++ papageno directory created")
 
 
     # delete existing papageno executables in Library/MagicFlute/papageno dir
 
-    subprocess.call(["rm", "-f", os.path.expanduser("~/Library/MagicFlute/papageno/pap_live")])
-    subprocess.call(["rm", "-f", os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")])
+    if os.path.isfile(os.path.expanduser("~/Library/MagicFlute/papageno/pap_live")):
+        subprocess.call(["rm", "-f", os.path.expanduser("~/Library/MagicFlute/papageno/pap_live")])
+        print("--- pap_live removed")
+    else:
+        print("--- no old version of pap_live detected")
 
+
+    if os.path.isfile(os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")):
+        subprocess.call(["rm", "-f", os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")])
+        print("--- pap_log removed")
+    else:
+        print("--- no old version of pap_log detected")
+
+
+    print("\n\nFor the rest of the installation the admin password is required\n\n")
 
     # copy papageno executables to Library/MagicFlute/papageno dir
 
-    subprocess.call(["cp", dir_path + "/.pap_live",
-                     os.path.expanduser("~/Library/MagicFlute/papageno/pap_live")])
-    subprocess.call(["cp", dir_path + "/.pap_live",
-                     os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")])
+    res1 = subprocess.call(["sudo", "cp", dir_path + "/.pap_live",
+                            os.path.expanduser("~/Library/MagicFlute/papageno/pap_live")])
+    if res1 == 0:
+        print("+++ copied pap_live")
+    else:
+        print("*** copying pap_live failed")
+
+    res2 = subprocess.call(["sudo", "cp", dir_path + "/.pap_live",
+                            os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")])
+    if res2 == 0:
+        print("+++ copied pap_log")
+    else:
+        print("*** copying pap_live failed")
 
 
-    # change ownership to root
+    # change ownership of papageno executables to root plus setuid
 
-    subprocess.call(["sudo", "chown", "root", os.path.expanduser("~/Library/MagicFlute/papageno/pap_live")])
-    subprocess.call(["sudo", "chown", "root", os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")])
+    rc_pap = subprocess.call(["sudo", "chown", "root", os.path.expanduser("~/Library/MagicFlute/papageno/pap_live")])
+    rc_pap += subprocess.call(["sudo", "chown", "root", os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")])
+    rc_pap += subprocess.call(["sudo", "chmod", "+s", os.path.expanduser("~/Library/MagicFlute/papageno/pap_live")])
+    rc_pap += subprocess.call(["sudo", "chmod", "+s", os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")])
+
+    if rc_pap == 0:
+        print("+++ file permissions of pap_live and pap_log changed")
+    else:
+        print("*** changing file permissions of pap_live and pap_log failed")
 
 
-    # change setuid for papageno executables
 
-    subprocess.call(["sudo", "chmod", "+s", os.path.expanduser("~/Library/MagicFlute/papageno/pap_live")])
-    subprocess.call(["sudo", "chmod", "+s", os.path.expanduser("~/Library/MagicFlute/papageno/pap_log")])
+    # copy empty papageno.db if none is present
+
+    if os.path.isfile(os.path.expanduser("~/Library/MagicFlute/papageno/papageno.db")):
+        print("+++ existing papageno.db detected")
+    else:
+        res3 = subprocess.call(["cp", dir_path + "/.papageno.db",
+                                os.path.expanduser("~/Library/MagicFlute/papageno/papageno.db")])
+        if res3 == 0:
+            print("+++ copied empty papageno.db")
+        else:
+            print("*** copying empty papageno.db failed")
+
+
+
+    # change the file permissions of papageno.db to make it read/writable for all
+
+    rc_fpdb = subprocess.call(["sudo", "chmod", "666", os.path.expanduser("~/Library/MagicFlute/papageno/papageno.db")])
+    if rc_fpdb == 0:
+        print("+++ file permissions of papageno.db changed")
+    else:
+        print("*** changing file permissions of papageno.db failed")
 
 
     # copy all img files to Library/MagicFlute/img dir
 
-    subprocess.call(["cp", "-R", dir_path + "/.img/", os.path.expanduser("~/Library/MagicFlute/img")])
+    rc_img = subprocess.call(["cp", "-R", dir_path + "/.img/", os.path.expanduser("~/Library/MagicFlute/img")])
+    if rc_img == 0:
+        print("+++ copied img files")
+    else:
+        print("*** copying of img files failed")
 
 
-    # copy MagicFlute app to app directory after first deleting an existing version
+    # remove existing MagicFlute app
+
+    if os.path.isfile(os.path.expanduser("~/Library/MagicFlute/papageno/papageno.db")):
+        subprocess.call(["sudo", "rm", "-rf", "/Applications/MagicFlute.app"])
+        print("+++ existing MagicFlute app removed")
+    else:
+        print("+++ no existing MagicFlute app detected")
+
+
+    rc_app = subprocess.call(["cp", "-R", dir_path + "/.MagicFlute.app", "/Applications/MagicFlute.app"])
+    if rc_app == 0:
+        print("+++ MagicFlute app copied to Applications folder")
+    else:
+        print("*** copying of MagicFlute app to Applications folder failed")
+
+
+    # remove the quarantine attribute from MagicFlute.app
+    rc_xattr = subprocess.call(["sudo", "xattr", "-dr", "com.apple.quarantine", "/Applications/MagicFlute.app"])
+    if rc_xattr == 0:
+        print("+++ attribute of MagicFlute.app was changed")
+    else:
+        print("*** attribute change for MagicFlute.app failed")
+
+    print("\n\n")
 
 
 
-    subprocess.call(["sudo", "rm", "-rf", "/Applications/MagicFlute.app"])
-    subprocess.call(["cp", "-R", dir_path + "/.MagicFlute.app", "/Applications/MagicFlute.app"])
-
-
-    print(unsigned_warning)
-
+    print("Installation process complete\n")
+    print("Remember to go to the Applications folder and open\nMagicFlute with RIGHT-CLICK OPEN the first time.")
+    print("\nThis is only required the first time you start MagicFlute.\nAfterwards it is business as usual.")
+    print("\n\n")
 
 
 
 def main():
-    copyFiles()
+    mfNotRunningCheck()
+    papNotRunningCheck()
+    install()
+    sys.exit()
 
 
 if __name__ == "__main__":

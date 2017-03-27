@@ -1,7 +1,13 @@
-db trim error
+
+
+
+next Version
+------------
 smarten read record number
 update mf version notifier
-
+scan view: sort by options
+scan view: scan duration display
+OS version check: since MacOS 10.8 pgrep and pkill are available by default.
 
 UI tweak: monitor view line hight adjustment
 UI tweak: scan text vertical alignment
@@ -10,17 +16,15 @@ UI tweak: histories text vertical alignment
 profile: change from waiting for 200ms to subscribing to store chg event
 
 
-next Version
-------------
-scan view: sort by options
-scan view: scan duration display
-
-
 
 =======
 
 
 DONE
+installer prints messages
+installer checks if MF/pap executables are running
+installer removes com.apple.quarantine xattr
+db trim error - file permissions
 rm sort order property
 multiple gone notification
 history profile not updated after change of profile

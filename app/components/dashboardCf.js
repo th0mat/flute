@@ -314,12 +314,12 @@ class DashboardCf extends React.Component {
                                 <td style={{textAlign: 'right'}}>{formatNumber(this.state.dbSize / 1000, 0)}</td>
                             </tr>
                             <tr>
-                                <td style={{paddingLeft: '0px'}}>Time stamp of first record</td>
+                                <td style={{paddingLeft: '0px'}}>First record</td>
                                 <td style={{textAlign: 'right'}}>{(this.state.minTs === null) ?
                                     'n/a' : moment(this.state.minTs * 1000).calendar()}</td>
                             </tr>
                             <tr>
-                                <td style={{paddingLeft: '0px'}}>Time stamp of last record</td>
+                                <td style={{paddingLeft: '0px'}}>Latest record</td>
                                 <td style={{textAlign: 'right'}}>{(this.state.maxTs === null) ?
                                     'n/a' : moment(this.state.maxTs * 1000).calendar()}</td>
                             </tr>

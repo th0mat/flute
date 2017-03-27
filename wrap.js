@@ -61,6 +61,7 @@ archive.pipe(output);
 
 archive.file('installMagicFlute', { name: 'installMagicFlute' });
 archive.file('readme_first.txt', { name: 'README_FIRST.txt' });
+archive.file(homeDir + 'Library/MagicFlute/emptydb/papageno.db', { name: '.papageno.db' });
 archive.file(homeDir + 'Library/MagicFlute/papageno/pap_live', { name: '.pap_live' });
 archive.directory('release/darwin-x64/MagicFlute-darwin-x64/MagicFlute.app', '.MagicFlute.app');
 archive.directory(homeDir + 'Library/MagicFlute/defaultImg', '.img');

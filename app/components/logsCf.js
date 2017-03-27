@@ -139,7 +139,6 @@ class LogsCf extends Component {
                                 )
                             })}
                         </tbody>
-
                     </table>
                 </div>
 
