@@ -12,7 +12,6 @@ UI tweak: monitor view line hight adjustment
 UI tweak: scan text vertical alignment
 UI tweak: histories text vertical alignment
 
-profile: change from waiting for 200ms to subscribing to store chg event
 
 
 
@@ -20,6 +19,7 @@ profile: change from waiting for 200ms to subscribing to store chg event
 
 
 DONE
+profile: change from waiting for 200ms to subscribing to store chg event
 smarten read record number
 installer prints messages
 installer checks if MF/pap executables are running

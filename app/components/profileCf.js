@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {browserHistory} from 'react-router';
 import fs from 'fs';
 import tooltipButton from '../utils/tooltipButton';
-
+import {store} from '../index';
 import {ContextMenu, MenuFactory, MenuItemFactory, Intent} from '@blueprintjs/core';
 
 import * as actions from '../actions/appState';
@@ -139,7 +139,16 @@ class ProfileCf extends React.Component {
         } catch (e) {
             logger.error("*** parse error at saveChanges/profileCf: ", e)
         }
+        // wait with router change until store has updated
         updated[this.state.targetIndex] = this.state.target;
+        const unsubscribe = store.subscribe(()=>{
+            const current = store.getState().appState.targets;
+            if (current === updated) {
+            unsubscribe();
+            browserHistory.go(-1)
+            }
+        })
+
         // upload image and post target changes
         if (this.state.file !== null) {  // avatar has changed
             this.props.dispatch(actions.uploadProfileImage(this.state.file, this.state.targetIndex, updated));
@@ -148,7 +157,7 @@ class ProfileCf extends React.Component {
             // target changes only
             this.props.dispatch(actions.postTargetChanges(updated));
         }
-        setTimeout(browserHistory.go.bind(this, -1), 200);
+        // setTimeout(browserHistory.go.bind(this, -1), 200);
     }
 
     goHistoryHandler(route, mac) {
