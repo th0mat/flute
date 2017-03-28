@@ -123,7 +123,7 @@ class DashboardCf extends React.Component {
         const that = this;
         const dbTimer = +new Date();
         this.db.all(
-            `SELECT COUNT(ts) as ts FROM traffic`,
+            `SELECT COUNT(*) as ts FROM traffic`,
             function (err, rows) {
                 if (err) {
                     logger.error('error accessing db dashboard/countRecs: ', err);

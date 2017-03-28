@@ -3,7 +3,6 @@
 
 next Version
 ------------
-smarten read record number
 update mf version notifier
 scan view: sort by options
 scan view: scan duration display
@@ -21,6 +20,7 @@ profile: change from waiting for 200ms to subscribing to store chg event
 
 
 DONE
+smarten read record number
 installer prints messages
 installer checks if MF/pap executables are running
 installer removes com.apple.quarantine xattr
