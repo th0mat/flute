@@ -21,6 +21,7 @@ const props = (store) => {
         //scanTraffic: store.appState.scanTraffic,
         scanData: store.appState.scanData,
         scanOn: store.appState.scanOn,
+        scanSort: store.appState.scanSort,
         liveSys: store.appState.userConfig.liveSys,
         userDir: store.appState.userDir,
         appDir: store.appState.appDir,
@@ -68,7 +69,6 @@ class ScanCf extends Component {
             zeroHogsMsg: <tr>
                 <td>click play to start scan</td>
             </tr>,
-            //scanOn: false
         };
         this.startScan = this.startScan.bind(this);
         this.resetScan = this.resetScan.bind(this);
@@ -127,10 +127,39 @@ class ScanCf extends Component {
         saveAsCsv(`scan@${ts}.txt`, content);
     }
 
+    handleSortChange(e) {
+        this.props.dispatch({type: "SCAN_SORT", payload: e.target.value})
+    }
+
+    sortHogs(hogs) {
+        let sorted;
+        switch (this.props.scanSort) {
+            case "traffic":
+                sorted = hogs.sort((x, y) => y[1] - x[1]);
+                break;
+            case "mac":
+                sorted = hogs.sort((x, y) => {
+                    if (y[0] == x[0]) return 0;
+                    if (y[0] > x[0]) return -1;
+                    return 1;
+                });
+                break;
+            case "manuf":
+                sorted = hogs.sort((x, y) => {
+                    let xm = new Mac(x[0]).manuf;
+                    let ym = new Mac(y[0]).manuf;
+                    if (xm == ym) return 0;
+                    if (ym > xm) return -1;
+                    return 1;
+                });
+                break;
+        }
+        return sorted;
+    }
+
     render() {
         let hogs = Array.from(this.props.scanData);
-        const targets = this.props.targets;
-        hogs = hogs.sort((x, y) => y[1] - x[1]);
+        hogs = this.sortHogs(hogs);
         const showRadar = this.props.scanOn;
         const radar =
             <div className="flRadarDiv">
@@ -143,7 +172,12 @@ class ScanCf extends Component {
 
                 <div className="flContentFrozenTop">
                     <h3>Scan for all devices</h3>
-                    <span>Number of devices detected: {this.props.scanData.size}</span>
+                    <span>Number of devices detected: {this.props.scanData.size} &nbsp;&nbsp;</span>
+                    <select value={this.props.scanSort} onChange={this.handleSortChange.bind(this)}>
+                        <option value="traffic">Sorted by traffic</option>
+                        <option value="mac">Sorted by mac address</option>
+                        <option value="manuf">Sorted by manufacturer</option>
+                    </select>
                     <br/><br/>
                     &nbsp;&nbsp;
                     {tooltipButton("start scan", "pt-icon-play", this.startScan)}
@@ -153,6 +187,8 @@ class ScanCf extends Component {
                     {tooltipButton("reset scan", "pt-icon-eject", this.resetScan)}
                     &nbsp;&nbsp;
                     {tooltipButton("export scan result", "pt-icon-download", this.saveAs)}
+
+
                     {radar}
                 </div>
                 <div className="flContent">

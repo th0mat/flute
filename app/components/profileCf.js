@@ -141,11 +141,11 @@ class ProfileCf extends React.Component {
         }
         // wait with router change until store has updated
         updated[this.state.targetIndex] = this.state.target;
-        const unsubscribe = store.subscribe(()=>{
+        const unsubscribe = store.subscribe(() => {
             const current = store.getState().appState.targets;
             if (current === updated) {
-            unsubscribe();
-            browserHistory.go(-1)
+                unsubscribe();
+                browserHistory.go(-1)
             }
         })
 
@@ -207,11 +207,10 @@ class ProfileCf extends React.Component {
     }
 
 
-
-    strip(mac){
+    strip(mac) {
         const small = mac.toLowerCase();
         const arr = small.split("");
-        const filtered = arr.filter((x)=>{
+        const filtered = arr.filter((x) => {
             return (x >= 'a' && x <= 'f') || (x >= 0 && x <= 9 );
         });
         return filtered.join('');
@@ -222,7 +221,6 @@ class ProfileCf extends React.Component {
         if (~mac.search(/[^a-f0-9A-F\.:-]/)) return false;
         return this.strip(mac).length === 12;
     }
-
 
 
     render() {
@@ -246,7 +244,7 @@ class ProfileCf extends React.Component {
                         <p>
                             <small>{this.validateMac(this.state.target.macHex)
                                 ? titleCase(this.props.oui[this.state.target.macHex.substr(0, 6)])
-                               : <span style={{color: "orange"}}>invalid mac address</span>}</small>
+                                : <span style={{color: "orange"}}>invalid mac address</span>}</small>
                         </p>
 
 
@@ -268,7 +266,8 @@ class ProfileCf extends React.Component {
                                         <input type="checkbox" value="onLogs" onChange={this.handleCheckboxes}
                                                checked={this.state.target.onLogs}/>
                                     </td>
-                                    <td><span className="pt-icon pt-icon-sort"/> profile is included in activity logs</td>
+                                    <td><span className="pt-icon pt-icon-sort"/> profile is included in activity logs
+                                    </td>
                                 </tr>
 
                                 <tr>

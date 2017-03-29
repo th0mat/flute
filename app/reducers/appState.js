@@ -15,6 +15,7 @@ const initial = {
     oui: {},
     rangeTraffic: {fromDt: "", toDt: "", data: [], filterManu: "", filterMac: "", page: 1},
     scanData: new Map(),
+    scanSort: "traffic",
     scanOn: false,
     activityLog: {lastLog: 0, activities: []},
     notifier: {notifierInterval: null}, // needed to turn it off
@@ -89,6 +90,10 @@ export default function appState(state = initial, action) {
 
         case 'SCAN_ON': {
             return {...state, scanOn: action.payload}
+        }
+
+        case 'SCAN_SORT': {
+            return {...state, scanSort: action.payload}
         }
 
         case 'MONITOR_DATA': {

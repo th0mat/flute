@@ -3,12 +3,10 @@
 
 next Version
 ------------
-update mf version notifier
-scan view: sort by options
 scan view: scan duration display
-OS version check: since MacOS 10.8 pgrep and pkill are available by default.
+update mf version notifier
 
-UI tweak: monitor view line hight adjustment
+UI tweak: monitor view line height adjustment
 UI tweak: scan text vertical alignment
 UI tweak: histories text vertical alignment
 
@@ -19,6 +17,8 @@ UI tweak: histories text vertical alignment
 
 
 DONE
+scan view: sort by options
+allow longer retention period
 profile: change from waiting for 200ms to subscribing to store chg event
 smarten read record number
 installer prints messages
