@@ -76,7 +76,7 @@ class LogsCf extends Component {
 
             <div className="flContentFrame">
                 <div className="flContentFrozenTop">
-                    <h3>Activities Log</h3>
+                    <h3 id="title">Activity Logs</h3>
 
                     {tooltipButton("reload", "pt-icon-refresh", this.updateLog)}
                     &nbsp;&nbsp;

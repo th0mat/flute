@@ -1,7 +1,5 @@
 import {remote} from 'electron';
 
-//let globalUserConfig = remote.getGlobal('sharedObj').userConfig;
-
 
 const initial = {
     appDir: remote.getGlobal('sharedObj').appDir,
@@ -16,7 +14,6 @@ const initial = {
     rangeTraffic: {fromDt: "", toDt: "", data: [], filterManu: "", filterMac: "", page: 1},
     scanData: new Map(),
     scanSort: "traffic",
-    // scanOn: false,
     scanSecInterval: null,
     scanSecs: 0,
     activityLog: {lastLog: 0, activities: []},
@@ -48,6 +45,7 @@ export default function appState(state = initial, action) {
             return {...state, targets: action.payload};
 
         case 'USER_CONFIG_LOADED': {
+            // to enable onQuitStay control from main process
             remote.getGlobal('sharedObj').userConfig = action.payload;
             return {...state, userConfig: action.payload};
         }
@@ -89,10 +87,6 @@ export default function appState(state = initial, action) {
         case 'SCAN_DATA': {
             return {...state, scanData: action.payload}
         }
-
-        // case 'SCAN_ON': {
-        //     return {...state, scanOn: action.payload}
-        // }
 
         case 'SCAN_SEC_INCR': {
             return {...state, scanSecs: state.scanSecs + 1}

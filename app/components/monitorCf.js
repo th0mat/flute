@@ -142,7 +142,7 @@ class MonitorConnect extends React.Component {
 
             <div className="flContentFrame">
                 <div className="flContentFrozenTop">
-                    <h3>Live Monitor</h3>
+                    <h3 id="title">Live Monitor</h3>
                     <MonitorCfLegend></MonitorCfLegend>
                 </div>
                 <div className="flContent" style={{paddingRight: '0px'}}>

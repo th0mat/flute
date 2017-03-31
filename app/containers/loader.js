@@ -1,3 +1,5 @@
+// same as bouncer component, but with fixed :destination and :loadTime
+
 import React from 'react';
 import {connect} from 'react-redux';
 import {browserHistory} from 'react-router';
@@ -14,7 +16,7 @@ export default class LoaderPage extends React.Component {
         super();
         setTimeout(() => {
             browserHistory.push('/dashboard')
-        }, 3000);
+        }, 1500);
     }
 
     render() {

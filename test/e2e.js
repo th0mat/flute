@@ -110,62 +110,108 @@ describe('e2e tests', function spec() {
             expect(sysConfig).to.be.equal(actual.includes(" on"));
         });
 
-
-
-
     });
 
 
+    //
+    // describe('mfuid handling', function spec() {
+    //
+    //     // mfuidFileHandler() is called from index
+    //     // .mfuid file is created when none exists
+    //     // .mfuid file contains username-tsInMilliSec string from time of first install
+    //
+    //     it('not create new .mfuid if exists', async() => {
+    //         const mfuid = path.resolve('./mocks/userdir/.mfuid');
+    //         let content = fs.readFileSync(mfuid, {encoding: 'utf-8'});
+    //         let dec = new Buffer(content, 'base64').toString();
+    //         expect(dec).to.be.equal('thomasnatter-1488261806608')
+    //         await app.stop();
+    //     });
+    //
+    //     it('create .mfuid if none is present', async() => {
+    //         const mfuid = path.resolve('./mocks/userdir/.mfuid');
+    //         if (fs.existsSync(mfuid)) fs.unlinkSync(mfuid);
+    //         getApp();
+    //         await delay(5000);
+    //         expect(fs.existsSync(mfuid)).to.be.ok;
+    //     });
+    //
+    //     it('register new .mfuid with flengine', async() => {
+    //         const mfuid = path.resolve('./mocks/userdir/.mfuid');
+    //         const logs = logLoader();
+    //         expect(logs.findIndex(x=>x.includes("flengine response from /mfapi/mfuidreg: 200"))).not.equal(-1);
+    //     });
+    //
+    //     it('mfuid is in the correct format', async() => {
+    //         // correct format: username-timestampInMilliSecs
+    //         // ts should be less than 1 min old, since it was just created in above test
+    //         const mfuid = path.resolve('./mocks/userdir/.mfuid');
+    //         let content = fs.readFileSync(mfuid, {encoding: 'utf-8'});
+    //         let arr = new Buffer(content, 'base64').toString().split("-");
+    //         expect(arr[0]).to.be.equal('thomasnatter');
+    //         expect(moment().diff(moment(parseInt(arr[1])), 'seconds')).to.be.below(60);
+    //     });
+    // });
+    //
+    // describe('flengine msg handling', function spec(){
+    //
+    //     // fetchMozartMsg is called from index and then stored in appState.mozartMsg
+    //
+    //     it('received mozartMsg ', async()=>{
+    //         const logs = logLoader();
+    //         expect(logs.findIndex(x=>x.includes("flengine response from /mfapi/fetchMsg: 200"))).not.equal(-1);
+    //
+    //         // await app.stop();
+    //     });
+    // })
 
-    describe('mfuid handling', function spec() {
+    describe('basic navigation', function spec(){
 
-        // mfuidFileHandler() is called from index
-        // .mfuid file is created when none exists
-        // .mfuid file contains username-tsInMilliSec string from time of first install
 
-        it('not create new .mfuid if exists', async() => {
-            const mfuid = path.resolve('./mocks/userdir/.mfuid');
-            let content = fs.readFileSync(mfuid, {encoding: 'utf-8'});
-            let dec = new Buffer(content, 'base64').toString();
-            expect(dec).to.be.equal('thomasnatter-1488261806608')
-            await app.stop();
-        });
-
-        it('create .mfuid if none is present', async() => {
-            const mfuid = path.resolve('./mocks/userdir/.mfuid');
-            if (fs.existsSync(mfuid)) fs.unlinkSync(mfuid);
-            getApp();
-            await delay(5000);
-            expect(fs.existsSync(mfuid)).to.be.ok;
-        });
-
-        it('register new .mfuid with flengine', async() => {
-            const mfuid = path.resolve('./mocks/userdir/.mfuid');
-            const logs = logLoader();
-            expect(logs.findIndex(x=>x.includes("flengine response from /mfapi/mfuidreg: 200"))).not.equal(-1);
-        });
-
-        it('mfuid is in the correct format', async() => {
-            // correct format: username-timestampInMilliSecs
-            // ts should be less than 1 min old, since it was just created in above test
-            const mfuid = path.resolve('./mocks/userdir/.mfuid');
-            let content = fs.readFileSync(mfuid, {encoding: 'utf-8'});
-            let arr = new Buffer(content, 'base64').toString().split("-");
-            expect(arr[0]).to.be.equal('thomasnatter');
-            expect(moment().diff(moment(parseInt(arr[1])), 'seconds')).to.be.below(60);
-        });
-    });
-
-    describe('flengine msg handling', function spec(){
-
-        // fetchMozartMsg is called from index and then stored in appState.mozartMsg
-
-        it('received mozartMsg ', async()=>{
-            const logs = logLoader();
-            expect(logs.findIndex(x=>x.includes("flengine response from /mfapi/fetchMsg: 200"))).not.equal(-1);
-
+        it('liveMonitor', async()=>{
+            const live = await app.client.$('#hm-monitor').click();
+            const h3 = await app.client.$('#title').getText();
+            expect(h3).to.be.equal("Live Monitor");
             // await app.stop();
         });
+
+        it('scan for all devices', async()=>{
+            const scan = await app.client.$('#hm-scan').click();
+            //await app.client.waitUntilWindowLoaded(10000);
+            const h3 = await app.client.$('#title').getText();
+            expect(h3).to.be.equal("Scan for all devices");
+            // await app.stop();
+        });
+
+        it('traffic history', async()=>{
+            const history = await app.client.$('#hm-history').click();
+            //await app.client.waitUntilWindowLoaded(10000);
+            const h3 = await app.client.$('#title').getText();
+            expect(h3).to.be.equal("Traffic History");
+            // await app.stop();
+        });
+
+        it('activity logs', async()=>{
+            const logs = await app.client.$('#hm-logs').click();
+            //await app.client.waitUntilWindowLoaded(10000);
+            const h3 = await app.client.$('#title').getText();
+            expect(h3).to.be.equal("Activity Logs");
+            // await app.stop();
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     })
 
 

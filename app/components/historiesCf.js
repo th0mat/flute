@@ -221,7 +221,7 @@ class HistoriesCf extends Component {
 
             <div className="flContentFrame">
                 <div className="flContentFrozenTop">
-                    <h3>Traffic History</h3>
+                    <h3 id="title">Traffic History</h3>
                     <table>
                         <tbody>
                         <tr>

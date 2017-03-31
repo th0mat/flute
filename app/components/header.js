@@ -49,7 +49,7 @@ export default class Header extends React.Component {
                     return (
                         <Tooltip key={x[0]} position={Position.BOTTOM}
                                  hoverOpenDelay={1000}
-                                 content={x[0]}><a id={`hm-${x[0]}`} className={`pt-button pt-minimal ${x[1]}`}
+                                 content={x[0]}><a id={`hm-${x[2]}`} className={`pt-button pt-minimal ${x[1]}`}
                                  onClick={this.selected.bind(this, x[2])}  role="button"></a>
                         </Tooltip>
                     )

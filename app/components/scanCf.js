@@ -193,7 +193,7 @@ class ScanCf extends Component {
             <div className="flContentFrame">
 
                 <div className="flContentFrozenTop">
-                    <h3>Scan for all devices</h3>
+                    <h3 id="title">Scan for all devices</h3>
                     <span>detected&nbsp;<span style={{fontFamily: 'monospace'}}>
                         {formatNumber(this.props.scanData.size, 0)}
                         </span>&nbsp;devices in&nbsp;<span style={{fontFamily: 'monospace'}}>
