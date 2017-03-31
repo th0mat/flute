@@ -18,7 +18,8 @@ const actionCreators = {
 logger.info("*** redux configured via configureStore.development");
 
 const filter = (getState, action) => {
-    return action.type !== 'SCAN_DATA' && action.type !== 'MONITOR_DATA'
+    return action.type !== 'SCAN_DATA' && action.type !== 'MONITOR_DATA' && action.type !==
+        'SCAN_SEC_INCR';
 }
 
 const reduxLogger = createLogger({

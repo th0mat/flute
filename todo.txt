@@ -1,9 +1,10 @@
+.MAGICFLUTE in sys notification
+
 
 
 
 next Version
 ------------
-scan view: scan duration display
 update mf version notifier
 
 UI tweak: monitor view line height adjustment
@@ -17,6 +18,7 @@ UI tweak: histories text vertical alignment
 
 
 DONE
+scan view: scan duration display
 scan view: sort by options
 allow longer retention period
 profile: change from waiting for 200ms to subscribing to store chg event

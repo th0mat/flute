@@ -20,7 +20,9 @@ const props = (store) => {
         oui: store.appState.oui,
         //scanTraffic: store.appState.scanTraffic,
         scanData: store.appState.scanData,
+        scanSecInterval: store.appState.scanSecInterval,
         scanOn: store.appState.scanOn,
+        scanSecs: store.appState.scanSecs,
         scanSort: store.appState.scanSort,
         liveSys: store.appState.userConfig.liveSys,
         userDir: store.appState.userDir,
@@ -75,6 +77,7 @@ class ScanCf extends Component {
         this.pauseScan = this.pauseScan.bind(this);
         this.saveAs = this.saveAs.bind(this);
         this.removeListener = this.removeListener.bind(this);
+        this.stopSecCounter = this.stopSecCounter.bind(this);
         this.radarGif = this.props.appDir + 'assets/img/radar.gif';
         this.emptyGif = this.props.appDir + 'assets/img/empty.gif';
     }
@@ -84,15 +87,29 @@ class ScanCf extends Component {
         liveMonitorOffWarning();
     };
 
+    startSecCounter(){
+        const scanSecTimer = setInterval(()=>{
+            this.props.dispatch({type: "SCAN_SEC_INCR"});
+        }, 1000);
+        this.props.dispatch({type: "SCAN_SEC_INTERVAL", payload: scanSecTimer});
+    }
+
+    stopSecCounter(){
+        if (this.props.scanSecInterval) {
+            window.clearInterval(this.props.scanSecInterval);
+            this.props.dispatch({type: "SCAN_SEC_INTERVAL", payload: null});
+        }
+    }
 
     startScan() {
         if (!this.monitorCp) {
             liveMonitorOffWarning();
         }
+        if (!this.props.scanSecInterval) this.startSecCounter();
         term = liveEvents.ee;
         this.removeListener();
         term.on('data', scan);
-        this.props.dispatch({type: "SCAN_ON", payload: true})
+        this.props.dispatch({type: "SCAN_ON", payload: true});
     };
 
 
@@ -105,11 +122,14 @@ class ScanCf extends Component {
 
     pauseScan() {
         this.removeListener();
+        this.stopSecCounter();
         this.props.dispatch({type: "SCAN_ON", payload: false})
     };
 
     resetScan() {
         this.removeListener();
+        this.stopSecCounter();
+        this.props.dispatch({type: "SCAN_SEC_RESET"})
         this.props.dispatch({type: "SCAN_ON", payload: false})
         this.props.dispatch({type: "SCAN_DATA", payload: new Map()});
     };
@@ -172,7 +192,7 @@ class ScanCf extends Component {
 
                 <div className="flContentFrozenTop">
                     <h3>Scan for all devices</h3>
-                    <span>Number of devices detected: {this.props.scanData.size} &nbsp;&nbsp;</span>
+                    <span>detected {this.props.scanData.size} devices in {this.props.scanSecs} sec  &nbsp;&nbsp;</span>
                     <select value={this.props.scanSort} onChange={this.handleSortChange.bind(this)}>
                         <option value="traffic">Sorted by traffic</option>
                         <option value="mac">Sorted by mac address</option>

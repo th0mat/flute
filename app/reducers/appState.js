@@ -17,6 +17,8 @@ const initial = {
     scanData: new Map(),
     scanSort: "traffic",
     scanOn: false,
+    scanSecInterval: null,
+    scanSecs: 0,
     activityLog: {lastLog: 0, activities: []},
     notifier: {notifierInterval: null}, // needed to turn it off
     notifyBySys: false,
@@ -90,6 +92,18 @@ export default function appState(state = initial, action) {
 
         case 'SCAN_ON': {
             return {...state, scanOn: action.payload}
+        }
+
+        case 'SCAN_SEC_INCR': {
+            return {...state, scanSecs: state.scanSecs + 1}
+        }
+
+        case 'SCAN_SEC_RESET': {
+            return {...state, scanSecs: 0}
+        }
+
+        case 'SCAN_SEC_INTERVAL': {
+            return {...state, scanSecInterval: action.payload}
         }
 
         case 'SCAN_SORT': {
