@@ -1,6 +1,3 @@
-.MAGICFLUTE in sys notification
-
-
 
 
 next Version
@@ -18,6 +15,8 @@ UI tweak: histories text vertical alignment
 
 
 DONE
+chg to monospace font for scan dev count and sec counter
+rm scanOn property
 scan view: scan duration display
 scan view: sort by options
 allow longer retention period

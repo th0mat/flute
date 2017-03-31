@@ -10,6 +10,8 @@ import Mac from '../utils/mac';
 import * as liveEvents from '../utils/liveEvents';
 import {liveMonitorOffWarning} from '../utils/logSysOnOff';
 import {store} from '../index';
+import formatNumber from '../utils/formatNumber';
+
 
 import {Intent} from '@blueprintjs/core';
 
@@ -87,14 +89,14 @@ class ScanCf extends Component {
         liveMonitorOffWarning();
     };
 
-    startSecCounter(){
-        const scanSecTimer = setInterval(()=>{
+    startSecCounter() {
+        const scanSecTimer = setInterval(() => {
             this.props.dispatch({type: "SCAN_SEC_INCR"});
         }, 1000);
         this.props.dispatch({type: "SCAN_SEC_INTERVAL", payload: scanSecTimer});
     }
 
-    stopSecCounter(){
+    stopSecCounter() {
         if (this.props.scanSecInterval) {
             window.clearInterval(this.props.scanSecInterval);
             this.props.dispatch({type: "SCAN_SEC_INTERVAL", payload: null});
@@ -109,7 +111,7 @@ class ScanCf extends Component {
         term = liveEvents.ee;
         this.removeListener();
         term.on('data', scan);
-        this.props.dispatch({type: "SCAN_ON", payload: true});
+        //this.props.dispatch({type: "SCAN_ON", payload: true});
     };
 
 
@@ -123,14 +125,14 @@ class ScanCf extends Component {
     pauseScan() {
         this.removeListener();
         this.stopSecCounter();
-        this.props.dispatch({type: "SCAN_ON", payload: false})
+        //this.props.dispatch({type: "SCAN_ON", payload: false})
     };
 
     resetScan() {
         this.removeListener();
         this.stopSecCounter();
         this.props.dispatch({type: "SCAN_SEC_RESET"})
-        this.props.dispatch({type: "SCAN_ON", payload: false})
+        //this.props.dispatch({type: "SCAN_ON", payload: false})
         this.props.dispatch({type: "SCAN_DATA", payload: new Map()});
     };
 
@@ -192,7 +194,10 @@ class ScanCf extends Component {
 
                 <div className="flContentFrozenTop">
                     <h3>Scan for all devices</h3>
-                    <span>detected {this.props.scanData.size} devices in {this.props.scanSecs} sec  &nbsp;&nbsp;</span>
+                    <span>detected&nbsp;<span style={{fontFamily: 'monospace'}}>
+                        {formatNumber(this.props.scanData.size, 0)}
+                        </span>&nbsp;devices in&nbsp;<span style={{fontFamily: 'monospace'}}>
+                        {formatNumber(this.props.scanSecs, 0)}</span>&nbsp;sec  &nbsp;&nbsp;</span>
                     <select value={this.props.scanSort} onChange={this.handleSortChange.bind(this)}>
                         <option value="traffic">Sorted by traffic</option>
                         <option value="mac">Sorted by mac address</option>

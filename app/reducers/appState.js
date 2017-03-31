@@ -16,7 +16,7 @@ const initial = {
     rangeTraffic: {fromDt: "", toDt: "", data: [], filterManu: "", filterMac: "", page: 1},
     scanData: new Map(),
     scanSort: "traffic",
-    scanOn: false,
+    // scanOn: false,
     scanSecInterval: null,
     scanSecs: 0,
     activityLog: {lastLog: 0, activities: []},
@@ -90,9 +90,9 @@ export default function appState(state = initial, action) {
             return {...state, scanData: action.payload}
         }
 
-        case 'SCAN_ON': {
-            return {...state, scanOn: action.payload}
-        }
+        // case 'SCAN_ON': {
+        //     return {...state, scanOn: action.payload}
+        // }
 
         case 'SCAN_SEC_INCR': {
             return {...state, scanSecs: state.scanSecs + 1}
