@@ -21,7 +21,7 @@ class AboutCf extends React.Component {
                     <br/>
 
 
-                    <h4>How to get started?</h4>
+                    <h4 id="first">How to get started?</h4>
                     <p>Watch the <span className="flAboutLink"
                            onClick={()=>{shell.openExternal("https://www.packetmozart.com/how-to-videos/")}}>
                         videos</span>. MagicFlute is so easy to use, you will not need a manual.</p>

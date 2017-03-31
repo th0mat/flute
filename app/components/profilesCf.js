@@ -99,7 +99,7 @@ class ProfileSelect extends React.Component {
             <div className="flContentFrame">
 
                 <div className="flContentFrozenTop" style={{maxWidth: '500px'}}>
-                    <h3>Edit Profiles</h3>
+                    <h3 id="title">Edit Profiles</h3>
                     <p>Profiles make it easier to recognize known devices. They are required for life
                             monitoring and only registered profiles appear in logs.
                     </p>

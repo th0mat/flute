@@ -20,7 +20,7 @@ export default class ConfigCf extends React.Component {
             <div className="flContentFrame">
 
                 <div className="flContentFrozenTop">
-                    <h3>System Settings</h3>
+                    <h3 id="title">System Settings</h3>
                 </div>
 
                 <div className="flContent">
