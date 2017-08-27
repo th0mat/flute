@@ -1,5 +1,5 @@
 {
-  "version": "0.10.5",
+  "version": "0.10.6",
   "logSys": "pap_log",
   "liveSys": "pap_live",
   "manualWifiDeviceOverride": null,
